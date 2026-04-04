@@ -5,16 +5,16 @@
 
 ## Site
 
-- Homepage: http://localhost:1313/
-- About: http://localhost:1313/about/
-- RSS: http://localhost:1313/feed.xml
-- llms.txt: http://localhost:1313/llms.txt
+- Homepage: https://ashwingopalsamy.in/
+- About: https://ashwingopalsamy.in/about/
+- RSS: https://ashwingopalsamy.in/feed.xml
+- llms.txt: https://ashwingopalsamy.in/llms.txt
 
 ---
 
 ## Designing Rate Limiters for Payment Systems
 
-URL: http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/
+URL: https://ashwingopalsamy.in/writing/designing-rate-limiters-for-payment-systems/
 Published: 2026-04-07
 Tags: distributed-systems, payments, go
 
@@ -184,7 +184,7 @@ The difference between rate limiting a REST API and rate limiting an authorizati
 
 ## Understanding ISO 8583 Bitmap Parsing
 
-URL: http://localhost:1313/writing/understanding-iso-8583-bitmap-parsing/
+URL: https://ashwingopalsamy.in/writing/understanding-iso-8583-bitmap-parsing/
 Published: 2026-04-01
 Tags: ISO8583, payments, go
 
@@ -240,7 +240,7 @@ This means a parser can handle any valid ISO 8583 message without knowing in adv
 
 ## Go Error Wrapping Patterns
 
-URL: http://localhost:1313/writing/notes/go-error-wrapping-patterns/
+URL: https://ashwingopalsamy.in/writing/notes/go-error-wrapping-patterns/
 Published: 2026-03-28
 Tags: go
 
@@ -257,7 +257,7 @@ Good: `fmt.Errorf("parsing field DE%d: %w", fieldNum, err)`
 
 ## Consistent Hashing in Distributed Caches
 
-URL: http://localhost:1313/writing/consistent-hashing-in-distributed-caches/
+URL: https://ashwingopalsamy.in/writing/consistent-hashing-in-distributed-caches/
 Published: 2026-03-15
 Tags: distributed-systems, go
 
@@ -290,7 +290,7 @@ Real implementations use virtual nodes -- each physical node gets multiple posit
 
 ## Why slog Over zerolog
 
-URL: http://localhost:1313/writing/notes/why-slog-over-zerolog/
+URL: https://ashwingopalsamy.in/writing/notes/why-slog-over-zerolog/
 Published: 2026-03-10
 Tags: go
 
@@ -304,7 +304,7 @@ The API is cleaner, it is part of the standard library (no dependency), and the 
 
 ## Why UUIDs Matter for Idempotency
 
-URL: http://localhost:1313/writing/why-uuids-matter-for-idempotency/
+URL: https://ashwingopalsamy.in/writing/why-uuids-matter-for-idempotency/
 Published: 2026-02-20
 Tags: payments, go, distributed-systems
 
@@ -339,7 +339,7 @@ UUID v7 embeds a Unix timestamp in the first 48 bits, followed by random bits. T
 
 ## UUIDCheck
 
-URL: http://localhost:1313/projects/uuidcheck/
+URL: https://ashwingopalsamy.in/projects/uuidcheck/
 Published: 2024-09-05
 Tech: Go
 GitHub: https://github.com/ashwingopalsamy/uuidcheck
@@ -360,7 +360,7 @@ Pure standard library. The parser validates structure (8-4-4-4-12 hex format), e
 
 ## UUIDv8
 
-URL: http://localhost:1313/projects/uuidv8/
+URL: https://ashwingopalsamy.in/projects/uuidv8/
 Published: 2024-06-10
 Tech: Go
 GitHub: https://github.com/ash3in/uuidv8
@@ -381,7 +381,7 @@ Zero external dependencies. The library handles timestamp encoding, clock sequen
 
 ## Pismo Zones
 
-URL: http://localhost:1313/projects/pismozones/
+URL: https://ashwingopalsamy.in/projects/pismozones/
 Published: 2026-03-20
 Tech: JavaScript, Vite
 GitHub: https://github.com/ashwingopalsamy/pismozones
@@ -408,7 +408,7 @@ The design process, color theory, motion physics, and implementation decisions a
 
 ## Claude Code Theme
 
-URL: http://localhost:1313/projects/claude-code-theme/
+URL: https://ashwingopalsamy.in/projects/claude-code-theme/
 Published: 2026-02-10
 Tech: TypeScript
 GitHub: https://github.com/ashwingopalsamy/claude-code-theme
@@ -429,7 +429,7 @@ A programmatic compilation pipeline generates all 12 variants from shared brand 
 
 ## Claude Code Launcher
 
-URL: http://localhost:1313/projects/claude-code-launcher/
+URL: https://ashwingopalsamy.in/projects/claude-code-launcher/
 Published: 2026-02-02
 Tech: Terminal
 GitHub: https://github.com/ash3in/claude-code-launcher
@@ -450,7 +450,7 @@ A single shell function handles token storage (file permissions 600, never in hi
 
 ## Repo Rate Visualizer
 
-URL: http://localhost:1313/projects/repo-rate-visualizer/
+URL: https://ashwingopalsamy.in/projects/repo-rate-visualizer/
 Published: 2026-02-10
 Tech: JavaScript, React
 GitHub: https://github.com/ashwingopalsamy/repo-rate-visualizer
@@ -471,7 +471,7 @@ D3.js renders the charts from bundled historical data. Multiple views: timeline,
 
 ## MKKS Organics
 
-URL: http://localhost:1313/projects/mkks-organics/
+URL: https://ashwingopalsamy.in/projects/mkks-organics/
 Published: 2026-03-01
 Tech: JavaScript, React, Vite
 GitHub: https://github.com/ashwingopalsamy/host-mkks-organics
@@ -492,7 +492,7 @@ Static React site on Vercel. Product data and pricing live in a single content f
 
 ## ATS LaTeX Resume
 
-URL: http://localhost:1313/projects/ats-latex-resume/
+URL: https://ashwingopalsamy.in/projects/ats-latex-resume/
 Published: 2024-10-27
 Tech: LaTeX
 GitHub: https://github.com/ashwingopalsamy/ats-latex-resume
@@ -513,7 +513,7 @@ Package choices that target specific ATS failure modes. `pdfgentounicode` and `g
 
 ## Intelligent Traffic Management System
 
-URL: http://localhost:1313/projects/itms/
+URL: https://ashwingopalsamy.in/projects/itms/
 Published: 2021-03-13
 Tech: Python
 GitHub: https://github.com/ashwingopalsamy/opnsrc-machinelearning-itms-ug-graduation-project
@@ -534,7 +534,7 @@ YOLO model trained on the Indian Driving Dataset for vehicle detection. The pipe
 
 ## Bud.ai
 
-URL: http://localhost:1313/projects/budai/
+URL: https://ashwingopalsamy.in/projects/budai/
 Published: 2022-03-03
 Tech: Azure, Teams
 GitHub: https://github.com/ashwingopalsamy/opnsrc-microsoft-internship-bud.ai-project

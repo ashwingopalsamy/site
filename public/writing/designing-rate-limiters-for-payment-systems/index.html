@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light" class="preload">
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
   <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -10,12 +10,12 @@
 
 <meta name="description" content="How to build rate limiters that protect authorization infrastructure without rejecting legitimate traffic. Token bucket math, sliding window trade-offs, and the distributed coordination problem.">
 
-<link rel="canonical" href="http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/">
+<link rel="canonical" href="https://ashwingopalsamy.in/writing/designing-rate-limiters-for-payment-systems/">
 
 
 <meta property="og:title" content="Designing Rate Limiters for Payment Systems">
 <meta property="og:description" content="How to build rate limiters that protect authorization infrastructure without rejecting legitimate traffic. Token bucket math, sliding window trade-offs, and the distributed coordination problem.">
-<meta property="og:url" content="http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/">
+<meta property="og:url" content="https://ashwingopalsamy.in/writing/designing-rate-limiters-for-payment-systems/">
 <meta property="og:site_name" content="Ashwin Gopalsamy">
 
 <meta property="og:type" content="article">
@@ -24,7 +24,7 @@
 
 
 
-<meta property="og:image" content="http://localhost:1313/img/og-base_hu_1a17b6d4e73f2b54.jpg">
+<meta property="og:image" content="https://ashwingopalsamy.in/img/og-base_hu_1a17b6d4e73f2b54.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 
@@ -33,7 +33,7 @@
 <meta name="twitter:creator" content="@ashwin2125">
 <meta name="twitter:title" content="Designing Rate Limiters for Payment Systems">
 <meta name="twitter:description" content="How to build rate limiters that protect authorization infrastructure without rejecting legitimate traffic. Token bucket math, sliding window trade-offs, and the distributed coordination problem.">
-<meta name="twitter:image" content="http://localhost:1313/img/og-base_hu_1a17b6d4e73f2b54.jpg">
+<meta name="twitter:image" content="https://ashwingopalsamy.in/img/og-base_hu_1a17b6d4e73f2b54.jpg">
 
 
 <link rel="webmention" href="https://webmention.io/ashwingopalsamy.in/webmention">
@@ -42,6 +42,8 @@
 
 <link rel="stylesheet" href="/css/bundle.min.4beab11e998ca4af420f79f4b268d6b1c9822764a322590a269388cdc9c2dfd9.css">
 
+
+<script defer data-domain="ashwingopalsamy.in" src="https://plausible.io/js/script.js" integrity="sha384-TDBMBYT3vz715r8UIyVTB4AUTXubXmLI02DeDWgyDahvCXmPV4Vgx2m6yQvI19d/" crossorigin="anonymous"></script>
 
 
 <script>
@@ -103,18 +105,18 @@ document.addEventListener('DOMContentLoaded', function() {
   "datePublished": "2026-04-07T00:00:00Z",
   "dateModified": "2026-04-07T00:00:00Z",
   "author": {
-    "@id": "http:\/\/localhost:1313\/#person"
+    "@id": "https:\/\/ashwingopalsamy.in\/#person"
   },
   "publisher": {
     "@type": "Person",
     "name": "Ashwin Gopalsamy"
   },
   "description": "How to build rate limiters that protect authorization infrastructure without rejecting legitimate traffic. Token bucket math, sliding window trade-offs, and the distributed coordination problem.",
-  "url": "http:\/\/localhost:1313\/writing\/designing-rate-limiters-for-payment-systems\/",
+  "url": "https:\/\/ashwingopalsamy.in\/writing\/designing-rate-limiters-for-payment-systems\/",
   "wordCount":  838 ,
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "http:\/\/localhost:1313\/writing\/designing-rate-limiters-for-payment-systems\/"
+    "@id": "https:\/\/ashwingopalsamy.in\/writing\/designing-rate-limiters-for-payment-systems\/"
   },
   "keywords": ["distributed-systems", "payments", "go"]
 }
@@ -131,19 +133,19 @@ document.addEventListener('DOMContentLoaded', function() {
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "http:\/\/localhost:1313\/"
+      "item": "https:\/\/ashwingopalsamy.in\/"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "Writing",
-      "item": "http:\/\/localhost:1313\/writing/"
+      "item": "https:\/\/ashwingopalsamy.in\/writing/"
     },
     {
       "@type": "ListItem",
       "position": 3,
       "name": "Designing Rate Limiters for Payment Systems",
-      "item": "http:\/\/localhost:1313\/writing\/designing-rate-limiters-for-payment-systems\/"
+      "item": "https:\/\/ashwingopalsamy.in\/writing\/designing-rate-limiters-for-payment-systems\/"
     }
   ]
 }
@@ -492,7 +494,7 @@ sequenceDiagram
   </div>
 
   <div class="share-bar">
-  <button class="share-btn" data-copy-url="http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/">
+  <button class="share-btn" data-copy-url="https://ashwingopalsamy.in/writing/designing-rate-limiters-for-payment-systems/">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
   <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
 </svg>
@@ -500,7 +502,7 @@ sequenceDiagram
     <span class="share-btn-text">Copy link</span>
   </button>
   
-  <button class="share-btn" data-share-native="http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/" data-share-title="Designing Rate Limiters for Payment Systems">
+  <button class="share-btn" data-share-native="https://ashwingopalsamy.in/writing/designing-rate-limiters-for-payment-systems/" data-share-title="Designing Rate Limiters for Payment Systems">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
   <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
 </svg>

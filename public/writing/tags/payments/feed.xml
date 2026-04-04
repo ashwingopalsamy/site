@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Writing - Ashwin Gopalsamy</title>
-    <link>http://localhost:1313/writing/tags/payments/</link>
+    <link>https://ashwingopalsamy.in/writing/tags/payments/</link>
     <description>Staff Software Engineer scaling authorization infrastructure at Pismo, Visa.</description>
     <language>en-us</language>
     <lastBuildDate>Tue, 07 Apr 2026 00:00:00 &#43;0000</lastBuildDate>
     
-    <atom:link href="http://localhost:1313/writing/tags/payments/feed.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://ashwingopalsamy.in/writing/tags/payments/feed.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Designing Rate Limiters for Payment Systems</title>
-      <link>http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/</link>
+      <link>https://ashwingopalsamy.in/writing/designing-rate-limiters-for-payment-systems/</link>
       <pubDate>Tue, 07 Apr 2026 00:00:00 &#43;0000</pubDate>
-      <guid isPermaLink="true">http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/</guid>
+      <guid isPermaLink="true">https://ashwingopalsamy.in/writing/designing-rate-limiters-for-payment-systems/</guid>
       <description>&lt;p&gt;Rate limiting in payment systems is different from rate limiting in a typical web API. A false positive &amp;ndash; rejecting a legitimate authorization &amp;ndash; is a failed transaction. A customer&amp;rsquo;s card gets declined at checkout. That is not an acceptable failure mode.&lt;/p&gt;
 &lt;p&gt;This article walks through the design of a rate limiter that protects infrastructure without creating false declines.&lt;/p&gt;
 &lt;h2 id=&#34;the-architecture&#34;&gt;The Architecture&lt;/h2&gt;
@@ -261,9 +261,9 @@ sequenceDiagram
     
     <item>
       <title>Understanding ISO 8583 Bitmap Parsing</title>
-      <link>http://localhost:1313/writing/understanding-iso-8583-bitmap-parsing/</link>
+      <link>https://ashwingopalsamy.in/writing/understanding-iso-8583-bitmap-parsing/</link>
       <pubDate>Wed, 01 Apr 2026 00:00:00 &#43;0000</pubDate>
-      <guid isPermaLink="true">http://localhost:1313/writing/understanding-iso-8583-bitmap-parsing/</guid>
+      <guid isPermaLink="true">https://ashwingopalsamy.in/writing/understanding-iso-8583-bitmap-parsing/</guid>
       <description>&lt;p&gt;Every ISO 8583 message begins with a Message Type Indicator (MTI), followed by one or two bitmaps that declare which data elements are present in the message.&lt;/p&gt;
 &lt;h2 id=&#34;what-is-a-bitmap&#34;&gt;What is a Bitmap?&lt;/h2&gt;
 &lt;p&gt;A bitmap is a binary structure where each bit position corresponds to a data element. If bit N is set to 1, data element N is present in the message. If it is 0, the element is absent.&lt;/p&gt;
@@ -308,9 +308,9 @@ sequenceDiagram
     
     <item>
       <title>Why UUIDs Matter for Idempotency</title>
-      <link>http://localhost:1313/writing/why-uuids-matter-for-idempotency/</link>
+      <link>https://ashwingopalsamy.in/writing/why-uuids-matter-for-idempotency/</link>
       <pubDate>Fri, 20 Feb 2026 00:00:00 &#43;0000</pubDate>
-      <guid isPermaLink="true">http://localhost:1313/writing/why-uuids-matter-for-idempotency/</guid>
+      <guid isPermaLink="true">https://ashwingopalsamy.in/writing/why-uuids-matter-for-idempotency/</guid>
       <description>&lt;p&gt;In payment processing, processing the same authorization twice is worse than rejecting it. A customer charged twice loses trust immediately. Idempotency keys prevent this.&lt;/p&gt;
 &lt;h2 id=&#34;the-problem&#34;&gt;The Problem&lt;/h2&gt;
 &lt;p&gt;A client sends an authorization request. The network drops the response. The client retries. Without idempotency, the server processes the authorization again, resulting in a double charge.&lt;/p&gt;

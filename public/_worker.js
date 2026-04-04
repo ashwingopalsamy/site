@@ -55,6 +55,7 @@ export default {
   async fetch(request, env) {
     var response;
     try {
+      // In Pages _worker.js, env.ASSETS is available
       response = await env.ASSETS.fetch(request);
     } catch (e) {
       return new Response('<!doctype html><html><head><title>502</title></head><body><h1>Service unavailable</h1></body></html>', {

@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Writing - Ashwin Gopalsamy</title>
-    <link>http://localhost:1313/writing/tags/iso8583/</link>
+    <link>https://ashwingopalsamy.in/writing/tags/iso8583/</link>
     <description>Staff Software Engineer scaling authorization infrastructure at Pismo, Visa.</description>
     <language>en-us</language>
     <lastBuildDate>Wed, 01 Apr 2026 00:00:00 &#43;0000</lastBuildDate>
     
-    <atom:link href="http://localhost:1313/writing/tags/iso8583/feed.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://ashwingopalsamy.in/writing/tags/iso8583/feed.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Understanding ISO 8583 Bitmap Parsing</title>
-      <link>http://localhost:1313/writing/understanding-iso-8583-bitmap-parsing/</link>
+      <link>https://ashwingopalsamy.in/writing/understanding-iso-8583-bitmap-parsing/</link>
       <pubDate>Wed, 01 Apr 2026 00:00:00 &#43;0000</pubDate>
-      <guid isPermaLink="true">http://localhost:1313/writing/understanding-iso-8583-bitmap-parsing/</guid>
+      <guid isPermaLink="true">https://ashwingopalsamy.in/writing/understanding-iso-8583-bitmap-parsing/</guid>
       <description>&lt;p&gt;Every ISO 8583 message begins with a Message Type Indicator (MTI), followed by one or two bitmaps that declare which data elements are present in the message.&lt;/p&gt;
 &lt;h2 id=&#34;what-is-a-bitmap&#34;&gt;What is a Bitmap?&lt;/h2&gt;
 &lt;p&gt;A bitmap is a binary structure where each bit position corresponds to a data element. If bit N is set to 1, data element N is present in the message. If it is 0, the element is absent.&lt;/p&gt;

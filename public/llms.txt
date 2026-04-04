@@ -18,26 +18,26 @@ Ashwin Gopalsamy is a Staff Software Engineer on the Authorizations Tribe at Pis
 
 ## Content
 
-- Designing Rate Limiters for Payment Systems: http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/
-- Understanding ISO 8583 Bitmap Parsing: http://localhost:1313/writing/understanding-iso-8583-bitmap-parsing/
-- Go Error Wrapping Patterns: http://localhost:1313/writing/notes/go-error-wrapping-patterns/
-- Consistent Hashing in Distributed Caches: http://localhost:1313/writing/consistent-hashing-in-distributed-caches/
-- Why slog Over zerolog: http://localhost:1313/writing/notes/why-slog-over-zerolog/
-- Why UUIDs Matter for Idempotency: http://localhost:1313/writing/why-uuids-matter-for-idempotency/
+- Designing Rate Limiters for Payment Systems: https://ashwingopalsamy.in/writing/designing-rate-limiters-for-payment-systems/
+- Understanding ISO 8583 Bitmap Parsing: https://ashwingopalsamy.in/writing/understanding-iso-8583-bitmap-parsing/
+- Go Error Wrapping Patterns: https://ashwingopalsamy.in/writing/notes/go-error-wrapping-patterns/
+- Consistent Hashing in Distributed Caches: https://ashwingopalsamy.in/writing/consistent-hashing-in-distributed-caches/
+- Why slog Over zerolog: https://ashwingopalsamy.in/writing/notes/why-slog-over-zerolog/
+- Why UUIDs Matter for Idempotency: https://ashwingopalsamy.in/writing/why-uuids-matter-for-idempotency/
 
 ## Pages
 
-- Homepage: http://localhost:1313/
-- Writing: http://localhost:1313/writing/
-- Projects: http://localhost:1313/projects/
-- Notes: http://localhost:1313/notes/
-- About: http://localhost:1313/about/
-- Now: http://localhost:1313/now/
+- Homepage: https://ashwingopalsamy.in/
+- Writing: https://ashwingopalsamy.in/writing/
+- Projects: https://ashwingopalsamy.in/projects/
+- Notes: https://ashwingopalsamy.in/notes/
+- About: https://ashwingopalsamy.in/about/
+- Now: https://ashwingopalsamy.in/now/
 
 ## Feeds
 
-- RSS (Writing): http://localhost:1313/feed.xml
-- RSS (Notes): http://localhost:1313/notes/feed.xml
+- RSS (Writing): https://ashwingopalsamy.in/feed.xml
+- RSS (Notes): https://ashwingopalsamy.in/notes/feed.xml
 
 ## Attribution
 
