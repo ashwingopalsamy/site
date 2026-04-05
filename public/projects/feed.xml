@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Writing - Ashwin Gopalsamy</title>
+    <link>http://localhost:1313/projects/</link>
+    <description>Open source work and side projects.</description>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 20 Mar 2026 00:00:00 &#43;0000</lastBuildDate>
+    
+    <atom:link href="http://localhost:1313/projects/feed.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>UUIDCheck</title>
+      <link>http://localhost:1313/projects/uuidcheck/</link>
+      <pubDate>Thu, 05 Sep 2024 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/projects/uuidcheck/</guid>
+      <description>&lt;p&gt;A lightweight Go package for validating UUID strings and identifying their version and variant. Supports all UUID versions from RFC 4122 (v1-v5) through RFC 9562 (v6, v7, v8), with zero external dependencies.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;UUID validation in Go typically means a regex or pulling in a full UUID generation library just to check a string. UUIDCheck does one thing well: tell you if a UUID is valid, what version it is, and whether the variant bits are correct. Nothing more.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;A lightweight Go package for validating UUID strings and identifying their version and variant. Supports all UUID versions from RFC 4122 (v1-v5) through RFC 9562 (v6, v7, v8), with zero external dependencies.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;UUID validation in Go typically means a regex or pulling in a full UUID generation library just to check a string. UUIDCheck does one thing well: tell you if a UUID is valid, what version it is, and whether the variant bits are correct. Nothing more.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;Pure standard library. The parser validates structure (8-4-4-4-12 hex format), extracts version from the 13th nibble, checks variant bits in the clock sequence, and returns a typed result. Useful as a validation layer at API boundaries or in data pipeline ingestion.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>UUIDv8</title>
+      <link>http://localhost:1313/projects/uuidv8/</link>
+      <pubDate>Mon, 10 Jun 2024 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/projects/uuidv8/</guid>
+      <description>&lt;p&gt;A Go library for generating UUIDv8 identifiers per RFC 9562. UUIDv8 is the newest UUID version, designed for applications that need custom timestamp encoding, database-friendly sorting, and domain-specific node bits &amp;ndash; all within the standard 128-bit UUID format.&lt;/p&gt;
+&lt;h2 id=&#34;why-uuidv8&#34;&gt;Why UUIDv8&lt;/h2&gt;
+&lt;p&gt;UUIDv4 is random. UUIDv7 is time-ordered but opinionated about its timestamp layout. UUIDv8 gives you full control over the custom bits while remaining RFC-compliant. This matters when you need deterministic ordering, embedded metadata, or compatibility with systems that validate UUID structure.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;A Go library for generating UUIDv8 identifiers per RFC 9562. UUIDv8 is the newest UUID version, designed for applications that need custom timestamp encoding, database-friendly sorting, and domain-specific node bits &amp;ndash; all within the standard 128-bit UUID format.&lt;/p&gt;
+&lt;h2 id=&#34;why-uuidv8&#34;&gt;Why UUIDv8&lt;/h2&gt;
+&lt;p&gt;UUIDv4 is random. UUIDv7 is time-ordered but opinionated about its timestamp layout. UUIDv8 gives you full control over the custom bits while remaining RFC-compliant. This matters when you need deterministic ordering, embedded metadata, or compatibility with systems that validate UUID structure.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;Zero external dependencies. The library handles timestamp encoding, clock sequence management, and node ID generation while enforcing the RFC 9562 variant and version bits. The API is deliberately minimal &amp;ndash; one function to generate, one to parse.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Pismo Zones</title>
+      <link>http://localhost:1313/projects/pismozones/</link>
+      <pubDate>Fri, 20 Mar 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/projects/pismozones/</guid>
+      <description>&lt;p&gt;Timezone tool built for Pismo&amp;rsquo;s engineering team spread across Sao Paulo, Bangalore, Bristol, Austin, and Singapore. AI-engineered from design to deployment. Used daily in production by Pismo engineers to coordinate across five offices.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Distributed teams waste time on timezone math. Every standup, every cross-office sync, someone asks &amp;ldquo;what time is it there?&amp;rdquo; Pismo Zones answers that instantly with a visual that updates in real-time.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;Glassmorphism layers, spring-physics card transitions, and a color-interpolated gradient that shifts with time of day. The interface adapts ambient lighting based on the hour. Luxon handles all timezone math to avoid native Date object inconsistencies. Pure CSS variables, no utility frameworks. Client-side only, zero backend.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;Timezone tool built for Pismo&amp;rsquo;s engineering team spread across Sao Paulo, Bangalore, Bristol, Austin, and Singapore. AI-engineered from design to deployment. Used daily in production by Pismo engineers to coordinate across five offices.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Distributed teams waste time on timezone math. Every standup, every cross-office sync, someone asks &amp;ldquo;what time is it there?&amp;rdquo; Pismo Zones answers that instantly with a visual that updates in real-time.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;Glassmorphism layers, spring-physics card transitions, and a color-interpolated gradient that shifts with time of day. The interface adapts ambient lighting based on the hour. Luxon handles all timezone math to avoid native Date object inconsistencies. Pure CSS variables, no utility frameworks. Client-side only, zero backend.&lt;/p&gt;
+&lt;h2 id=&#34;case-study&#34;&gt;Case Study&lt;/h2&gt;
+&lt;p&gt;The design process, color theory, motion physics, and implementation decisions are documented in an interactive case study:&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://localhost:1313/projects/pismozones/design-case-study/&#34;&gt;View Design Case Study&lt;/a&gt;
+&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Claude Code Theme</title>
+      <link>http://localhost:1313/projects/claude-code-theme/</link>
+      <pubDate>Tue, 10 Feb 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/projects/claude-code-theme/</guid>
+      <description>&lt;p&gt;A VS Code theme system built around warm Claude-inspired palettes. 12 variants covering dark, light, brand, high-contrast, and no-bold editions. Published on the VS Code Marketplace.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Most themes are palette swaps. They pick colors and drop them into a JSON file. The result looks fine on one language and breaks on another because nobody tested the interaction between workbench chrome, semantic tokens, and TextMate scopes across languages.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;A programmatic compilation pipeline generates all 12 variants from shared brand tokens. Each variant compiles to 369 workbench colors, 81 TextMate rules, and 37 semantic token rules. CI runs WCAG contrast validation on every build, with editor text hitting 14.92-16.98:1 contrast ratios. TextMate scope packs cover JS/TS, Go, Python, Java, Rust, HTML/CSS, JSON/YAML, Markdown, and SQL.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;A VS Code theme system built around warm Claude-inspired palettes. 12 variants covering dark, light, brand, high-contrast, and no-bold editions. Published on the VS Code Marketplace.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Most themes are palette swaps. They pick colors and drop them into a JSON file. The result looks fine on one language and breaks on another because nobody tested the interaction between workbench chrome, semantic tokens, and TextMate scopes across languages.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;A programmatic compilation pipeline generates all 12 variants from shared brand tokens. Each variant compiles to 369 workbench colors, 81 TextMate rules, and 37 semantic token rules. CI runs WCAG contrast validation on every build, with editor text hitting 14.92-16.98:1 contrast ratios. TextMate scope packs cover JS/TS, Go, Python, Java, Rust, HTML/CSS, JSON/YAML, Markdown, and SQL.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Claude Code Launcher</title>
+      <link>http://localhost:1313/projects/claude-code-launcher/</link>
+      <pubDate>Mon, 02 Feb 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/projects/claude-code-launcher/</guid>
+      <description>&lt;p&gt;A shell utility that reduces enterprise Claude Code setup to one command. Type &lt;code&gt;cc&lt;/code&gt; and you&amp;rsquo;re in.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Enterprise users accessing Claude Code through corporate endpoints deal with refreshable JWT tokens, multi-step environment variable setup, and token management across sessions. Tokens end up in shell history, visible in process lists. Every new terminal session means pasting a long JWT again.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;A single shell function handles token storage (file permissions 600, never in history or &lt;code&gt;ps&lt;/code&gt; output), JWT format validation, expiry tracking with days-remaining display, and endpoint configuration. An interactive installer detects your shell, sets up the alias, and optionally adds a prompt indicator. Daily use is one command: &lt;code&gt;cc&lt;/code&gt;.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;A shell utility that reduces enterprise Claude Code setup to one command. Type &lt;code&gt;cc&lt;/code&gt; and you&amp;rsquo;re in.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Enterprise users accessing Claude Code through corporate endpoints deal with refreshable JWT tokens, multi-step environment variable setup, and token management across sessions. Tokens end up in shell history, visible in process lists. Every new terminal session means pasting a long JWT again.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;A single shell function handles token storage (file permissions 600, never in history or &lt;code&gt;ps&lt;/code&gt; output), JWT format validation, expiry tracking with days-remaining display, and endpoint configuration. An interactive installer detects your shell, sets up the alias, and optionally adds a prompt indicator. Daily use is one command: &lt;code&gt;cc&lt;/code&gt;.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Repo Rate Visualizer</title>
+      <link>http://localhost:1313/projects/repo-rate-visualizer/</link>
+      <pubDate>Tue, 10 Feb 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/projects/repo-rate-visualizer/</guid>
+      <description>&lt;p&gt;Interactive data visualization of India&amp;rsquo;s Reserve Bank of India repo rate decisions over time. Timeline charts, rate change analysis, monetary policy cycle comparisons, and CSV export.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;RBI repo rate data is public but scattered across press releases and PDF tables. No single tool lets you see the full timeline, compare easing and tightening cycles, or share a specific date range with a URL.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;D3.js renders the charts from bundled historical data. Multiple views: timeline, rate change bars, cycle comparison, and event annotations. A filter bar supports date range presets (10Y, 5Y, custom) and a URL state hook encodes the current view and range into the address bar for shareable links. Separate mobile layout components handle smaller viewports.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;Interactive data visualization of India&amp;rsquo;s Reserve Bank of India repo rate decisions over time. Timeline charts, rate change analysis, monetary policy cycle comparisons, and CSV export.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;RBI repo rate data is public but scattered across press releases and PDF tables. No single tool lets you see the full timeline, compare easing and tightening cycles, or share a specific date range with a URL.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;D3.js renders the charts from bundled historical data. Multiple views: timeline, rate change bars, cycle comparison, and event annotations. A filter bar supports date range presets (10Y, 5Y, custom) and a URL state hook encodes the current view and range into the address bar for shareable links. Separate mobile layout components handle smaller viewports.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>MKKS Organics</title>
+      <link>http://localhost:1313/projects/mkks-organics/</link>
+      <pubDate>Sun, 01 Mar 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/projects/mkks-organics/</guid>
+      <description>&lt;p&gt;Storefront for MKKS Organics, a family mango orchard business. Customers browse varieties, select quantities, and send a structured reservation request via WhatsApp.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;The business needed an online presence but not a full e-commerce stack. No payment gateway, no user accounts, no database. Orders are seasonal, volume is manageable over WhatsApp, and the overhead of maintaining a backend would outweigh its value.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;Static React site on Vercel. Product data and pricing live in a single content file. The reservation sheet collects quantities by variety and pack size, calculates totals, and constructs a pre-formatted WhatsApp message with the order details and delivery info. Optimized images in WebP with responsive srcSet. Framer Motion for page transitions.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;Storefront for MKKS Organics, a family mango orchard business. Customers browse varieties, select quantities, and send a structured reservation request via WhatsApp.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;The business needed an online presence but not a full e-commerce stack. No payment gateway, no user accounts, no database. Orders are seasonal, volume is manageable over WhatsApp, and the overhead of maintaining a backend would outweigh its value.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;Static React site on Vercel. Product data and pricing live in a single content file. The reservation sheet collects quantities by variety and pack size, calculates totals, and constructs a pre-formatted WhatsApp message with the order details and delivery info. Optimized images in WebP with responsive srcSet. Framer Motion for page transitions.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>ATS LaTeX Resume</title>
+      <link>http://localhost:1313/projects/ats-latex-resume/</link>
+      <pubDate>Sun, 27 Oct 2024 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/projects/ats-latex-resume/</guid>
+      <description>&lt;p&gt;A LaTeX resume template built for machine readability. ATS systems parse the generated PDF correctly, and it still looks clean for human reviewers.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Most LaTeX resume templates optimize for aesthetics. The PDF looks great but ATS software fails to extract the text, misreads special characters, or chokes on custom fonts. Your resume gets filtered out before a human sees it.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;Package choices that target specific ATS failure modes. &lt;code&gt;pdfgentounicode&lt;/code&gt; and &lt;code&gt;glyphtounicode&lt;/code&gt; provide Unicode mapping so PDF text extraction works correctly. &lt;code&gt;lmodern&lt;/code&gt; and &lt;code&gt;charter&lt;/code&gt; are ATS-safe fonts that don&amp;rsquo;t break parsing. &lt;code&gt;inputenc&lt;/code&gt; with UTF-8 prevents character encoding failures. Tested against ATS parsers including Jobscan and Resumeworded.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;A LaTeX resume template built for machine readability. ATS systems parse the generated PDF correctly, and it still looks clean for human reviewers.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Most LaTeX resume templates optimize for aesthetics. The PDF looks great but ATS software fails to extract the text, misreads special characters, or chokes on custom fonts. Your resume gets filtered out before a human sees it.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;Package choices that target specific ATS failure modes. &lt;code&gt;pdfgentounicode&lt;/code&gt; and &lt;code&gt;glyphtounicode&lt;/code&gt; provide Unicode mapping so PDF text extraction works correctly. &lt;code&gt;lmodern&lt;/code&gt; and &lt;code&gt;charter&lt;/code&gt; are ATS-safe fonts that don&amp;rsquo;t break parsing. &lt;code&gt;inputenc&lt;/code&gt; with UTF-8 prevents character encoding failures. Tested against ATS parsers including Jobscan and Resumeworded.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Intelligent Traffic Management System</title>
+      <link>http://localhost:1313/projects/itms/</link>
+      <pubDate>Sat, 13 Mar 2021 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/projects/itms/</guid>
+      <description>&lt;p&gt;Final year project. A machine learning system that detects vehicles per lane and adjusts traffic signal timing based on real-time density instead of fixed timers.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Fixed-timer traffic signals ignore actual traffic conditions. A lane with three cars gets the same green time as a lane with thirty. The result is unnecessary congestion on busy lanes and wasted green time on empty ones.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;YOLO model trained on the Indian Driving Dataset for vehicle detection. The pipeline runs non-max suppression, counts vehicles per lane, and feeds the count into a signal timing function that allocates green time proportionally. When conditions fall outside normal parameters, the system falls back to static timing.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;Final year project. A machine learning system that detects vehicles per lane and adjusts traffic signal timing based on real-time density instead of fixed timers.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Fixed-timer traffic signals ignore actual traffic conditions. A lane with three cars gets the same green time as a lane with thirty. The result is unnecessary congestion on busy lanes and wasted green time on empty ones.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;YOLO model trained on the Indian Driving Dataset for vehicle detection. The pipeline runs non-max suppression, counts vehicles per lane, and feeds the count into a signal timing function that allocates green time proportionally. When conditions fall outside normal parameters, the system falls back to static timing.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Bud.ai</title>
+      <link>http://localhost:1313/projects/budai/</link>
+      <pubDate>Thu, 03 Mar 2022 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/projects/budai/</guid>
+      <description>&lt;p&gt;A Microsoft Teams bot that gives students a single place for academic information: schedules, attendance, subjects, faculty contacts. Built as part of the Microsoft Future Ready Talent program during COVID remote learning.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Remote learning during COVID pushed students across multiple platforms for different tasks. Class on Zoom, assignments on one portal, schedules on another, faculty contacts somewhere else. The fragmentation hit junior students hardest.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;Azure Bot Framework handles conversation flow. LUIS provides intent recognition so students can ask naturally instead of navigating menus. QnA Maker handles FAQ-style queries. CosmosDB stores academic data. The bot runs as an Azure App Service and integrates directly into Microsoft Teams, where students already spend their day.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;A Microsoft Teams bot that gives students a single place for academic information: schedules, attendance, subjects, faculty contacts. Built as part of the Microsoft Future Ready Talent program during COVID remote learning.&lt;/p&gt;
+&lt;h2 id=&#34;motivation&#34;&gt;Motivation&lt;/h2&gt;
+&lt;p&gt;Remote learning during COVID pushed students across multiple platforms for different tasks. Class on Zoom, assignments on one portal, schedules on another, faculty contacts somewhere else. The fragmentation hit junior students hardest.&lt;/p&gt;
+&lt;h2 id=&#34;design&#34;&gt;Design&lt;/h2&gt;
+&lt;p&gt;Azure Bot Framework handles conversation flow. LUIS provides intent recognition so students can ask naturally instead of navigating menus. QnA Maker handles FAQ-style queries. CosmosDB stores academic data. The bot runs as an Azure App Service and integrates directly into Microsoft Teams, where students already spend their day.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+  </channel>
+</rss>

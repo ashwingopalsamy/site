@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Writing - Ashwin Gopalsamy</title>
+    <link>http://localhost:1313/writing/notes/</link>
+    <description>Short-form thoughts on engineering, tools, and things I&#39;m learning.</description>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 28 Mar 2026 00:00:00 &#43;0000</lastBuildDate>
+    
+    <atom:link href="http://localhost:1313/writing/notes/feed.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Go Error Wrapping Patterns</title>
+      <link>http://localhost:1313/writing/notes/go-error-wrapping-patterns/</link>
+      <pubDate>Sat, 28 Mar 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/writing/notes/go-error-wrapping-patterns/</guid>
+      <description>&lt;p&gt;The &lt;code&gt;fmt.Errorf(&amp;quot;context: %w&amp;quot;, err)&lt;/code&gt; pattern is the standard way to add context to errors in Go. But there are nuances worth knowing.&lt;/p&gt;
+&lt;p&gt;Always wrap with context that answers &amp;ldquo;what were you trying to do?&amp;rdquo; not &amp;ldquo;what went wrong?&amp;rdquo; The original error already says what went wrong.&lt;/p&gt;
+&lt;p&gt;Bad: &lt;code&gt;fmt.Errorf(&amp;quot;error: %w&amp;quot;, err)&lt;/code&gt;
+Good: &lt;code&gt;fmt.Errorf(&amp;quot;parsing field DE%d: %w&amp;quot;, fieldNum, err)&lt;/code&gt;&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;The &lt;code&gt;fmt.Errorf(&amp;quot;context: %w&amp;quot;, err)&lt;/code&gt; pattern is the standard way to add context to errors in Go. But there are nuances worth knowing.&lt;/p&gt;
+&lt;p&gt;Always wrap with context that answers &amp;ldquo;what were you trying to do?&amp;rdquo; not &amp;ldquo;what went wrong?&amp;rdquo; The original error already says what went wrong.&lt;/p&gt;
+&lt;p&gt;Bad: &lt;code&gt;fmt.Errorf(&amp;quot;error: %w&amp;quot;, err)&lt;/code&gt;
+Good: &lt;code&gt;fmt.Errorf(&amp;quot;parsing field DE%d: %w&amp;quot;, fieldNum, err)&lt;/code&gt;&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Why slog Over zerolog</title>
+      <link>http://localhost:1313/writing/notes/why-slog-over-zerolog/</link>
+      <pubDate>Tue, 10 Mar 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/writing/notes/why-slog-over-zerolog/</guid>
+      <description>&lt;p&gt;Go 1.21 introduced &lt;code&gt;log/slog&lt;/code&gt; in the standard library. For new projects, I now default to slog over zerolog.&lt;/p&gt;
+&lt;p&gt;The API is cleaner, it is part of the standard library (no dependency), and the handler interface makes it trivial to swap backends. The performance gap that once justified zerolog has narrowed significantly.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;Go 1.21 introduced &lt;code&gt;log/slog&lt;/code&gt; in the standard library. For new projects, I now default to slog over zerolog.&lt;/p&gt;
+&lt;p&gt;The API is cleaner, it is part of the standard library (no dependency), and the handler interface makes it trivial to swap backends. The performance gap that once justified zerolog has narrowed significantly.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+  </channel>
+</rss>

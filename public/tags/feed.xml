@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Writing - Ashwin Gopalsamy</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Staff Software Engineer scaling authorization infrastructure at Pismo, Visa.</description>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 07 Apr 2026 00:00:00 &#43;0000</lastBuildDate>
+    
+    <atom:link href="http://localhost:1313/tags/feed.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Distributed-Systems</title>
+      <link>http://localhost:1313/writing/tags/distributed-systems/</link>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/writing/tags/distributed-systems/</guid>
+      <description></description>
+      <content:encoded></content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Go</title>
+      <link>http://localhost:1313/writing/tags/go/</link>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/writing/tags/go/</guid>
+      <description></description>
+      <content:encoded></content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Payments</title>
+      <link>http://localhost:1313/writing/tags/payments/</link>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/writing/tags/payments/</guid>
+      <description></description>
+      <content:encoded></content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>ISO8583</title>
+      <link>http://localhost:1313/writing/tags/iso8583/</link>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/writing/tags/iso8583/</guid>
+      <description></description>
+      <content:encoded></content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+  </channel>
+</rss>

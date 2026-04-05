@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Writing - Ashwin Gopalsamy</title>
+    <link>http://localhost:1313/</link>
+    <description>Staff Software Engineer scaling authorization infrastructure at Pismo, Visa.</description>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 07 Apr 2026 00:00:00 &#43;0000</lastBuildDate>
+    
+    <atom:link href="http://localhost:1313/feed.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Writing</title>
+      <link>http://localhost:1313/writing/</link>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/writing/</guid>
+      <description></description>
+      <content:encoded></content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Now</title>
+      <link>http://localhost:1313/now/</link>
+      <pubDate>Sun, 05 Apr 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/now/</guid>
+      <description>&lt;h2 id=&#34;work&#34;&gt;Work&lt;/h2&gt;
+&lt;p&gt;Building authorization infrastructure at Pismo (Visa). Currently focused on multi-region deployment patterns and cross-network routing optimization.&lt;/p&gt;
+&lt;h2 id=&#34;learning&#34;&gt;Learning&lt;/h2&gt;
+&lt;p&gt;Deep-diving into consistent hashing implementations and their failure modes under partition. Reading &amp;ldquo;Designing Data-Intensive Applications - Second Edition&amp;rdquo; (Pre-Release)things hit different now with more production experience.&lt;/p&gt;
+&lt;h2 id=&#34;side-projects&#34;&gt;Side Projects&lt;/h2&gt;
+&lt;p&gt;Building this website. Experimenting with Hugo&amp;rsquo;s template system and seeing how far you can push a static site with zero JavaScript frameworks.&lt;/p&gt;</description>
+      <content:encoded>&lt;h2 id=&#34;work&#34;&gt;Work&lt;/h2&gt;
+&lt;p&gt;Building authorization infrastructure at Pismo (Visa). Currently focused on multi-region deployment patterns and cross-network routing optimization.&lt;/p&gt;
+&lt;h2 id=&#34;learning&#34;&gt;Learning&lt;/h2&gt;
+&lt;p&gt;Deep-diving into consistent hashing implementations and their failure modes under partition. Reading &amp;ldquo;Designing Data-Intensive Applications - Second Edition&amp;rdquo; (Pre-Release)things hit different now with more production experience.&lt;/p&gt;
+&lt;h2 id=&#34;side-projects&#34;&gt;Side Projects&lt;/h2&gt;
+&lt;p&gt;Building this website. Experimenting with Hugo&amp;rsquo;s template system and seeing how far you can push a static site with zero JavaScript frameworks.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Projects</title>
+      <link>http://localhost:1313/projects/</link>
+      <pubDate>Fri, 20 Mar 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/projects/</guid>
+      <description></description>
+      <content:encoded></content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>http://localhost:1313/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/about/</guid>
+      <description>&lt;p&gt;Staff Software Engineer focused on cloud-native platforms, distributed systems, and software product development.&lt;/p&gt;
+&lt;p&gt;Currently scaling authorization infrastructure at Pismo, Visa with systems that process billions of daily transactions with sub-second latency across multiple regions.&lt;/p&gt;
+&lt;p&gt;Previously built core-banking microservices at Solaris SE in Berlin, powering interest-bearing financial products at scale.&lt;/p&gt;
+&lt;p&gt;Open-source contributor and technical blogger writing about Go, distributed systems, and cloud-native architecture.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;Staff Software Engineer focused on cloud-native platforms, distributed systems, and software product development.&lt;/p&gt;
+&lt;p&gt;Currently scaling authorization infrastructure at Pismo, Visa with systems that process billions of daily transactions with sub-second latency across multiple regions.&lt;/p&gt;
+&lt;p&gt;Previously built core-banking microservices at Solaris SE in Berlin, powering interest-bearing financial products at scale.&lt;/p&gt;
+&lt;p&gt;Open-source contributor and technical blogger writing about Go, distributed systems, and cloud-native architecture.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>AI Context</title>
+      <link>http://localhost:1313/ai/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/ai/</guid>
+      <description>&lt;p&gt;Staff Software Engineer at Visa&amp;rsquo;s Pismo unit. Building modern, distributed payment infrastructure. Half a decade shipping fintech products from scratch - core banking engines, interest calculation, tax processing, and most recently, scaling authorization infrastructure. Cloud-native, event-driven, sub-second or it does not ship.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;Staff Software Engineer at Visa&amp;rsquo;s Pismo unit. Building modern, distributed payment infrastructure. Half a decade shipping fintech products from scratch - core banking engines, interest calculation, tax processing, and most recently, scaling authorization infrastructure. Cloud-native, event-driven, sub-second or it does not ship.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Talks</title>
+      <link>http://localhost:1313/talks/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/talks/</guid>
+      <description>&lt;p&gt;No talks yet. This page will be updated when I start speaking at conferences and meetups.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;No talks yet. This page will be updated when I start speaking at conferences and meetups.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+  </channel>
+</rss>

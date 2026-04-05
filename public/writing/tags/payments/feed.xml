@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Writing - Ashwin Gopalsamy</title>
+    <link>http://localhost:1313/writing/tags/payments/</link>
+    <description>Staff Software Engineer scaling authorization infrastructure at Pismo, Visa.</description>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 07 Apr 2026 00:00:00 &#43;0000</lastBuildDate>
+    
+    <atom:link href="http://localhost:1313/writing/tags/payments/feed.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Designing Rate Limiters for Payment Systems</title>
+      <link>http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/</link>
+      <pubDate>Tue, 07 Apr 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/</guid>
+      <description>&lt;p&gt;Rate limiting in payment systems is different from rate limiting in a typical web API. A false positive &amp;ndash; rejecting a legitimate authorization &amp;ndash; is a failed transaction. A customer&amp;rsquo;s card gets declined at checkout. That is not an acceptable failure mode.&lt;/p&gt;
+&lt;p&gt;This article walks through the design of a rate limiter that protects infrastructure without creating false declines.&lt;/p&gt;
+&lt;h2 id=&#34;the-architecture&#34;&gt;The Architecture&lt;/h2&gt;
+&lt;p&gt;A payment authorization pipeline typically looks like this:&lt;/p&gt;
+&lt;div class=&#34;diagram-container&#34; data-diagram-type=&#34;mermaid&#34;&gt;
+  &lt;div class=&#34;mermaid&#34;&gt;
+    
+graph LR
+    A[Card Network] --&gt;|ISO 8583| B[Parser API]
+    B --&gt;|gRPC| C[Distributor API]
+    C --&gt;|gRPC| D[Account Service]
+    C --&gt;|gRPC| E[Risk Engine]
+    C --&gt;|gRPC| F[Ledger]
+    style B fill:#10b981,color:#fff,stroke:none
+    style C fill:#10b981,color:#fff,stroke:none
+
+  &lt;/div&gt;
+  &lt;div class=&#34;diagram-actions&#34;&gt;
+    &lt;button class=&#34;diagram-action&#34; data-action=&#34;expand&#34; aria-label=&#34;Expand diagram&#34;&gt;
+      &lt;svg width=&#34;14&#34; height=&#34;14&#34; viewBox=&#34;0 0 24 24&#34; fill=&#34;none&#34; stroke=&#34;currentColor&#34; stroke-width=&#34;2&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34;&gt;
+        &lt;polyline points=&#34;15 3 21 3 21 9&#34;&gt;&lt;/polyline&gt;
+        &lt;polyline points=&#34;9 21 3 21 3 15&#34;&gt;&lt;/polyline&gt;
+        &lt;line x1=&#34;21&#34; y1=&#34;3&#34; x2=&#34;14&#34; y2=&#34;10&#34;&gt;&lt;/line&gt;
+        &lt;line x1=&#34;3&#34; y1=&#34;21&#34; x2=&#34;10&#34; y2=&#34;14&#34;&gt;&lt;/line&gt;
+      &lt;/svg&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The rate limiter sits between the Parser API and the Distributor API. It must make a decision in under 1ms &amp;ndash; any longer and it becomes the bottleneck in a sub-second pipeline.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;Rate limiting in payment systems is different from rate limiting in a typical web API. A false positive &amp;ndash; rejecting a legitimate authorization &amp;ndash; is a failed transaction. A customer&amp;rsquo;s card gets declined at checkout. That is not an acceptable failure mode.&lt;/p&gt;
+&lt;p&gt;This article walks through the design of a rate limiter that protects infrastructure without creating false declines.&lt;/p&gt;
+&lt;h2 id=&#34;the-architecture&#34;&gt;The Architecture&lt;/h2&gt;
+&lt;p&gt;A payment authorization pipeline typically looks like this:&lt;/p&gt;
+&lt;div class=&#34;diagram-container&#34; data-diagram-type=&#34;mermaid&#34;&gt;
+  &lt;div class=&#34;mermaid&#34;&gt;
+    
+graph LR
+    A[Card Network] --&gt;|ISO 8583| B[Parser API]
+    B --&gt;|gRPC| C[Distributor API]
+    C --&gt;|gRPC| D[Account Service]
+    C --&gt;|gRPC| E[Risk Engine]
+    C --&gt;|gRPC| F[Ledger]
+    style B fill:#10b981,color:#fff,stroke:none
+    style C fill:#10b981,color:#fff,stroke:none
+
+  &lt;/div&gt;
+  &lt;div class=&#34;diagram-actions&#34;&gt;
+    &lt;button class=&#34;diagram-action&#34; data-action=&#34;expand&#34; aria-label=&#34;Expand diagram&#34;&gt;
+      &lt;svg width=&#34;14&#34; height=&#34;14&#34; viewBox=&#34;0 0 24 24&#34; fill=&#34;none&#34; stroke=&#34;currentColor&#34; stroke-width=&#34;2&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34;&gt;
+        &lt;polyline points=&#34;15 3 21 3 21 9&#34;&gt;&lt;/polyline&gt;
+        &lt;polyline points=&#34;9 21 3 21 3 15&#34;&gt;&lt;/polyline&gt;
+        &lt;line x1=&#34;21&#34; y1=&#34;3&#34; x2=&#34;14&#34; y2=&#34;10&#34;&gt;&lt;/line&gt;
+        &lt;line x1=&#34;3&#34; y1=&#34;21&#34; x2=&#34;10&#34; y2=&#34;14&#34;&gt;&lt;/line&gt;
+      &lt;/svg&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;p&gt;The rate limiter sits between the Parser API and the Distributor API. It must make a decision in under 1ms &amp;ndash; any longer and it becomes the bottleneck in a sub-second pipeline.&lt;/p&gt;
+
+
+&lt;div class=&#34;callout callout--warning&#34;&gt;
+  &lt;div class=&#34;callout-icon&#34;&gt;⚠&lt;/div&gt;
+  &lt;div class=&#34;callout-body&#34;&gt;
+    Never rate-limit at the card network ingress point. Network protocols like ISO 8583 have strict timeout windows. A delayed response is worse than a fast decline &amp;ndash; it triggers a reversal cascade.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;choosing-an-algorithm&#34;&gt;Choosing an Algorithm&lt;/h2&gt;
+&lt;p&gt;There are three common approaches, each with different trade-offs:&lt;/p&gt;
+&lt;h3 id=&#34;token-bucket&#34;&gt;Token Bucket&lt;/h3&gt;
+&lt;p&gt;The token bucket algorithm maintains a counter that refills at a fixed rate. Each request consumes one token. When tokens are exhausted, requests are rejected.&lt;/p&gt;
+&lt;p&gt;The math is straightforward. Given a bucket capacity $C$ and a refill rate $r$ tokens per second, the maximum burst size equals $C$, and the sustained throughput equals $r$.&lt;/p&gt;
+&lt;p&gt;$$\text{tokens}(t) = \min\left(C,\ \text{tokens}(t_0) + r \cdot (t - t_0)\right)$$&lt;/p&gt;
+
+
+&lt;div class=&#34;callout callout--tip&#34;&gt;
+  &lt;div class=&#34;callout-icon&#34;&gt;✦&lt;/div&gt;
+  &lt;div class=&#34;callout-body&#34;&gt;
+    Set $C$ to handle your peak burst (Black Friday spike) and $r$ to your sustained p99 throughput. For authorization systems, measure both per-issuer and per-BIN to avoid penalizing an entire bank for one merchant&amp;rsquo;s spike.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&#34;sliding-window-log&#34;&gt;Sliding Window Log&lt;/h3&gt;
+&lt;p&gt;Tracks the exact timestamp of every request in a time window. Precise, but memory-intensive.&lt;/p&gt;
+&lt;p&gt;For $n$ requests in the current window of duration $W$:&lt;/p&gt;
+&lt;p&gt;$$\text{rate} = \frac{n}{W}$$&lt;/p&gt;
+&lt;h3 id=&#34;sliding-window-counter&#34;&gt;Sliding Window Counter&lt;/h3&gt;
+&lt;p&gt;A hybrid: divides time into fixed slots and interpolates between the current and previous slot.&lt;/p&gt;
+&lt;p&gt;$$\text{count} = \text{prev} \times \left(1 - \frac{t_{\text{elapsed}}}{W}\right) + \text{curr}$$&lt;/p&gt;
+&lt;div class=&#34;compare&#34;&gt;
+  
+
+&lt;div class=&#34;compare-side&#34;&gt;
+  &lt;div class=&#34;compare-title&#34;&gt;Token Bucket&lt;/div&gt;
+  &lt;div class=&#34;compare-body&#34;&gt;&lt;p&gt;&lt;strong&gt;Pros:&lt;/strong&gt; O(1) memory, O(1) time, allows bursts&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cons:&lt;/strong&gt; No per-client fairness without separate buckets&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Best for:&lt;/strong&gt; Global throughput protection&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&#34;compare-side&#34;&gt;
+  &lt;div class=&#34;compare-title&#34;&gt;Sliding Window&lt;/div&gt;
+  &lt;div class=&#34;compare-body&#34;&gt;&lt;p&gt;&lt;strong&gt;Pros:&lt;/strong&gt; Precise rate tracking, smooth distribution&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Cons:&lt;/strong&gt; O(n) memory for log variant, interpolation error for counter variant&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Best for:&lt;/strong&gt; Per-client or per-issuer fairness&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;/div&gt;
+
+&lt;h2 id=&#34;the-distributed-coordination-problem&#34;&gt;The Distributed Coordination Problem&lt;/h2&gt;
+&lt;p&gt;In a multi-region deployment, each instance of the rate limiter sees only local traffic. Without coordination, a client can exceed the global limit by spreading requests across regions.&lt;/p&gt;
+&lt;div class=&#34;diagram-container&#34; data-diagram-type=&#34;mermaid&#34;&gt;
+  &lt;div class=&#34;mermaid&#34;&gt;
+    
+sequenceDiagram
+    participant Client
+    participant Region A
+    participant Region B
+    participant Redis
+
+    Client-&gt;&gt;Region A: Auth Request 1
+    Client-&gt;&gt;Region B: Auth Request 2
+    Region A-&gt;&gt;Redis: INCR counter
+    Region B-&gt;&gt;Redis: INCR counter
+    Redis--&gt;&gt;Region A: count=1 (allow)
+    Redis--&gt;&gt;Region B: count=2 (allow)
+    Note over Redis: Both allowed,&lt;br/&gt;but combined rate&lt;br/&gt;may exceed limit
+
+  &lt;/div&gt;
+  &lt;div class=&#34;diagram-actions&#34;&gt;
+    &lt;button class=&#34;diagram-action&#34; data-action=&#34;expand&#34; aria-label=&#34;Expand diagram&#34;&gt;
+      &lt;svg width=&#34;14&#34; height=&#34;14&#34; viewBox=&#34;0 0 24 24&#34; fill=&#34;none&#34; stroke=&#34;currentColor&#34; stroke-width=&#34;2&#34; stroke-linecap=&#34;round&#34; stroke-linejoin=&#34;round&#34;&gt;
+        &lt;polyline points=&#34;15 3 21 3 21 9&#34;&gt;&lt;/polyline&gt;
+        &lt;polyline points=&#34;9 21 3 21 3 15&#34;&gt;&lt;/polyline&gt;
+        &lt;line x1=&#34;21&#34; y1=&#34;3&#34; x2=&#34;14&#34; y2=&#34;10&#34;&gt;&lt;/line&gt;
+        &lt;line x1=&#34;3&#34; y1=&#34;21&#34; x2=&#34;10&#34; y2=&#34;14&#34;&gt;&lt;/line&gt;
+      &lt;/svg&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+
+
+&lt;div class=&#34;callout callout--insight&#34;&gt;
+  &lt;div class=&#34;callout-icon&#34;&gt;★&lt;/div&gt;
+  &lt;div class=&#34;callout-body&#34;&gt;
+    The fundamental tension: strong consistency (single Redis) adds a network hop to every authorization, while eventual consistency (local counters synced periodically) allows brief over-admission. For payment systems, brief over-admission is almost always preferable to adding latency.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;implementation-in-go&#34;&gt;Implementation in Go&lt;/h2&gt;
+&lt;p&gt;The token bucket is the right choice for our use case: O(1) operations, burst tolerance, and simple distributed coordination via atomic counters.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;type&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;TokenBucket&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kd&#34;&gt;struct&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;mu&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;       &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;sync&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Mutex&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tokens&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;   &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;float64&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;capacity&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;float64&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;rate&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;     &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;float64&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;lastTime&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Time&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tb&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;TokenBucket&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Allow&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;bool&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;mu&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Lock&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;defer&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;mu&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Unlock&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;now&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;time&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Now&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;elapsed&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;now&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Sub&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;lastTime&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;).&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Seconds&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;()&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tokens&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;math&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Min&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;capacity&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tokens&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;+&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;rate&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;*&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;elapsed&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;lastTime&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;now&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tokens&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tb&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;tokens&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;--&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;false&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;callout callout--note&#34;&gt;
+  &lt;div class=&#34;callout-icon&#34;&gt;✎&lt;/div&gt;
+  &lt;div class=&#34;callout-body&#34;&gt;
+    This implementation uses a mutex for simplicity. In production, consider &lt;code&gt;sync/atomic&lt;/code&gt; with CAS operations for lock-free performance, or a sharded bucket per goroutine with periodic merging.
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;capacity-planning&#34;&gt;Capacity Planning&lt;/h2&gt;
+&lt;p&gt;For a system processing $\lambda$ transactions per second with target rejection rate below $\epsilon$:&lt;/p&gt;
+&lt;p&gt;$$C \geq \lambda \cdot T_{\text{burst}}$$&lt;/p&gt;
+&lt;p&gt;where $T_{\text{burst}}$ is the expected burst duration.&lt;/p&gt;
+&lt;p&gt;$$r \geq \lambda \cdot (1 + \sigma)$$&lt;/p&gt;
+&lt;p&gt;where $\sigma$ is the traffic variance coefficient.&lt;/p&gt;
+&lt;p&gt;If your p99 latency budget is $L$ milliseconds and the rate limiter check takes $\delta$ ms:&lt;/p&gt;
+&lt;p&gt;$$L_{\text{remaining}} = L - \delta$$&lt;/p&gt;
+&lt;p&gt;For our authorization pipeline where $L = 200\text{ms}$ and the rate limiter adds $\delta = 0.3\text{ms}$:&lt;/p&gt;
+&lt;p&gt;$$L_{\text{remaining}} = 200 - 0.3 = 199.7\text{ms}$$&lt;/p&gt;
+&lt;p&gt;The overhead is negligible &amp;ndash; which is exactly the point. A rate limiter that measurably impacts latency is a rate limiter that needs to be redesigned.&lt;/p&gt;
+&lt;h2 id=&#34;key-takeaways&#34;&gt;Key Takeaways&lt;/h2&gt;
+
+
+&lt;div class=&#34;callout callout--info&#34;&gt;
+  &lt;div class=&#34;callout-icon&#34;&gt;ℹ&lt;/div&gt;
+  &lt;div class=&#34;callout-body&#34;&gt;
+    &lt;p&gt;&lt;strong&gt;Design decisions for payment rate limiters:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Token bucket for global protection, sliding window for per-client fairness&lt;/li&gt;
+&lt;li&gt;Local-first with async sync beats centralized coordination for latency&lt;/li&gt;
+&lt;li&gt;Set capacity from measured burst patterns, not theoretical maximums&lt;/li&gt;
+&lt;li&gt;Monitor rejection rate as a business metric, not just an infra metric&lt;/li&gt;
+&lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&#34;compare&#34;&gt;
+  
+
+&lt;div class=&#34;compare-side&#34;&gt;
+  &lt;div class=&#34;compare-title&#34;&gt;Web API Rate Limiting&lt;/div&gt;
+  &lt;div class=&#34;compare-body&#34;&gt;&lt;p&gt;Return &lt;code&gt;429 Too Many Requests&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Client retries with backoff&lt;/p&gt;
+&lt;p&gt;False positives are annoying but recoverable&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;div class=&#34;compare-side&#34;&gt;
+  &lt;div class=&#34;compare-title&#34;&gt;Payment Rate Limiting&lt;/div&gt;
+  &lt;div class=&#34;compare-body&#34;&gt;&lt;p&gt;Return decline response code in ISO 8583&lt;/p&gt;
+&lt;p&gt;No retry &amp;ndash; transaction is failed&lt;/p&gt;
+&lt;p&gt;False positives are declined cards at checkout&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+
+&lt;/div&gt;
+
+&lt;p&gt;The difference between rate limiting a REST API and rate limiting an authorization pipeline is the cost of a false positive. In payments, you are not protecting a server &amp;ndash; you are deciding whether someone&amp;rsquo;s groceries get paid for.&lt;/p&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Understanding ISO 8583 Bitmap Parsing</title>
+      <link>http://localhost:1313/writing/understanding-iso-8583-bitmap-parsing/</link>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/writing/understanding-iso-8583-bitmap-parsing/</guid>
+      <description>&lt;p&gt;Every ISO 8583 message begins with a Message Type Indicator (MTI), followed by one or two bitmaps that declare which data elements are present in the message.&lt;/p&gt;
+&lt;h2 id=&#34;what-is-a-bitmap&#34;&gt;What is a Bitmap?&lt;/h2&gt;
+&lt;p&gt;A bitmap is a binary structure where each bit position corresponds to a data element. If bit N is set to 1, data element N is present in the message. If it is 0, the element is absent.&lt;/p&gt;
+&lt;p&gt;The primary bitmap is always 64 bits (8 bytes). If bit 1 of the primary bitmap is set, a secondary bitmap follows, extending the field range from 65 to 128.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;Every ISO 8583 message begins with a Message Type Indicator (MTI), followed by one or two bitmaps that declare which data elements are present in the message.&lt;/p&gt;
+&lt;h2 id=&#34;what-is-a-bitmap&#34;&gt;What is a Bitmap?&lt;/h2&gt;
+&lt;p&gt;A bitmap is a binary structure where each bit position corresponds to a data element. If bit N is set to 1, data element N is present in the message. If it is 0, the element is absent.&lt;/p&gt;
+&lt;p&gt;The primary bitmap is always 64 bits (8 bytes). If bit 1 of the primary bitmap is set, a secondary bitmap follows, extending the field range from 65 to 128.&lt;/p&gt;
+&lt;h2 id=&#34;parsing-in-go&#34;&gt;Parsing in Go&lt;/h2&gt;
+&lt;p&gt;The parsing logic is straightforward once you understand the bit layout:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;kd&#34;&gt;func&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;ParseBitmap&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[]&lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;byte&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Bitmap&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kt&#34;&gt;error&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Bitmap&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{},&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;fmt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Errorf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;bitmap data too short: %d bytes&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;primary&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;binary&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;BigEndian&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Uint64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bm&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;:=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Bitmap&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Primary&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;primary&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;primary&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;63&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nb&#34;&gt;len&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;            &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Bitmap&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;{},&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;fmt&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Errorf&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;secondary bitmap indicated but data too short&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bm&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;Secondary&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;binary&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;BigEndian&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;Uint64&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;8&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;:&lt;/span&gt;&lt;span class=&#34;mi&#34;&gt;16&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;])&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;        &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bm&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;.&lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;HasSecondary&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;true&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;w&#34;&gt;    &lt;/span&gt;&lt;span class=&#34;k&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;nx&#34;&gt;bm&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;w&#34;&gt; &lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;nil&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;&lt;span class=&#34;w&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;The elegance of this design is that the message is self-describing. No schema negotiation, no version headers, no content-type declarations. The bitmap IS the schema.&lt;/p&gt;
+&lt;p&gt;This means a parser can handle any valid ISO 8583 message without knowing in advance which fields will be present. The bitmap tells it exactly what to expect and where to find it.&lt;/p&gt;
+&lt;h2 id=&#34;key-takeaways&#34;&gt;Key Takeaways&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Primary bitmap: bits 1-64, always present (8 bytes)&lt;/li&gt;
+&lt;li&gt;Secondary bitmap: bits 65-128, present only if bit 1 of primary is set&lt;/li&gt;
+&lt;li&gt;Each bit maps to one data element by position&lt;/li&gt;
+&lt;li&gt;Bit numbering starts at 1, not 0 (bit 1 is the MSB of the first byte)&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+    <item>
+      <title>Why UUIDs Matter for Idempotency</title>
+      <link>http://localhost:1313/writing/why-uuids-matter-for-idempotency/</link>
+      <pubDate>Fri, 20 Feb 2026 00:00:00 &#43;0000</pubDate>
+      <guid isPermaLink="true">http://localhost:1313/writing/why-uuids-matter-for-idempotency/</guid>
+      <description>&lt;p&gt;In payment processing, processing the same authorization twice is worse than rejecting it. A customer charged twice loses trust immediately. Idempotency keys prevent this.&lt;/p&gt;
+&lt;h2 id=&#34;the-problem&#34;&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;A client sends an authorization request. The network drops the response. The client retries. Without idempotency, the server processes the authorization again, resulting in a double charge.&lt;/p&gt;
+&lt;h2 id=&#34;uuids-as-idempotency-keys&#34;&gt;UUIDs as Idempotency Keys&lt;/h2&gt;
+&lt;p&gt;The client generates a UUID before the first attempt and includes it in every retry. The server checks: have I seen this UUID before? If yes, return the original response. If no, process the request and store the UUID with its response.&lt;/p&gt;</description>
+      <content:encoded>&lt;p&gt;In payment processing, processing the same authorization twice is worse than rejecting it. A customer charged twice loses trust immediately. Idempotency keys prevent this.&lt;/p&gt;
+&lt;h2 id=&#34;the-problem&#34;&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;A client sends an authorization request. The network drops the response. The client retries. Without idempotency, the server processes the authorization again, resulting in a double charge.&lt;/p&gt;
+&lt;h2 id=&#34;uuids-as-idempotency-keys&#34;&gt;UUIDs as Idempotency Keys&lt;/h2&gt;
+&lt;p&gt;The client generates a UUID before the first attempt and includes it in every retry. The server checks: have I seen this UUID before? If yes, return the original response. If no, process the request and store the UUID with its response.&lt;/p&gt;
+&lt;h2 id=&#34;why-uuid-v7&#34;&gt;Why UUID v7&lt;/h2&gt;
+&lt;p&gt;UUID v7 embeds a Unix timestamp in the first 48 bits, followed by random bits. This gives you:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Chronological ordering&lt;/strong&gt;: UUIDs sort by creation time, which makes database indexes efficient&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Uniqueness&lt;/strong&gt;: the random component prevents collisions even at high throughput&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Expiry&lt;/strong&gt;: you can garbage-collect old idempotency records by inspecting the embedded timestamp&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;key-takeaways&#34;&gt;Key Takeaways&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Idempotency keys prevent duplicate processing in distributed systems&lt;/li&gt;
+&lt;li&gt;UUID v7 provides time-ordered uniqueness without coordination&lt;/li&gt;
+&lt;li&gt;The embedded timestamp enables efficient cleanup of expired records&lt;/li&gt;
+&lt;li&gt;Always generate the idempotency key client-side, never server-side&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded>
+      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+    </item>
+    
+  </channel>
+</rss>

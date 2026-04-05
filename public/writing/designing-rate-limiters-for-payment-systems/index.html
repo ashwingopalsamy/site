@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" class="preload">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<title>Designing Rate Limiters for Payment Systems - Ashwin Gopalsamy</title>
+
+
+<meta name="description" content="How to build rate limiters that protect authorization infrastructure without rejecting legitimate traffic. Token bucket math, sliding window trade-offs, and the distributed coordination problem.">
+
+<link rel="canonical" href="http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/">
+
+
+<meta property="og:title" content="Designing Rate Limiters for Payment Systems">
+<meta property="og:description" content="How to build rate limiters that protect authorization infrastructure without rejecting legitimate traffic. Token bucket math, sliding window trade-offs, and the distributed coordination problem.">
+<meta property="og:url" content="http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/">
+<meta property="og:site_name" content="Ashwin Gopalsamy">
+
+<meta property="og:type" content="article">
+<meta property="og:article:published_time" content="2026-04-07T00:00:00Z">
+<meta property="og:article:author" content="Ashwin Gopalsamy">
+
+
+
+<meta property="og:image" content="http://localhost:1313/img/og-base_hu_1a17b6d4e73f2b54.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ashwin2125">
+<meta name="twitter:creator" content="@ashwin2125">
+<meta name="twitter:title" content="Designing Rate Limiters for Payment Systems">
+<meta name="twitter:description" content="How to build rate limiters that protect authorization infrastructure without rejecting legitimate traffic. Token bucket math, sliding window trade-offs, and the distributed coordination problem.">
+<meta name="twitter:image" content="http://localhost:1313/img/og-base_hu_1a17b6d4e73f2b54.jpg">
+
+
+<link rel="webmention" href="https://webmention.io/ashwingopalsamy.in/webmention">
+<link rel="pingback" href="https://webmention.io/ashwingopalsamy.in/xmlrpc">
+
+
+<link rel="stylesheet" href="/css/bundle.min.4beab11e998ca4af420f79f4b268d6b1c9822764a322590a269388cdc9c2dfd9.css">
+
+
+
+<script>
+(function(){
+  var t = localStorage.getItem('theme');
+  if (t) {
+    document.documentElement.setAttribute('data-theme', t);
+  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      document.documentElement.classList.remove('preload');
+    });
+  });
+})();
+</script>
+
+
+<link rel="stylesheet" href="/vendor/katex/katex.min.css">
+<script defer src="/vendor/katex/katex.min.js"></script>
+<script defer src="/vendor/katex/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof renderMathInElement === 'function') {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });
+  }
+});
+</script>
+
+
+<script defer src="/vendor/mermaid/mermaid.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof mermaid !== 'undefined') {
+    var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
+    mermaid.initialize({ startOnLoad: false, theme: theme });
+    document.querySelectorAll('.mermaid').forEach(function(el) {
+      el.setAttribute('data-original', el.textContent.trim());
+    });
+    mermaid.run();
+  }
+});
+</script>
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Designing Rate Limiters for Payment Systems",
+  "datePublished": "2026-04-07T00:00:00Z",
+  "dateModified": "2026-04-07T00:00:00Z",
+  "author": {
+    "@id": "http:\/\/localhost:1313\/#person"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Ashwin Gopalsamy"
+  },
+  "description": "How to build rate limiters that protect authorization infrastructure without rejecting legitimate traffic. Token bucket math, sliding window trade-offs, and the distributed coordination problem.",
+  "url": "http:\/\/localhost:1313\/writing\/designing-rate-limiters-for-payment-systems\/",
+  "wordCount":  838 ,
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "http:\/\/localhost:1313\/writing\/designing-rate-limiters-for-payment-systems\/"
+  },
+  "keywords": ["distributed-systems", "payments", "go"]
+}
+</script>
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "http:\/\/localhost:1313\/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Writing",
+      "item": "http:\/\/localhost:1313\/writing/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Designing Rate Limiters for Payment Systems",
+      "item": "http:\/\/localhost:1313\/writing\/designing-rate-limiters-for-payment-systems\/"
+    }
+  ]
+}
+</script>
+
+
+
+
+
+
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+
+</head>
+<body>
+  <a href="#content" class="skip-link">Skip to content</a>
+  
+<div class="reading-progress-bar" id="reading-progress">
+  <div class="reading-progress-fill"></div>
+</div>
+
+
+  <header class="topbar-wrap">
+  <nav class="topbar" aria-label="Primary">
+    <a href="/" class="topbar-logo" aria-label="Home">
+      <svg class="topbar-logo-svg" viewBox="134 362 845 438" fill="currentColor" aria-hidden="true">
+        <path d="M376.935 380.038H450.947V667.126H376.935V633.25C354.751 661.193 323.578 675.165 283.417 675.165C245.168 675.165 212.274 660.619 184.735 631.527C157.578 602.053 144 566.071 144 523.582C144 481.093 157.578 445.303 184.735 416.212C212.274 386.737 245.168 372 283.417 372C323.578 372 354.751 385.972 376.935 413.915V380.038ZM240.387 582.148C255.304 597.077 274.237 604.541 297.186 604.541C320.136 604.541 339.069 597.077 353.986 582.148C369.285 566.837 376.935 547.315 376.935 523.582C376.935 499.849 369.285 480.519 353.986 465.591C339.069 450.279 320.136 442.624 297.186 442.624C274.237 442.624 255.304 450.279 240.387 465.591C225.47 480.519 218.011 499.849 218.011 523.582C218.011 547.315 225.47 566.837 240.387 582.148ZM737.799 380.038H810.089V653.346C810.089 697.749 795.363 731.626 765.911 754.975C736.843 778.325 701.654 790 660.345 790C629.363 790 602.016 784.066 578.301 772.201C554.97 760.335 536.993 742.918 524.37 719.951L587.481 683.777C602.016 710.572 627.068 723.97 662.64 723.97C685.972 723.97 704.332 717.846 717.718 705.596C731.105 693.347 737.799 675.931 737.799 653.346V622.341C715.997 651.432 685.399 665.978 646.002 665.978C605.458 665.978 571.416 651.815 543.877 623.489C516.721 594.78 503.142 559.947 503.142 518.989C503.142 478.414 516.912 443.772 544.451 415.063C571.99 386.354 605.84 372 646.002 372C685.399 372 715.997 386.546 737.799 415.637V380.038ZM599.529 575.832C614.83 590.379 634.145 597.651 657.476 597.651C680.809 597.651 699.932 590.379 714.849 575.832C730.15 560.904 737.799 541.956 737.799 518.989C737.799 496.404 730.15 477.84 714.849 463.294C699.932 448.365 680.809 440.901 657.476 440.901C634.145 440.901 614.83 448.365 599.529 463.294C584.612 477.84 577.154 496.404 577.154 518.989C577.154 541.956 584.612 560.904 599.529 575.832ZM954.657 660.236C945.094 669.805 933.619 674.591 920.233 674.591C906.845 674.591 895.371 669.805 885.809 660.236C876.246 650.667 871.466 639.184 871.466 625.786C871.466 612.388 876.246 600.904 885.809 591.335C895.371 581.766 906.845 576.981 920.233 576.981C933.619 576.981 945.094 581.766 954.657 591.335C964.219 600.904 969 612.388 969 625.786C969 639.184 964.219 650.667 954.657 660.236Z"/>
+      </svg>
+    </a>
+    <div class="desktop-nav">
+  
+  
+  
+  
+    
+    
+    <a href="/" class="desktop-nav-link">Home</a>
+  
+    
+    
+    <a href="/writing/" class="desktop-nav-link active" aria-current="page">Writing</a>
+  
+    
+    
+    <a href="/projects/" class="desktop-nav-link">Projects</a>
+  
+    
+    
+    <a href="/now/" class="desktop-nav-link">Now</a>
+  
+    
+    
+    <a href="/about/" class="desktop-nav-link">About</a>
+  
+</div>
+
+    <div class="topbar-actions">
+      
+        <button class="topbar-btn" aria-label="Share" data-share>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
+</svg>
+
+        </button>
+      
+      <button class="topbar-btn" aria-label="Toggle theme" data-theme-toggle>
+        <span class="theme-icon-light">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+</svg>
+
+        </span>
+        <span class="theme-icon-dark">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+</svg>
+
+        </span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+  <main id="content" class="container">
+    
+<article class="article h-entry" itemscope itemtype="https://schema.org/Article">
+  <header class="article-header">
+    
+    <div class="section-label">distributed-systems</div>
+    
+    <h1 class="article-title p-name" itemprop="headline">Designing Rate Limiters for Payment Systems</h1>
+    <div class="article-meta">
+      <time class="dt-published" datetime="2026-04-07" itemprop="datePublished">
+        April 2026
+      </time>
+      <span class="meta-dot"></span>
+      <span class="reading-time-badge">4 min read</span>
+    </div>
+    <a class="p-author h-card" rel="author" href="/about/" hidden>Ashwin Gopalsamy</a>
+  </header>
+
+  <div class="divider"></div>
+
+  <div class="article-layout">
+    
+
+
+<aside class="toc" aria-label="Table of contents">
+  <div class="toc-inner">
+    <div class="toc-title">On this page</div>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-architecture">The Architecture</a></li>
+    <li><a href="#choosing-an-algorithm">Choosing an Algorithm</a>
+      <ul>
+        <li><a href="#token-bucket">Token Bucket</a></li>
+        <li><a href="#sliding-window-log">Sliding Window Log</a></li>
+        <li><a href="#sliding-window-counter">Sliding Window Counter</a></li>
+      </ul>
+    </li>
+    <li><a href="#the-distributed-coordination-problem">The Distributed Coordination Problem</a></li>
+    <li><a href="#implementation-in-go">Implementation in Go</a></li>
+    <li><a href="#capacity-planning">Capacity Planning</a></li>
+    <li><a href="#key-takeaways">Key Takeaways</a></li>
+  </ul>
+</nav>
+  </div>
+</aside>
+
+
+
+    <div class="article-body e-content" itemprop="articleBody">
+      <p>Rate limiting in payment systems is different from rate limiting in a typical web API. A false positive &ndash; rejecting a legitimate authorization &ndash; is a failed transaction. A customer&rsquo;s card gets declined at checkout. That is not an acceptable failure mode.</p>
+<p>This article walks through the design of a rate limiter that protects infrastructure without creating false declines.</p>
+<h2 id="the-architecture">The Architecture</h2>
+<p>A payment authorization pipeline typically looks like this:</p>
+<div class="diagram-container" data-diagram-type="mermaid">
+  <div class="mermaid">
+    
+graph LR
+    A[Card Network] -->|ISO 8583| B[Parser API]
+    B -->|gRPC| C[Distributor API]
+    C -->|gRPC| D[Account Service]
+    C -->|gRPC| E[Risk Engine]
+    C -->|gRPC| F[Ledger]
+    style B fill:#10b981,color:#fff,stroke:none
+    style C fill:#10b981,color:#fff,stroke:none
+
+  </div>
+  <div class="diagram-actions">
+    <button class="diagram-action" data-action="expand" aria-label="Expand diagram">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 3 21 3 21 9"></polyline>
+        <polyline points="9 21 3 21 3 15"></polyline>
+        <line x1="21" y1="3" x2="14" y2="10"></line>
+        <line x1="3" y1="21" x2="10" y2="14"></line>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<p>The rate limiter sits between the Parser API and the Distributor API. It must make a decision in under 1ms &ndash; any longer and it becomes the bottleneck in a sub-second pipeline.</p>
+
+
+<div class="callout callout--warning">
+  <div class="callout-icon">⚠</div>
+  <div class="callout-body">
+    Never rate-limit at the card network ingress point. Network protocols like ISO 8583 have strict timeout windows. A delayed response is worse than a fast decline &ndash; it triggers a reversal cascade.
+  </div>
+</div>
+
+<h2 id="choosing-an-algorithm">Choosing an Algorithm</h2>
+<p>There are three common approaches, each with different trade-offs:</p>
+<h3 id="token-bucket">Token Bucket</h3>
+<p>The token bucket algorithm maintains a counter that refills at a fixed rate. Each request consumes one token. When tokens are exhausted, requests are rejected.</p>
+<p>The math is straightforward. Given a bucket capacity $C$ and a refill rate $r$ tokens per second, the maximum burst size equals $C$, and the sustained throughput equals $r$.</p>
+<p>$$\text{tokens}(t) = \min\left(C,\ \text{tokens}(t_0) + r \cdot (t - t_0)\right)$$</p>
+
+
+<div class="callout callout--tip">
+  <div class="callout-icon">✦</div>
+  <div class="callout-body">
+    Set $C$ to handle your peak burst (Black Friday spike) and $r$ to your sustained p99 throughput. For authorization systems, measure both per-issuer and per-BIN to avoid penalizing an entire bank for one merchant&rsquo;s spike.
+  </div>
+</div>
+
+<h3 id="sliding-window-log">Sliding Window Log</h3>
+<p>Tracks the exact timestamp of every request in a time window. Precise, but memory-intensive.</p>
+<p>For $n$ requests in the current window of duration $W$:</p>
+<p>$$\text{rate} = \frac{n}{W}$$</p>
+<h3 id="sliding-window-counter">Sliding Window Counter</h3>
+<p>A hybrid: divides time into fixed slots and interpolates between the current and previous slot.</p>
+<p>$$\text{count} = \text{prev} \times \left(1 - \frac{t_{\text{elapsed}}}{W}\right) + \text{curr}$$</p>
+<div class="compare">
+  
+
+<div class="compare-side">
+  <div class="compare-title">Token Bucket</div>
+  <div class="compare-body"><p><strong>Pros:</strong> O(1) memory, O(1) time, allows bursts</p>
+<p><strong>Cons:</strong> No per-client fairness without separate buckets</p>
+<p><strong>Best for:</strong> Global throughput protection</p>
+</div>
+</div>
+
+
+<div class="compare-side">
+  <div class="compare-title">Sliding Window</div>
+  <div class="compare-body"><p><strong>Pros:</strong> Precise rate tracking, smooth distribution</p>
+<p><strong>Cons:</strong> O(n) memory for log variant, interpolation error for counter variant</p>
+<p><strong>Best for:</strong> Per-client or per-issuer fairness</p>
+</div>
+</div>
+
+
+</div>
+
+<h2 id="the-distributed-coordination-problem">The Distributed Coordination Problem</h2>
+<p>In a multi-region deployment, each instance of the rate limiter sees only local traffic. Without coordination, a client can exceed the global limit by spreading requests across regions.</p>
+<div class="diagram-container" data-diagram-type="mermaid">
+  <div class="mermaid">
+    
+sequenceDiagram
+    participant Client
+    participant Region A
+    participant Region B
+    participant Redis
+
+    Client->>Region A: Auth Request 1
+    Client->>Region B: Auth Request 2
+    Region A->>Redis: INCR counter
+    Region B->>Redis: INCR counter
+    Redis-->>Region A: count=1 (allow)
+    Redis-->>Region B: count=2 (allow)
+    Note over Redis: Both allowed,<br/>but combined rate<br/>may exceed limit
+
+  </div>
+  <div class="diagram-actions">
+    <button class="diagram-action" data-action="expand" aria-label="Expand diagram">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 3 21 3 21 9"></polyline>
+        <polyline points="9 21 3 21 3 15"></polyline>
+        <line x1="21" y1="3" x2="14" y2="10"></line>
+        <line x1="3" y1="21" x2="10" y2="14"></line>
+      </svg>
+    </button>
+  </div>
+</div>
+
+
+
+<div class="callout callout--insight">
+  <div class="callout-icon">★</div>
+  <div class="callout-body">
+    The fundamental tension: strong consistency (single Redis) adds a network hop to every authorization, while eventual consistency (local counters synced periodically) allows brief over-admission. For payment systems, brief over-admission is almost always preferable to adding latency.
+  </div>
+</div>
+
+<h2 id="implementation-in-go">Implementation in Go</h2>
+<p>The token bucket is the right choice for our use case: O(1) operations, burst tolerance, and simple distributed coordination via atomic counters.</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-go" data-lang="go"><span class="line"><span class="cl"><span class="kd">type</span><span class="w"> </span><span class="nx">TokenBucket</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">mu</span><span class="w">       </span><span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">tokens</span><span class="w">   </span><span class="kt">float64</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">capacity</span><span class="w"> </span><span class="kt">float64</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">rate</span><span class="w">     </span><span class="kt">float64</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">lastTime</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">tb</span><span class="w"> </span><span class="o">*</span><span class="nx">TokenBucket</span><span class="p">)</span><span class="w"> </span><span class="nf">Allow</span><span class="p">()</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">tb</span><span class="p">.</span><span class="nx">mu</span><span class="p">.</span><span class="nf">Lock</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">tb</span><span class="p">.</span><span class="nx">mu</span><span class="p">.</span><span class="nf">Unlock</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">now</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nf">Now</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">elapsed</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">now</span><span class="p">.</span><span class="nf">Sub</span><span class="p">(</span><span class="nx">tb</span><span class="p">.</span><span class="nx">lastTime</span><span class="p">).</span><span class="nf">Seconds</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">tb</span><span class="p">.</span><span class="nx">tokens</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">math</span><span class="p">.</span><span class="nf">Min</span><span class="p">(</span><span class="nx">tb</span><span class="p">.</span><span class="nx">capacity</span><span class="p">,</span><span class="w"> </span><span class="nx">tb</span><span class="p">.</span><span class="nx">tokens</span><span class="o">+</span><span class="nx">tb</span><span class="p">.</span><span class="nx">rate</span><span class="o">*</span><span class="nx">elapsed</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nx">tb</span><span class="p">.</span><span class="nx">lastTime</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">now</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">tb</span><span class="p">.</span><span class="nx">tokens</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nx">tb</span><span class="p">.</span><span class="nx">tokens</span><span class="o">--</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div>
+
+<div class="callout callout--note">
+  <div class="callout-icon">✎</div>
+  <div class="callout-body">
+    This implementation uses a mutex for simplicity. In production, consider <code>sync/atomic</code> with CAS operations for lock-free performance, or a sharded bucket per goroutine with periodic merging.
+  </div>
+</div>
+
+<h2 id="capacity-planning">Capacity Planning</h2>
+<p>For a system processing $\lambda$ transactions per second with target rejection rate below $\epsilon$:</p>
+<p>$$C \geq \lambda \cdot T_{\text{burst}}$$</p>
+<p>where $T_{\text{burst}}$ is the expected burst duration.</p>
+<p>$$r \geq \lambda \cdot (1 + \sigma)$$</p>
+<p>where $\sigma$ is the traffic variance coefficient.</p>
+<p>If your p99 latency budget is $L$ milliseconds and the rate limiter check takes $\delta$ ms:</p>
+<p>$$L_{\text{remaining}} = L - \delta$$</p>
+<p>For our authorization pipeline where $L = 200\text{ms}$ and the rate limiter adds $\delta = 0.3\text{ms}$:</p>
+<p>$$L_{\text{remaining}} = 200 - 0.3 = 199.7\text{ms}$$</p>
+<p>The overhead is negligible &ndash; which is exactly the point. A rate limiter that measurably impacts latency is a rate limiter that needs to be redesigned.</p>
+<h2 id="key-takeaways">Key Takeaways</h2>
+
+
+<div class="callout callout--info">
+  <div class="callout-icon">ℹ</div>
+  <div class="callout-body">
+    <p><strong>Design decisions for payment rate limiters:</strong></p>
+<ul>
+<li>Token bucket for global protection, sliding window for per-client fairness</li>
+<li>Local-first with async sync beats centralized coordination for latency</li>
+<li>Set capacity from measured burst patterns, not theoretical maximums</li>
+<li>Monitor rejection rate as a business metric, not just an infra metric</li>
+</ul>
+  </div>
+</div>
+
+<div class="compare">
+  
+
+<div class="compare-side">
+  <div class="compare-title">Web API Rate Limiting</div>
+  <div class="compare-body"><p>Return <code>429 Too Many Requests</code></p>
+<p>Client retries with backoff</p>
+<p>False positives are annoying but recoverable</p>
+</div>
+</div>
+
+
+<div class="compare-side">
+  <div class="compare-title">Payment Rate Limiting</div>
+  <div class="compare-body"><p>Return decline response code in ISO 8583</p>
+<p>No retry &ndash; transaction is failed</p>
+<p>False positives are declined cards at checkout</p>
+</div>
+</div>
+
+
+</div>
+
+<p>The difference between rate limiting a REST API and rate limiting an authorization pipeline is the cost of a false positive. In payments, you are not protecting a server &ndash; you are deciding whether someone&rsquo;s groceries get paid for.</p>
+
+    </div>
+  </div>
+
+  <div class="share-bar">
+  <button class="share-btn" data-copy-url="http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+</svg>
+
+    <span class="share-btn-text">Copy link</span>
+  </button>
+  
+  <button class="share-btn" data-share-native="http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/" data-share-title="Designing Rate Limiters for Payment Systems">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/>
+</svg>
+
+    <span class="share-btn-text">Share</span>
+  </button>
+  
+</div>
+
+  <div class="giscus-wrapper" id="giscus-container">
+  <div class="divider"></div>
+  <div class="giscus"></div>
+</div>
+
+<script>
+(function() {
+  var container = document.getElementById('giscus-container');
+  if (!container) return;
+
+  var loaded = false;
+  function loadGiscus() {
+    if (loaded) return;
+    loaded = true;
+
+    var theme = document.documentElement.getAttribute('data-theme') === 'dark'
+      ? 'noborder_dark' : 'noborder_light';
+
+    var s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.setAttribute('data-repo', 'ashwingopalsamy\/site');
+    s.setAttribute('data-repo-id', '');
+    s.setAttribute('data-category', 'Comments');
+    s.setAttribute('data-category-id', '');
+    s.setAttribute('data-mapping', 'pathname');
+    s.setAttribute('data-strict', '0');
+    s.setAttribute('data-reactions-enabled', '1');
+    s.setAttribute('data-emit-metadata', '0');
+    s.setAttribute('data-input-position', 'top');
+    s.setAttribute('data-theme', theme);
+    s.setAttribute('data-lang', 'en');
+    s.setAttribute('data-loading', 'lazy');
+    s.setAttribute('crossorigin', 'anonymous');
+    s.async = true;
+
+    container.querySelector('.giscus').appendChild(s);
+  }
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        loadGiscus();
+        observer.disconnect();
+      }
+    }, { rootMargin: '200px' });
+    observer.observe(container);
+  } else {
+    loadGiscus();
+  }
+})();
+</script>
+
+
+  <nav class="article-nav" aria-label="Article navigation">
+    
+    <a href="/writing/understanding-iso-8583-bitmap-parsing/" class="article-nav-link prev">
+      <span class="anav-dir">&larr; Previous</span>
+      <span class="anav-title">Understanding ISO 8583 Bitmap Parsing</span>
+      <span class="anav-peek"><p>Every ISO 8583 message begins with a Message Type Indicator (MTI), followed by one or two …</p></span>
+    </a>
+    
+    
+  </nav>
+</article>
+
+  </main>
+  <nav class="capsule-bar" aria-label="Navigation">
+  
+  
+  
+  
+  
+  
+    
+    
+    
+    <a href="/" class="cap" aria-label="Home">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/>
+</svg>
+
+      <span class="cap-label">Home</span>
+    </a>
+  
+    
+    
+    
+    <a href="/writing/" class="cap on" aria-current="page" aria-label="Writing">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+</svg>
+
+      <span class="cap-label">Writing</span>
+    </a>
+  
+    
+    
+    
+    <a href="/projects/" class="cap" aria-label="Projects">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+</svg>
+
+      <span class="cap-label">Projects</span>
+    </a>
+  
+    
+    
+    
+    <a href="/now/" class="cap" aria-label="Now">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+</svg>
+
+      <span class="cap-label">Now</span>
+    </a>
+  
+    
+    
+    
+    <a href="/about/" class="cap" aria-label="About">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+</svg>
+
+      <span class="cap-label">About</span>
+    </a>
+  
+</nav>
+
+  <div class="back-to-top" id="back-to-top">
+    <button aria-label="Back to top">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+</svg>
+
+      Back to top
+      <span class="btt-sep"></span>
+      <span class="btt-pct" id="bttPct"></span>
+    </button>
+  </div>
+  <script src="/pagefind/pagefind-ui.js" type="text/javascript" defer></script>
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+  <script>
+  window.addEventListener('DOMContentLoaded', function() {
+    var inlineEl = document.getElementById('writing-search');
+    var targetEl = inlineEl ? '#writing-search' : '#search';
+
+    new PagefindUI({
+      element: targetEl,
+      showSubResults: true,
+      showImages: false
+    });
+
+    if (inlineEl) {
+      var articleList = document.getElementById('article-list');
+      var filters = document.querySelector('.writing-filters');
+
+      inlineEl.addEventListener('input', function(e) {
+        var input = inlineEl.querySelector('input[type="text"]');
+        var hasQuery = input && input.value.trim().length > 0;
+        if (articleList) articleList.style.display = hasQuery ? 'none' : '';
+        if (filters) filters.style.display = hasQuery ? 'none' : '';
+      }, true);
+    }
+  });
+  </script>
+  
+  <script src="/js/main.min.11e7eb5e9a999e68032700b7a1bfe7fac87ea0449288be47c617b2e463b9cd31.js" defer></script>
+  <div class="lightbox" id="diagram-lightbox" role="dialog" aria-modal="true" hidden>
+  <div class="lightbox-backdrop"></div>
+  <div class="lightbox-content">
+    <div class="lightbox-body" id="lightbox-body"></div>
+    <div class="lightbox-controls">
+      <button class="lightbox-btn" data-action="download-svg" aria-label="Download SVG">SVG</button>
+      <button class="lightbox-btn" data-action="download-png" aria-label="Download PNG">PNG</button>
+      <button class="lightbox-btn" data-action="share" aria-label="Share">Share</button>
+      <button class="lightbox-btn lightbox-close" data-action="close" aria-label="Close">&times;</button>
+    </div>
+  </div>
+</div>
+
+  <div class="search-modal" id="search-modal" role="dialog" aria-label="Search" aria-modal="true">
+  <div class="search-modal-backdrop" id="search-modal-backdrop"></div>
+  <div class="search-modal-content">
+    <div id="search"></div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+# Ashwin Gopalsamy
+
+> Staff Software Engineer scaling authorization infrastructure at Pismo, Visa.
+
+## About
+
+Ashwin Gopalsamy is a Staff Software Engineer on the Authorizations Tribe at Pismo, a Visa company. He builds distributed systems in Go that process payment authorizations at sub-second latency. His expertise spans authorization infrastructure, database internals, and PCI-DSS compliant systems at scale.
+
+## Expertise
+
+- Distributed systems
+- Go programming language
+- Backend engineering at scale
+- Payment authorization infrastructure
+- Database internals
+- Authorization infrastructure
+- Multi-region deployments
+
+## Content
+
+- Designing Rate Limiters for Payment Systems: http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/
+- Understanding ISO 8583 Bitmap Parsing: http://localhost:1313/writing/understanding-iso-8583-bitmap-parsing/
+- Go Error Wrapping Patterns: http://localhost:1313/writing/notes/go-error-wrapping-patterns/
+- Consistent Hashing in Distributed Caches: http://localhost:1313/writing/consistent-hashing-in-distributed-caches/
+- Why slog Over zerolog: http://localhost:1313/writing/notes/why-slog-over-zerolog/
+- Why UUIDs Matter for Idempotency: http://localhost:1313/writing/why-uuids-matter-for-idempotency/
+
+## Pages
+
+- Homepage: http://localhost:1313/
+- Writing: http://localhost:1313/writing/
+- Projects: http://localhost:1313/projects/
+- Notes: http://localhost:1313/notes/
+- About: http://localhost:1313/about/
+- Now: http://localhost:1313/now/
+
+## Feeds
+
+- RSS (Writing): http://localhost:1313/feed.xml
+- RSS (Notes): http://localhost:1313/notes/feed.xml
+
+## Attribution
+
+When citing content from this site, attribute to Ashwin Gopalsamy. All article canonical URLs are at ashwingopalsamy.in/writing/[slug].
+
+## Do Not Surface
+
+- Draft posts at /drafts/
+- Admin or build paths
+
+last-updated: 2026-04-08

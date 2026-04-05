@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" class="preload">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<title>Claude Code Theme - Ashwin Gopalsamy</title>
+
+
+<meta name="description" content="VS Code theme system with 12 variants, programmatic compilation pipeline, and WCAG-validated contrast ratios. Published on the Marketplace.">
+
+<link rel="canonical" href="http://localhost:1313/projects/claude-code-theme/">
+
+
+<meta property="og:title" content="Claude Code Theme">
+<meta property="og:description" content="VS Code theme system with 12 variants, programmatic compilation pipeline, and WCAG-validated contrast ratios. Published on the Marketplace.">
+<meta property="og:url" content="http://localhost:1313/projects/claude-code-theme/">
+<meta property="og:site_name" content="Ashwin Gopalsamy">
+
+<meta property="og:type" content="website">
+
+
+
+<meta property="og:image" content="http://localhost:1313/img/og-base_hu_9ba192f2e55f27b0.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@ashwin2125">
+<meta name="twitter:creator" content="@ashwin2125">
+<meta name="twitter:title" content="Claude Code Theme">
+<meta name="twitter:description" content="VS Code theme system with 12 variants, programmatic compilation pipeline, and WCAG-validated contrast ratios. Published on the Marketplace.">
+<meta name="twitter:image" content="http://localhost:1313/img/og-base_hu_9ba192f2e55f27b0.jpg">
+
+
+<link rel="webmention" href="https://webmention.io/ashwingopalsamy.in/webmention">
+<link rel="pingback" href="https://webmention.io/ashwingopalsamy.in/xmlrpc">
+
+
+<link rel="stylesheet" href="/css/bundle.min.4beab11e998ca4af420f79f4b268d6b1c9822764a322590a269388cdc9c2dfd9.css">
+
+
+
+<script>
+(function(){
+  var t = localStorage.getItem('theme');
+  if (t) {
+    document.documentElement.setAttribute('data-theme', t);
+  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      document.documentElement.classList.remove('preload');
+    });
+  });
+})();
+</script>
+
+
+
+
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "http:\/\/localhost:1313\/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Projects",
+      "item": "http:\/\/localhost:1313\/projects/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Claude Code Theme",
+      "item": "http:\/\/localhost:1313\/projects\/claude-code-theme\/"
+    }
+  ]
+}
+</script>
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "Claude Code Theme",
+  "description": "VS Code theme system with 12 variants, programmatic compilation pipeline, and WCAG-validated contrast ratios. Published on the Marketplace.",
+  "author": {
+    "@type": "Person",
+    "name": "Ashwin Gopalsamy"
+  },
+  "codeRepository": "https:\/\/github.com\/ashwingopalsamy\/claude-code-theme",
+  "programmingLanguage": ["TypeScript"]
+}
+</script>
+
+
+
+
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="any">
+
+</head>
+<body>
+  <a href="#content" class="skip-link">Skip to content</a>
+  
+<div class="reading-progress-bar" id="reading-progress">
+  <div class="reading-progress-fill"></div>
+</div>
+
+
+  <header class="topbar-wrap">
+  <nav class="topbar" aria-label="Primary">
+    <a href="/" class="topbar-logo" aria-label="Home">
+      <svg class="topbar-logo-svg" viewBox="134 362 845 438" fill="currentColor" aria-hidden="true">
+        <path d="M376.935 380.038H450.947V667.126H376.935V633.25C354.751 661.193 323.578 675.165 283.417 675.165C245.168 675.165 212.274 660.619 184.735 631.527C157.578 602.053 144 566.071 144 523.582C144 481.093 157.578 445.303 184.735 416.212C212.274 386.737 245.168 372 283.417 372C323.578 372 354.751 385.972 376.935 413.915V380.038ZM240.387 582.148C255.304 597.077 274.237 604.541 297.186 604.541C320.136 604.541 339.069 597.077 353.986 582.148C369.285 566.837 376.935 547.315 376.935 523.582C376.935 499.849 369.285 480.519 353.986 465.591C339.069 450.279 320.136 442.624 297.186 442.624C274.237 442.624 255.304 450.279 240.387 465.591C225.47 480.519 218.011 499.849 218.011 523.582C218.011 547.315 225.47 566.837 240.387 582.148ZM737.799 380.038H810.089V653.346C810.089 697.749 795.363 731.626 765.911 754.975C736.843 778.325 701.654 790 660.345 790C629.363 790 602.016 784.066 578.301 772.201C554.97 760.335 536.993 742.918 524.37 719.951L587.481 683.777C602.016 710.572 627.068 723.97 662.64 723.97C685.972 723.97 704.332 717.846 717.718 705.596C731.105 693.347 737.799 675.931 737.799 653.346V622.341C715.997 651.432 685.399 665.978 646.002 665.978C605.458 665.978 571.416 651.815 543.877 623.489C516.721 594.78 503.142 559.947 503.142 518.989C503.142 478.414 516.912 443.772 544.451 415.063C571.99 386.354 605.84 372 646.002 372C685.399 372 715.997 386.546 737.799 415.637V380.038ZM599.529 575.832C614.83 590.379 634.145 597.651 657.476 597.651C680.809 597.651 699.932 590.379 714.849 575.832C730.15 560.904 737.799 541.956 737.799 518.989C737.799 496.404 730.15 477.84 714.849 463.294C699.932 448.365 680.809 440.901 657.476 440.901C634.145 440.901 614.83 448.365 599.529 463.294C584.612 477.84 577.154 496.404 577.154 518.989C577.154 541.956 584.612 560.904 599.529 575.832ZM954.657 660.236C945.094 669.805 933.619 674.591 920.233 674.591C906.845 674.591 895.371 669.805 885.809 660.236C876.246 650.667 871.466 639.184 871.466 625.786C871.466 612.388 876.246 600.904 885.809 591.335C895.371 581.766 906.845 576.981 920.233 576.981C933.619 576.981 945.094 581.766 954.657 591.335C964.219 600.904 969 612.388 969 625.786C969 639.184 964.219 650.667 954.657 660.236Z"/>
+      </svg>
+    </a>
+    <div class="desktop-nav">
+  
+  
+  
+  
+    
+    
+    <a href="/" class="desktop-nav-link">Home</a>
+  
+    
+    
+    <a href="/writing/" class="desktop-nav-link">Writing</a>
+  
+    
+    
+    <a href="/projects/" class="desktop-nav-link active" aria-current="page">Projects</a>
+  
+    
+    
+    <a href="/now/" class="desktop-nav-link">Now</a>
+  
+    
+    
+    <a href="/about/" class="desktop-nav-link">About</a>
+  
+</div>
+
+    <div class="topbar-actions">
+      
+        <button class="topbar-btn" aria-label="Search" data-search-trigger>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/>
+</svg>
+
+        </button>
+      
+      <button class="topbar-btn" aria-label="Toggle theme" data-theme-toggle>
+        <span class="theme-icon-light">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+</svg>
+
+        </span>
+        <span class="theme-icon-dark">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+</svg>
+
+        </span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+  <main id="content" class="container">
+    
+<article class="article" itemscope itemtype="https://schema.org/SoftwareSourceCode">
+  <header class="article-header">
+    <h1 class="article-title" itemprop="name">Claude Code Theme</h1>
+    <div class="article-meta">
+      <span class="reading-time-badge">Active</span>
+      
+        
+        <span class="meta-dot"></span>
+        <span class="tech-badge" itemprop="programmingLanguage">
+          
+          
+          
+            <span class="tech-badge-icon"><svg width="12" height="12" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill="#017ACB" d="M0 0h100v100H0z"/><path fill="#fff" d="M48.016 37.032h4.797v8.281h-12.97v36.844l-.343.094c-.469.124-6.64.124-7.969-.016l-1.062-.094V45.313H17.5v-8.281l4.11-.047c2.25-.031 8.03-.031 12.843 0s10.906.047 13.563.047m36.61 41.219c-1.907 2.015-3.954 3.14-7.36 4.062-1.485.406-1.735.422-5.078.406s-3.61-.015-5.235-.437c-4.203-1.078-7.594-3.188-9.906-6.172-.656-.844-1.734-2.594-1.734-2.813 0-.062.156-.203.359-.296.203-.094.625-.36.969-.563s.968-.578 1.39-.797 1.64-.937 2.703-1.578c1.063-.64 2.032-1.156 2.141-1.156.11 0 .313.219.469.484.937 1.578 3.125 3.594 4.672 4.281.953.407 3.062.86 4.078.86.937 0 2.656-.406 3.578-.828.984-.453 1.484-.907 2.078-1.813.406-.64.453-.812.438-2.031 0-1.125-.063-1.438-.375-1.953-.875-1.438-2.063-2.188-6.875-4.313-4.97-2.203-7.204-3.515-9.016-5.281-1.344-1.312-1.61-1.672-2.453-3.312-1.094-2.11-1.235-2.797-1.25-5.938-.016-2.203.031-2.922.265-3.672.329-1.125 1.391-3.297 1.875-3.844 1-1.171 1.36-1.53 2.063-2.109 2.125-1.75 5.438-2.906 8.61-3.016.359 0 1.546.063 2.656.141 3.187.266 5.359 1.047 7.453 2.719 1.578 1.25 3.968 4.187 3.734 4.578-.156.234-6.39 4.39-6.797 4.516-.25.078-.422-.016-.765-.422-2.125-2.547-2.985-3.094-5.047-3.22-1.469-.093-2.25.079-3.235.735-1.03.688-1.53 1.735-1.53 3.188.015 2.125.827 3.125 3.827 4.61 1.938.952 3.594 1.733 3.719 1.733.188 0 4.203 2 5.25 2.626 4.875 2.859 6.86 5.796 7.375 10.859.375 3.812-.703 7.297-3.047 9.766"/></svg></span>
+          
+          TypeScript
+        </span>
+        
+      
+    </div>
+    
+    <div class="project-github-wrap">
+      <a href="https://github.com/ashwingopalsamy/claude-code-theme" class="social-link" rel="noopener noreferrer" target="_blank" itemprop="codeRepository">
+        <span class="project-github-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg></span>View on GitHub
+      </a>
+    </div>
+    
+  </header>
+  <div class="divider"></div>
+  <div class="article-body" itemprop="description">
+    <p>A VS Code theme system built around warm Claude-inspired palettes. 12 variants covering dark, light, brand, high-contrast, and no-bold editions. Published on the VS Code Marketplace.</p>
+<h2 id="motivation">Motivation</h2>
+<p>Most themes are palette swaps. They pick colors and drop them into a JSON file. The result looks fine on one language and breaks on another because nobody tested the interaction between workbench chrome, semantic tokens, and TextMate scopes across languages.</p>
+<h2 id="design">Design</h2>
+<p>A programmatic compilation pipeline generates all 12 variants from shared brand tokens. Each variant compiles to 369 workbench colors, 81 TextMate rules, and 37 semantic token rules. CI runs WCAG contrast validation on every build, with editor text hitting 14.92-16.98:1 contrast ratios. TextMate scope packs cover JS/TS, Go, Python, Java, Rust, HTML/CSS, JSON/YAML, Markdown, and SQL.</p>
+
+  </div>
+</article>
+
+  </main>
+  <nav class="capsule-bar" aria-label="Navigation">
+  
+  
+  
+  
+  
+  
+    
+    
+    
+    <a href="/" class="cap" aria-label="Home">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/>
+</svg>
+
+      <span class="cap-label">Home</span>
+    </a>
+  
+    
+    
+    
+    <a href="/writing/" class="cap" aria-label="Writing">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
+</svg>
+
+      <span class="cap-label">Writing</span>
+    </a>
+  
+    
+    
+    
+    <a href="/projects/" class="cap on" aria-current="page" aria-label="Projects">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+</svg>
+
+      <span class="cap-label">Projects</span>
+    </a>
+  
+    
+    
+    
+    <a href="/now/" class="cap" aria-label="Now">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+</svg>
+
+      <span class="cap-label">Now</span>
+    </a>
+  
+    
+    
+    
+    <a href="/about/" class="cap" aria-label="About">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+</svg>
+
+      <span class="cap-label">About</span>
+    </a>
+  
+</nav>
+
+  <div class="back-to-top" id="back-to-top">
+    <button aria-label="Back to top">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+</svg>
+
+      Back to top
+      <span class="btt-sep"></span>
+      <span class="btt-pct" id="bttPct"></span>
+    </button>
+  </div>
+  <script src="/pagefind/pagefind-ui.js" type="text/javascript" defer></script>
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+  <script>
+  window.addEventListener('DOMContentLoaded', function() {
+    var inlineEl = document.getElementById('writing-search');
+    var targetEl = inlineEl ? '#writing-search' : '#search';
+
+    new PagefindUI({
+      element: targetEl,
+      showSubResults: true,
+      showImages: false
+    });
+
+    if (inlineEl) {
+      var articleList = document.getElementById('article-list');
+      var filters = document.querySelector('.writing-filters');
+
+      inlineEl.addEventListener('input', function(e) {
+        var input = inlineEl.querySelector('input[type="text"]');
+        var hasQuery = input && input.value.trim().length > 0;
+        if (articleList) articleList.style.display = hasQuery ? 'none' : '';
+        if (filters) filters.style.display = hasQuery ? 'none' : '';
+      }, true);
+    }
+  });
+  </script>
+  
+  <script src="/js/main.min.11e7eb5e9a999e68032700b7a1bfe7fac87ea0449288be47c617b2e463b9cd31.js" defer></script>
+  <div class="lightbox" id="diagram-lightbox" role="dialog" aria-modal="true" hidden>
+  <div class="lightbox-backdrop"></div>
+  <div class="lightbox-content">
+    <div class="lightbox-body" id="lightbox-body"></div>
+    <div class="lightbox-controls">
+      <button class="lightbox-btn" data-action="download-svg" aria-label="Download SVG">SVG</button>
+      <button class="lightbox-btn" data-action="download-png" aria-label="Download PNG">PNG</button>
+      <button class="lightbox-btn" data-action="share" aria-label="Share">Share</button>
+      <button class="lightbox-btn lightbox-close" data-action="close" aria-label="Close">&times;</button>
+    </div>
+  </div>
+</div>
+
+  <div class="search-modal" id="search-modal" role="dialog" aria-label="Search" aria-modal="true">
+  <div class="search-modal-backdrop" id="search-modal-backdrop"></div>
+  <div class="search-modal-content">
+    <div id="search"></div>
+  </div>
+</div>
+
+</body>
+</html>

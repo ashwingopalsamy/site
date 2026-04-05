@@ -1,0 +1,556 @@
+# Ashwin Gopalsamy - Full Site Content
+
+> Staff Software Engineer scaling authorization infrastructure at Pismo, Visa.
+> Distributed systems, Go, sub-second latency, multi-region payment authorizations.
+
+## Site
+
+- Homepage: http://localhost:1313/
+- About: http://localhost:1313/about/
+- RSS: http://localhost:1313/feed.xml
+- llms.txt: http://localhost:1313/llms.txt
+
+---
+
+## Designing Rate Limiters for Payment Systems
+
+URL: http://localhost:1313/writing/designing-rate-limiters-for-payment-systems/
+Published: 2026-04-07
+Tags: distributed-systems, payments, go
+
+
+Rate limiting in payment systems is different from rate limiting in a typical web API. A false positive -- rejecting a legitimate authorization -- is a failed transaction. A customer's card gets declined at checkout. That is not an acceptable failure mode.
+
+This article walks through the design of a rate limiter that protects infrastructure without creating false declines.
+
+## The Architecture
+
+A payment authorization pipeline typically looks like this:
+
+graph LR
+    A[Card Network] -->|ISO 8583| B[Parser API]
+    B -->|gRPC| C[Distributor API]
+    C -->|gRPC| D[Account Service]
+    C -->|gRPC| E[Risk Engine]
+    C -->|gRPC| F[Ledger]
+    style B fill:#10b981,color:#fff,stroke:none
+    style C fill:#10b981,color:#fff,stroke:none
+
+The rate limiter sits between the Parser API and the Distributor API. It must make a decision in under 1ms -- any longer and it becomes the bottleneck in a sub-second pipeline.
+
+Never rate-limit at the card network ingress point. Network protocols like ISO 8583 have strict timeout windows. A delayed response is worse than a fast decline -- it triggers a reversal cascade.
+
+## Choosing an Algorithm
+
+There are three common approaches, each with different trade-offs:
+
+### Token Bucket
+
+The token bucket algorithm maintains a counter that refills at a fixed rate. Each request consumes one token. When tokens are exhausted, requests are rejected.
+
+The math is straightforward. Given a bucket capacity $C$ and a refill rate $r$ tokens per second, the maximum burst size equals $C$, and the sustained throughput equals $r$.
+
+$$\text{tokens}(t) = \min\left(C,\ \text{tokens}(t_0) + r \cdot (t - t_0)\right)$$
+
+Set $C$ to handle your peak burst (Black Friday spike) and $r$ to your sustained p99 throughput. For authorization systems, measure both per-issuer and per-BIN to avoid penalizing an entire bank for one merchant's spike.
+
+### Sliding Window Log
+
+Tracks the exact timestamp of every request in a time window. Precise, but memory-intensive.
+
+For $n$ requests in the current window of duration $W$:
+
+$$\text{rate} = \frac{n}{W}$$
+
+### Sliding Window Counter
+
+A hybrid: divides time into fixed slots and interpolates between the current and previous slot.
+
+$$\text{count} = \text{prev} \times \left(1 - \frac{t_{\text{elapsed}}}{W}\right) + \text{curr}$$
+
+**Pros:** O(1) memory, O(1) time, allows bursts
+
+**Cons:** No per-client fairness without separate buckets
+
+**Best for:** Global throughput protection
+
+**Pros:** Precise rate tracking, smooth distribution
+
+**Cons:** O(n) memory for log variant, interpolation error for counter variant
+
+**Best for:** Per-client or per-issuer fairness
+
+## The Distributed Coordination Problem
+
+In a multi-region deployment, each instance of the rate limiter sees only local traffic. Without coordination, a client can exceed the global limit by spreading requests across regions.
+
+sequenceDiagram
+    participant Client
+    participant Region A
+    participant Region B
+    participant Redis
+
+    Client->>Region A: Auth Request 1
+    Client->>Region B: Auth Request 2
+    Region A->>Redis: INCR counter
+    Region B->>Redis: INCR counter
+    Redis-->>Region A: count=1 (allow)
+    Redis-->>Region B: count=2 (allow)
+    Note over Redis: Both allowed,<br/>but combined rate<br/>may exceed limit
+
+The fundamental tension: strong consistency (single Redis) adds a network hop to every authorization, while eventual consistency (local counters synced periodically) allows brief over-admission. For payment systems, brief over-admission is almost always preferable to adding latency.
+
+## Implementation in Go
+
+The token bucket is the right choice for our use case: O(1) operations, burst tolerance, and simple distributed coordination via atomic counters.
+
+```go
+type TokenBucket struct {
+    mu       sync.Mutex
+    tokens   float64
+    capacity float64
+    rate     float64
+    lastTime time.Time
+}
+
+func (tb *TokenBucket) Allow() bool {
+    tb.mu.Lock()
+    defer tb.mu.Unlock()
+
+    now := time.Now()
+    elapsed := now.Sub(tb.lastTime).Seconds()
+    tb.tokens = math.Min(tb.capacity, tb.tokens+tb.rate*elapsed)
+    tb.lastTime = now
+
+    if tb.tokens >= 1 {
+        tb.tokens--
+        return true
+    }
+    return false
+}
+```
+
+This implementation uses a mutex for simplicity. In production, consider `sync/atomic` with CAS operations for lock-free performance, or a sharded bucket per goroutine with periodic merging.
+
+## Capacity Planning
+
+For a system processing $\lambda$ transactions per second with target rejection rate below $\epsilon$:
+
+$$C \geq \lambda \cdot T_{\text{burst}}$$
+
+where $T_{\text{burst}}$ is the expected burst duration.
+
+$$r \geq \lambda \cdot (1 + \sigma)$$
+
+where $\sigma$ is the traffic variance coefficient.
+
+If your p99 latency budget is $L$ milliseconds and the rate limiter check takes $\delta$ ms:
+
+$$L_{\text{remaining}} = L - \delta$$
+
+For our authorization pipeline where $L = 200\text{ms}$ and the rate limiter adds $\delta = 0.3\text{ms}$:
+
+$$L_{\text{remaining}} = 200 - 0.3 = 199.7\text{ms}$$
+
+The overhead is negligible -- which is exactly the point. A rate limiter that measurably impacts latency is a rate limiter that needs to be redesigned.
+
+## Key Takeaways
+
+**Design decisions for payment rate limiters:**
+
+- Token bucket for global protection, sliding window for per-client fairness
+- Local-first with async sync beats centralized coordination for latency
+- Set capacity from measured burst patterns, not theoretical maximums
+- Monitor rejection rate as a business metric, not just an infra metric
+
+Return `429 Too Many Requests`
+
+Client retries with backoff
+
+False positives are annoying but recoverable
+
+Return decline response code in ISO 8583
+
+No retry -- transaction is failed
+
+False positives are declined cards at checkout
+
+The difference between rate limiting a REST API and rate limiting an authorization pipeline is the cost of a false positive. In payments, you are not protecting a server -- you are deciding whether someone's groceries get paid for.
+
+[^1]: Token bucket was first described by Turner (1986) in the context of ATM network traffic shaping. The algorithm maps naturally to payment processing because both domains deal with bursty traffic that must be smoothed without dropping legitimate requests.
+
+
+---
+
+## Understanding ISO 8583 Bitmap Parsing
+
+URL: http://localhost:1313/writing/understanding-iso-8583-bitmap-parsing/
+Published: 2026-04-01
+Tags: ISO8583, payments, go
+
+
+Every ISO 8583 message begins with a Message Type Indicator (MTI), followed by one or two bitmaps that declare which data elements are present in the message.
+
+## What is a Bitmap?
+
+A bitmap is a binary structure where each bit position corresponds to a data element. If bit N is set to 1, data element N is present in the message. If it is 0, the element is absent.
+
+The primary bitmap is always 64 bits (8 bytes). If bit 1 of the primary bitmap is set, a secondary bitmap follows, extending the field range from 65 to 128.
+
+## Parsing in Go
+
+The parsing logic is straightforward once you understand the bit layout:
+
+```go
+func ParseBitmap(data []byte) (Bitmap, error) {
+    if len(data) < 8 {
+        return Bitmap{}, fmt.Errorf("bitmap data too short: %d bytes", len(data))
+    }
+
+    primary := binary.BigEndian.Uint64(data[:8])
+    bm := Bitmap{Primary: primary}
+
+    if primary&(1<<63) != 0 {
+        if len(data) < 16 {
+            return Bitmap{}, fmt.Errorf("secondary bitmap indicated but data too short")
+        }
+        bm.Secondary = binary.BigEndian.Uint64(data[8:16])
+        bm.HasSecondary = true
+    }
+
+    return bm, nil
+}
+```
+
+## Why This Matters
+
+The elegance of this design is that the message is self-describing. No schema negotiation, no version headers, no content-type declarations. The bitmap IS the schema.
+
+This means a parser can handle any valid ISO 8583 message without knowing in advance which fields will be present. The bitmap tells it exactly what to expect and where to find it.
+
+## Key Takeaways
+
+- Primary bitmap: bits 1-64, always present (8 bytes)
+- Secondary bitmap: bits 65-128, present only if bit 1 of primary is set
+- Each bit maps to one data element by position
+- Bit numbering starts at 1, not 0 (bit 1 is the MSB of the first byte)
+
+
+---
+
+## Go Error Wrapping Patterns
+
+URL: http://localhost:1313/writing/notes/go-error-wrapping-patterns/
+Published: 2026-03-28
+Tags: go
+
+
+The `fmt.Errorf("context: %w", err)` pattern is the standard way to add context to errors in Go. But there are nuances worth knowing.
+
+Always wrap with context that answers "what were you trying to do?" not "what went wrong?" The original error already says what went wrong.
+
+Bad: `fmt.Errorf("error: %w", err)`
+Good: `fmt.Errorf("parsing field DE%d: %w", fieldNum, err)`
+
+
+---
+
+## Consistent Hashing in Distributed Caches
+
+URL: http://localhost:1313/writing/consistent-hashing-in-distributed-caches/
+Published: 2026-03-15
+Tags: distributed-systems, go
+
+
+When you distribute data across multiple cache nodes, the naive approach is modular hashing: `node = hash(key) % num_nodes`. This works until you add or remove a node.
+
+## The Problem with Modular Hashing
+
+If you have 4 nodes and add a 5th, almost every key remaps to a different node. With `hash(key) % 4` becoming `hash(key) % 5`, roughly 80% of your cache is invalidated instantly. Under load, this is a cache stampede.
+
+## How Consistent Hashing Works
+
+Consistent hashing arranges the hash space into a ring. Each node is assigned one or more positions on the ring. A key is hashed to a position, and the first node clockwise from that position owns the key.
+
+When a node joins, it takes responsibility for a portion of its neighbor's range. When a node leaves, its range is absorbed by the next node clockwise. In both cases, only `K/N` keys need to move, where K is the total number of keys and N is the number of nodes.
+
+## Virtual Nodes
+
+Real implementations use virtual nodes -- each physical node gets multiple positions on the ring. This smooths out the distribution and prevents hotspots caused by uneven hash space allocation.
+
+## Key Takeaways
+
+- Modular hashing invalidates ~(N-1)/N keys on node changes
+- Consistent hashing invalidates only ~K/N keys
+- Virtual nodes solve the distribution imbalance problem
+- Used by DynamoDB, Cassandra, Memcached, and most distributed caches
+
+
+---
+
+## Why slog Over zerolog
+
+URL: http://localhost:1313/writing/notes/why-slog-over-zerolog/
+Published: 2026-03-10
+Tags: go
+
+
+Go 1.21 introduced `log/slog` in the standard library. For new projects, I now default to slog over zerolog.
+
+The API is cleaner, it is part of the standard library (no dependency), and the handler interface makes it trivial to swap backends. The performance gap that once justified zerolog has narrowed significantly.
+
+
+---
+
+## Why UUIDs Matter for Idempotency
+
+URL: http://localhost:1313/writing/why-uuids-matter-for-idempotency/
+Published: 2026-02-20
+Tags: payments, go, distributed-systems
+
+
+In payment processing, processing the same authorization twice is worse than rejecting it. A customer charged twice loses trust immediately. Idempotency keys prevent this.
+
+## The Problem
+
+A client sends an authorization request. The network drops the response. The client retries. Without idempotency, the server processes the authorization again, resulting in a double charge.
+
+## UUIDs as Idempotency Keys
+
+The client generates a UUID before the first attempt and includes it in every retry. The server checks: have I seen this UUID before? If yes, return the original response. If no, process the request and store the UUID with its response.
+
+## Why UUID v7
+
+UUID v7 embeds a Unix timestamp in the first 48 bits, followed by random bits. This gives you:
+
+- **Chronological ordering**: UUIDs sort by creation time, which makes database indexes efficient
+- **Uniqueness**: the random component prevents collisions even at high throughput
+- **Expiry**: you can garbage-collect old idempotency records by inspecting the embedded timestamp
+
+## Key Takeaways
+
+- Idempotency keys prevent duplicate processing in distributed systems
+- UUID v7 provides time-ordered uniqueness without coordination
+- The embedded timestamp enables efficient cleanup of expired records
+- Always generate the idempotency key client-side, never server-side
+
+
+---
+
+## UUIDCheck
+
+URL: http://localhost:1313/projects/uuidcheck/
+Published: 2024-09-05
+Tech: Go
+GitHub: https://github.com/ashwingopalsamy/uuidcheck
+
+
+A lightweight Go package for validating UUID strings and identifying their version and variant. Supports all UUID versions from RFC 4122 (v1-v5) through RFC 9562 (v6, v7, v8), with zero external dependencies.
+
+## Motivation
+
+UUID validation in Go typically means a regex or pulling in a full UUID generation library just to check a string. UUIDCheck does one thing well: tell you if a UUID is valid, what version it is, and whether the variant bits are correct. Nothing more.
+
+## Design
+
+Pure standard library. The parser validates structure (8-4-4-4-12 hex format), extracts version from the 13th nibble, checks variant bits in the clock sequence, and returns a typed result. Useful as a validation layer at API boundaries or in data pipeline ingestion.
+
+
+---
+
+## UUIDv8
+
+URL: http://localhost:1313/projects/uuidv8/
+Published: 2024-06-10
+Tech: Go
+GitHub: https://github.com/ash3in/uuidv8
+
+
+A Go library for generating UUIDv8 identifiers per RFC 9562. UUIDv8 is the newest UUID version, designed for applications that need custom timestamp encoding, database-friendly sorting, and domain-specific node bits -- all within the standard 128-bit UUID format.
+
+## Why UUIDv8
+
+UUIDv4 is random. UUIDv7 is time-ordered but opinionated about its timestamp layout. UUIDv8 gives you full control over the custom bits while remaining RFC-compliant. This matters when you need deterministic ordering, embedded metadata, or compatibility with systems that validate UUID structure.
+
+## Design
+
+Zero external dependencies. The library handles timestamp encoding, clock sequence management, and node ID generation while enforcing the RFC 9562 variant and version bits. The API is deliberately minimal -- one function to generate, one to parse.
+
+
+---
+
+## Pismo Zones
+
+URL: http://localhost:1313/projects/pismozones/
+Published: 2026-03-20
+Tech: JavaScript, Vite
+GitHub: https://github.com/ashwingopalsamy/pismozones
+
+
+Timezone tool built for Pismo's engineering team spread across Sao Paulo, Bangalore, Bristol, Austin, and Singapore. AI-engineered from design to deployment. Used daily in production by Pismo engineers to coordinate across five offices.
+
+## Motivation
+
+Distributed teams waste time on timezone math. Every standup, every cross-office sync, someone asks "what time is it there?" Pismo Zones answers that instantly with a visual that updates in real-time.
+
+## Design
+
+Glassmorphism layers, spring-physics card transitions, and a color-interpolated gradient that shifts with time of day. The interface adapts ambient lighting based on the hour. Luxon handles all timezone math to avoid native Date object inconsistencies. Pure CSS variables, no utility frameworks. Client-side only, zero backend.
+
+## Case Study
+
+The design process, color theory, motion physics, and implementation decisions are documented in an interactive case study:
+
+[View Design Case Study](/projects/pismozones/design-case-study/)
+
+
+---
+
+## Claude Code Theme
+
+URL: http://localhost:1313/projects/claude-code-theme/
+Published: 2026-02-10
+Tech: TypeScript
+GitHub: https://github.com/ashwingopalsamy/claude-code-theme
+
+
+A VS Code theme system built around warm Claude-inspired palettes. 12 variants covering dark, light, brand, high-contrast, and no-bold editions. Published on the VS Code Marketplace.
+
+## Motivation
+
+Most themes are palette swaps. They pick colors and drop them into a JSON file. The result looks fine on one language and breaks on another because nobody tested the interaction between workbench chrome, semantic tokens, and TextMate scopes across languages.
+
+## Design
+
+A programmatic compilation pipeline generates all 12 variants from shared brand tokens. Each variant compiles to 369 workbench colors, 81 TextMate rules, and 37 semantic token rules. CI runs WCAG contrast validation on every build, with editor text hitting 14.92-16.98:1 contrast ratios. TextMate scope packs cover JS/TS, Go, Python, Java, Rust, HTML/CSS, JSON/YAML, Markdown, and SQL.
+
+
+---
+
+## Claude Code Launcher
+
+URL: http://localhost:1313/projects/claude-code-launcher/
+Published: 2026-02-02
+Tech: Terminal
+GitHub: https://github.com/ash3in/claude-code-launcher
+
+
+A shell utility that reduces enterprise Claude Code setup to one command. Type `cc` and you're in.
+
+## Motivation
+
+Enterprise users accessing Claude Code through corporate endpoints deal with refreshable JWT tokens, multi-step environment variable setup, and token management across sessions. Tokens end up in shell history, visible in process lists. Every new terminal session means pasting a long JWT again.
+
+## Design
+
+A single shell function handles token storage (file permissions 600, never in history or `ps` output), JWT format validation, expiry tracking with days-remaining display, and endpoint configuration. An interactive installer detects your shell, sets up the alias, and optionally adds a prompt indicator. Daily use is one command: `cc`.
+
+
+---
+
+## Repo Rate Visualizer
+
+URL: http://localhost:1313/projects/repo-rate-visualizer/
+Published: 2026-02-10
+Tech: JavaScript, React
+GitHub: https://github.com/ashwingopalsamy/repo-rate-visualizer
+
+
+Interactive data visualization of India's Reserve Bank of India repo rate decisions over time. Timeline charts, rate change analysis, monetary policy cycle comparisons, and CSV export.
+
+## Motivation
+
+RBI repo rate data is public but scattered across press releases and PDF tables. No single tool lets you see the full timeline, compare easing and tightening cycles, or share a specific date range with a URL.
+
+## Design
+
+D3.js renders the charts from bundled historical data. Multiple views: timeline, rate change bars, cycle comparison, and event annotations. A filter bar supports date range presets (10Y, 5Y, custom) and a URL state hook encodes the current view and range into the address bar for shareable links. Separate mobile layout components handle smaller viewports.
+
+
+---
+
+## MKKS Organics
+
+URL: http://localhost:1313/projects/mkks-organics/
+Published: 2026-03-01
+Tech: JavaScript, React, Vite
+GitHub: https://github.com/ashwingopalsamy/host-mkks-organics
+
+
+Storefront for MKKS Organics, a family mango orchard business. Customers browse varieties, select quantities, and send a structured reservation request via WhatsApp.
+
+## Motivation
+
+The business needed an online presence but not a full e-commerce stack. No payment gateway, no user accounts, no database. Orders are seasonal, volume is manageable over WhatsApp, and the overhead of maintaining a backend would outweigh its value.
+
+## Design
+
+Static React site on Vercel. Product data and pricing live in a single content file. The reservation sheet collects quantities by variety and pack size, calculates totals, and constructs a pre-formatted WhatsApp message with the order details and delivery info. Optimized images in WebP with responsive srcSet. Framer Motion for page transitions.
+
+
+---
+
+## ATS LaTeX Resume
+
+URL: http://localhost:1313/projects/ats-latex-resume/
+Published: 2024-10-27
+Tech: LaTeX
+GitHub: https://github.com/ashwingopalsamy/ats-latex-resume
+
+
+A LaTeX resume template built for machine readability. ATS systems parse the generated PDF correctly, and it still looks clean for human reviewers.
+
+## Motivation
+
+Most LaTeX resume templates optimize for aesthetics. The PDF looks great but ATS software fails to extract the text, misreads special characters, or chokes on custom fonts. Your resume gets filtered out before a human sees it.
+
+## Design
+
+Package choices that target specific ATS failure modes. `pdfgentounicode` and `glyphtounicode` provide Unicode mapping so PDF text extraction works correctly. `lmodern` and `charter` are ATS-safe fonts that don't break parsing. `inputenc` with UTF-8 prevents character encoding failures. Tested against ATS parsers including Jobscan and Resumeworded.
+
+
+---
+
+## Intelligent Traffic Management System
+
+URL: http://localhost:1313/projects/itms/
+Published: 2021-03-13
+Tech: Python
+GitHub: https://github.com/ashwingopalsamy/opnsrc-machinelearning-itms-ug-graduation-project
+
+
+Final year project. A machine learning system that detects vehicles per lane and adjusts traffic signal timing based on real-time density instead of fixed timers.
+
+## Motivation
+
+Fixed-timer traffic signals ignore actual traffic conditions. A lane with three cars gets the same green time as a lane with thirty. The result is unnecessary congestion on busy lanes and wasted green time on empty ones.
+
+## Design
+
+YOLO model trained on the Indian Driving Dataset for vehicle detection. The pipeline runs non-max suppression, counts vehicles per lane, and feeds the count into a signal timing function that allocates green time proportionally. When conditions fall outside normal parameters, the system falls back to static timing.
+
+
+---
+
+## Bud.ai
+
+URL: http://localhost:1313/projects/budai/
+Published: 2022-03-03
+Tech: Azure, Teams
+GitHub: https://github.com/ashwingopalsamy/opnsrc-microsoft-internship-bud.ai-project
+
+
+A Microsoft Teams bot that gives students a single place for academic information: schedules, attendance, subjects, faculty contacts. Built as part of the Microsoft Future Ready Talent program during COVID remote learning.
+
+## Motivation
+
+Remote learning during COVID pushed students across multiple platforms for different tasks. Class on Zoom, assignments on one portal, schedules on another, faculty contacts somewhere else. The fragmentation hit junior students hardest.
+
+## Design
+
+Azure Bot Framework handles conversation flow. LUIS provides intent recognition so students can ask naturally instead of navigating menus. QnA Maker handles FAQ-style queries. CosmosDB stores academic data. The bot runs as an Azure App Service and integrates directly into Microsoft Teams, where students already spend their day.
+
+
+---
+
+last-updated: 2026-04-08
