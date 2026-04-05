@@ -1,0 +1,10 @@
+name = "ashwingopalsamy-site"
+compatibility_date = "2024-09-23"
+main = "workers/csp-nonce.js"
+
+# Pages project binding -- this Worker runs as a Pages Function middleware
+# Deploy: wrangler pages deploy public --project-name ashwingopalsamy-site
+# Or use the Cloudflare Pages dashboard to connect the GitHub repo
+
+[assets]
+directory = "public"

@@ -1,0 +1,62 @@
+baseURL = "https://ashwingopalsamy.in/"
+languageCode = "en-us"
+title = "Ashwin Gopalsamy"
+enableRobotsTXT = false
+enableGitInfo = false
+
+[params]
+  description = "Staff Software Engineer scaling authorization infrastructure at Pismo, Visa."
+  author = "Ashwin Gopalsamy"
+  twitter = "@ashwin2125"
+  github = "ashwingopalsamy"
+  plausibleDomain = "ashwingopalsamy.in"
+  giscusRepo = "ashwingopalsamy/site"
+  giscusRepoId = ""
+  giscusCategory = "Comments"
+  giscusCategoryId = ""
+  # bingVerification = "YOUR_BING_VERIFICATION_CODE"
+
+[markup]
+  [markup.highlight]
+    noClasses = false
+    lineNos = false
+    codeFences = true
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = false
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+    ordered = false
+
+[taxonomies]
+  tag = "tags"
+
+[outputs]
+  home = ["HTML", "RSS", "LLMS", "LLMSFULL"]
+  section = ["HTML", "RSS"]
+
+[outputFormats]
+  [outputFormats.RSS]
+    mediaType = "application/rss+xml"
+    baseName = "feed"
+  [outputFormats.LLMS]
+    mediaType = "text/plain"
+    baseName = "llms"
+    isPlainText = true
+    notAlternative = true
+  [outputFormats.LLMSFULL]
+    mediaType = "text/plain"
+    baseName = "llms-full"
+    isPlainText = true
+    notAlternative = true
+
+[sitemap]
+  changefreq = "weekly"
+  priority = 0.5
+
+[permalinks]
+  writing = "/writing/:slug/"
+  "writing/notes" = "/writing/notes/:slug/"
+  projects = "/projects/:slug/"
+  tags = "/writing/tags/:slug/"

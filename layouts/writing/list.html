@@ -1,0 +1,62 @@
+{{ define "main" }}
+{{ $writingCount := len (where .Site.RegularPages "Type" "writing") }}
+<div class="writing-index">
+  {{ if eq .Title "Writing" }}
+
+  <div class="page-header-row">
+    <span></span>
+    <h1 class="page-header-title">Writing</h1>
+    <span class="page-header-count">{{ $writingCount }} writings</span>
+  </div>
+  <p class="page-header-sub">{{ .Description }}</p>
+
+  <div id="writing-search" class="writing-search-container"></div>
+
+  <div class="writing-filters">
+    <button class="tag-pill active" data-filter-type="all">All</button>
+    <button class="tag-pill" data-filter-type="article" id="filter-pill-articles">Articles</button>
+    <button class="tag-pill" data-filter-type="note" id="filter-pill-notes">Notes</button>
+    <span class="tag-pills-divider"></span>
+    {{ range .Site.Taxonomies.tags.Alphabetical }}
+    <a href="{{ .Page.RelPermalink }}" class="tag-pill{{ if eq $.RelPermalink .Page.RelPermalink }} active{{ end }}">{{ .Page.Title }}</a>
+    {{ end }}
+  </div>
+
+  <div id="article-list">
+    <div class="writing-group" data-group="article">
+      <h2 class="writing-group-label">Articles</h2>
+      {{- range where (where .Site.RegularPages.ByDate.Reverse "Type" "writing") ".File.Path" "not in" (slice) -}}
+        {{- if not (in .File.Path "writing/notes/") -}}
+        {{ partial "article-row.html" . }}
+        {{- end -}}
+      {{- end -}}
+    </div>
+    <div class="writing-group" data-group="note">
+      <h2 class="writing-group-label">Notes</h2>
+      {{- range where (where .Site.RegularPages.ByDate.Reverse "Type" "writing") ".File.Path" "not in" (slice) -}}
+        {{- if in .File.Path "writing/notes/" -}}
+        {{ partial "article-row.html" . }}
+        {{- end -}}
+      {{- end -}}
+    </div>
+  </div>
+
+  {{ else }}
+  {{ $subCount := len .Pages }}
+  <div class="page-header-row">
+    <a href="/writing/" class="page-header-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      Writing
+    </a>
+    <h1 class="page-header-title">{{ .Title }}</h1>
+    <span class="page-header-count">{{ $subCount }} writings</span>
+  </div>
+  <p class="page-header-sub">{{ .Description }}</p>
+  <div class="article-list">
+    {{ range .Pages.ByDate.Reverse }}
+      {{ partial "article-row.html" . }}
+    {{ end }}
+  </div>
+  {{ end }}
+</div>
+{{ end }}

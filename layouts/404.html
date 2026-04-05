@@ -1,0 +1,20 @@
+{{ define "main" }}
+<div class="error-page">
+  <h1 class="error-title" id="error404">404</h1>
+  <p class="error-desc">This page doesn't exist. Maybe it was moved, or maybe it never was.</p>
+  <a href="/" class="view-all-link">
+    Go home <span class="arrow-right">&rarr;</span>
+  </a>
+</div>
+<script>
+(function() {
+  if (!window.matchMedia('(hover: none)').matches) return;
+  var el = document.getElementById('error404');
+  if (!el) return;
+  setTimeout(function() {
+    el.classList.add('glitch-once');
+    setTimeout(function() { el.classList.remove('glitch-once'); }, 700);
+  }, 500);
+})();
+</script>
+{{ end }}

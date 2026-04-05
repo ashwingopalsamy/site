@@ -1,0 +1,47 @@
+{{ define "main" }}
+<article class="article h-entry" itemscope itemtype="https://schema.org/Article">
+  <header class="article-header">
+    {{ with .Params.tags }}
+    <div class="section-label">{{ index . 0 }}</div>
+    {{ end }}
+    <h1 class="article-title p-name" itemprop="headline">{{ .Title }}</h1>
+    <div class="article-meta">
+      <time class="dt-published" datetime="{{ .Date.Format "2006-01-02" }}" itemprop="datePublished">
+        {{ .Date.Format "January 2006" }}
+      </time>
+      <span class="meta-dot"></span>
+      <span class="reading-time-badge">{{ partial "reading-time.html" . }} read</span>
+    </div>
+    <a class="p-author h-card" rel="author" href="/about/" hidden>Ashwin Gopalsamy</a>
+  </header>
+
+  <div class="divider"></div>
+
+  <div class="article-layout">
+    {{ partial "toc.html" . }}
+    <div class="article-body e-content" itemprop="articleBody">
+      {{ .Content }}
+    </div>
+  </div>
+
+  {{ partial "share-bar.html" . }}
+  {{ partial "giscus.html" . }}
+
+  <nav class="article-nav" aria-label="Article navigation">
+    {{ with .PrevInSection }}
+    <a href="{{ .RelPermalink }}" class="article-nav-link prev">
+      <span class="anav-dir">&larr; Previous</span>
+      <span class="anav-title">{{ .Title }}</span>
+      {{ with .Summary }}<span class="anav-peek">{{ . | truncate 90 }}</span>{{ end }}
+    </a>
+    {{ end }}
+    {{ with .NextInSection }}
+    <a href="{{ .RelPermalink }}" class="article-nav-link next">
+      <span class="anav-dir">Next &rarr;</span>
+      <span class="anav-title">{{ .Title }}</span>
+      {{ with .Summary }}<span class="anav-peek">{{ . | truncate 90 }}</span>{{ end }}
+    </a>
+    {{ end }}
+  </nav>
+</article>
+{{ end }}

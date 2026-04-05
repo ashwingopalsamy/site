@@ -1,0 +1,46 @@
+{{ if .IsHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": "{{ .Site.BaseURL }}#person",
+  "name": "Ashwin Gopalsamy",
+  "url": "{{ .Site.BaseURL }}",
+  "jobTitle": "Staff Software Engineer",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Pismo",
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Visa"
+    }
+  },
+  "knowsAbout": [
+    "distributed systems",
+    "Go programming language",
+    "backend engineering",
+    "database internals",
+    "payment authorization infrastructure",
+    "PCI-DSS compliant systems"
+  ],
+  "sameAs": [
+    "https://github.com/ashwingopalsamy",
+    "https://linkedin.com/in/ashwingopalsamy",
+    "https://x.com/ashwin2125"
+  ],
+  "image": "{{ ((resources.Get "img/dp.jpeg").Process "fit 240x240 webp q95").Permalink }}"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Ashwin Gopalsamy",
+  "url": "{{ .Site.BaseURL }}",
+  "description": "{{ .Site.Params.description }}",
+  "author": {
+    "@id": "{{ .Site.BaseURL }}#person"
+  }
+}
+</script>
+{{ end }}

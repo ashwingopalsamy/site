@@ -1,0 +1,4 @@
+Contact: mailto:ashwin@ashwingopalsamy.in
+Expires: 2027-04-05T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://ashwingopalsamy.in/.well-known/security.txt

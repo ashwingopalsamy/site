@@ -1,0 +1,11 @@
+{{ $isNote := (in .File.Path "writing/notes/") }}
+<a href="{{ .RelPermalink }}" class="article-row" data-type="{{ if $isNote }}note{{ else }}article{{ end }}" data-tags="{{ with .Params.tags }}{{ delimit . "," }}{{ end }}">
+  <div class="article-row-top">
+    <span class="article-row-title">{{ .Title }}</span>
+    <div class="article-row-right">
+      {{ with .Params.tags }}{{ range first 1 . }}<span class="article-row-tag article-row-tag--{{ . | urlize }}">{{ . }}</span>{{ end }}{{ end }}
+      <span class="article-row-reading">{{ .WordCount }} words</span>
+      <span class="article-row-date">{{ .Date.Format "Jan 06" }}</span>
+    </div>
+  </div>
+</a>

@@ -1,0 +1,183 @@
+/* === 28. RESPONSIVE BREAKPOINTS === */
+
+/* Mobile base: clear floating capsule and bottom nav */
+main {
+  padding-top: 80px;
+  padding-bottom: 100px;
+}
+
+/* Show desktop nav, hide bottom bar */
+@media (min-width: 768px) {
+  .capsule-bar {
+    display: none;
+  }
+
+  .desktop-nav {
+    display: flex;
+  }
+
+  /* Desktop: fixed glass bar, edge-to-edge */
+  .topbar-wrap {
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(250, 250, 249, 0.4);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    backdrop-filter: saturate(180%) blur(16px);
+    border: none;
+    border-bottom: 0.5px solid transparent;
+    border-radius: 0;
+    box-shadow: none;
+    transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  [data-theme="dark"] .topbar-wrap {
+    background: rgba(17, 17, 16, 0.4);
+  }
+
+  .topbar-wrap.scrolled {
+    border-bottom-color: var(--border);
+    box-shadow: 0 1px 8px var(--shadow);
+  }
+
+  .topbar-wrap::before {
+    display: none;
+  }
+
+  .topbar {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 8px 20px;
+  }
+
+  main {
+    padding-top: 64px;
+    padding-bottom: 40px;
+  }
+}
+
+/* Desktop container widths */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 720px;
+  }
+
+  .container-wide {
+    max-width: 960px;
+  }
+}
+
+/* TOC: floating in left margin on wide viewports */
+@media (min-width: 1200px) {
+  .article-layout {
+    position: relative;
+  }
+
+  .toc {
+    display: block;
+    position: absolute;
+    left: -220px;
+    top: 0;
+    width: 180px;
+  }
+
+  .toc-inner {
+    position: sticky;
+    top: 100px;
+  }
+}
+
+/* Hero responsive: bump fonts on wider screens */
+@media (min-width: 640px) {
+  .hero-tagline {
+    font-size: 16px;
+    padding: 6px 18px;
+    gap: 8px;
+  }
+
+  .hero-name {
+    font-size: 38px;
+  }
+
+  .hero-subtitle {
+    font-size: 17px;
+  }
+
+  .hero-headline {
+    font-size: 22px;
+  }
+
+  .social-links {
+    gap: 8px 14px;
+    font-size: 16px;
+  }
+}
+
+/* === THEME RADIAL REVEAL === */
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Cross-document view transitions disabled.
+   They were animation:none anyway (invisible swap), but the snapshot compositing
+   caused capsule-bar icon shift when the active tab changed position between pages.
+   Same-document transitions (theme toggle radial reveal) still work via JS startViewTransition(). */
+
+/* New theme always expands on top via radial clip-path */
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+/* === 28b. KATEX MOBILE OVERFLOW === */
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 4px 0;
+}
+
+.katex-display > .katex {
+  max-width: 100%;
+}
+
+/* === 29. REDUCED MOTION === */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* === 30. PRINT === */
+
+@media print {
+  .topbar-wrap,
+  .capsule-bar,
+  .reading-progress-bar,
+  .back-to-top,
+  .search-modal {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .container {
+    max-width: 100%;
+  }
+}

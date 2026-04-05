@@ -1,0 +1,30 @@
+{{ define "main" }}
+<div class="home">
+  <div class="hero-cursor-glow" id="heroCursorGlow"></div>
+  <section class="hero h-card">
+    <div class="hero-glow"></div>
+    <div class="hero-tagline">
+      <span class="breathing-dot"></span>
+      Currently: Staff Software Engineer, Visa
+    </div>
+    {{ $photo := (resources.Get "img/dp.jpeg").Process "fit 240x240 webp q95" }}
+    <h1 class="hero-name p-name">
+      <span class="hero-name-wrap">
+        <img class="hero-peek" src="{{ $photo.RelPermalink }}" alt="Ashwin Gopalsamy" loading="eager" width="40" height="50">
+        <span class="hero-name-text">Ashwin Gopalsamy</span>
+      </span>
+    </h1>
+    <p class="hero-subtitle">Product Engineer. Blogger. Open-source contributor.</p>
+    <div class="hero-divider"></div>
+    <p class="hero-headline">
+      Expertise in <span class="hero-highlight" data-tip-label="Expertise" data-tip="Multi-region auth infra processing billions of txns/day">distributed systems</span>, <span class="hero-highlight" data-tip-label="Stack" data-tip="Go + K8s + AWS + Terraform + ArgoCD">cloud-native architecture</span>, and <span class="hero-highlight" data-tip-label="Approach" data-tip="End-to-end: design, build, ship, observe">software product development</span>.
+    </p>
+    <div class="social-links">
+      {{ range $i, $link := site.Data.social.links }}
+        {{ if $i }}<span class="social-sep{{ if $link.internal }} social-sep--internal{{ end }}"></span>{{ end }}
+        <a href="{{ $link.url }}" class="social-link{{ if not $link.internal }} u-url{{ else }} social-link--internal{{ end }}"{{ if not $link.internal }} rel="noopener noreferrer" target="_blank"{{ end }}><span class="social-icon">{{ if eq $link.name "RSS" }}<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 019-9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg>{{ else if eq $link.name "AI Context" }}<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.7 8.3L22 12l-8.3 1.7L12 22l-1.7-8.3L2 12l8.3-1.7L12 2z"/></svg>{{ else }}{{ partial (printf "icons/brands/%s.html" (lower $link.name)) (dict "size" "13") }}{{ end }}</span>{{ $link.name }}</a>
+      {{ end }}
+    </div>
+  </section>
+</div>
+{{ end }}

@@ -1,0 +1,16 @@
+<nav class="capsule-bar" aria-label="Navigation">
+  {{ $current := .RelPermalink }}
+  {{ $section := .Section }}
+  {{ $names := slice "Home" "Writing" "Projects" "Now" "About" }}
+  {{ $paths := slice "/" "/writing/" "/projects/" "/now/" "/about/" }}
+  {{ $icons := slice "home" "pen" "monitor" "clock" "user" }}
+  {{ range $i, $name := $names }}
+    {{ $path := index $paths $i }}
+    {{ $icon := index $icons $i }}
+    {{ $isActive := or (eq $current $path) (and (ne $path "/") (hasPrefix $current $path)) }}
+    <a href="{{ $path }}" class="cap{{ if $isActive }} on{{ end }}"{{ if $isActive }} aria-current="page"{{ end }} aria-label="{{ $name }}">
+      {{ partial (printf "icons/%s.html" $icon) (dict "size" "19") }}
+      <span class="cap-label">{{ $name }}</span>
+    </a>
+  {{ end }}
+</nav>

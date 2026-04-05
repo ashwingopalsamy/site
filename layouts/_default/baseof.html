@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" class="preload">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body>
+  <a href="#content" class="skip-link">Skip to content</a>
+  {{ partial "island.html" . }}
+  {{ partial "nav-top.html" . }}
+  <main id="content" class="container">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "nav-bottom.html" . }}
+  <div class="back-to-top" id="back-to-top">
+    <button aria-label="Back to top">
+      {{ partial "icons/arrow-up.html" (dict "size" "14" "weight" "1.8") }}
+      Back to top
+      <span class="btt-sep"></span>
+      <span class="btt-pct" id="bttPct"></span>
+    </button>
+  </div>
+  <script src="/pagefind/pagefind-ui.js" type="text/javascript" defer></script>
+  <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+  <script>
+  window.addEventListener('DOMContentLoaded', function() {
+    var inlineEl = document.getElementById('writing-search');
+    var targetEl = inlineEl ? '#writing-search' : '#search';
+
+    new PagefindUI({
+      element: targetEl,
+      showSubResults: true,
+      showImages: false
+    });
+
+    if (inlineEl) {
+      var articleList = document.getElementById('article-list');
+      var filters = document.querySelector('.writing-filters');
+
+      inlineEl.addEventListener('input', function(e) {
+        var input = inlineEl.querySelector('input[type="text"]');
+        var hasQuery = input && input.value.trim().length > 0;
+        if (articleList) articleList.style.display = hasQuery ? 'none' : '';
+        if (filters) filters.style.display = hasQuery ? 'none' : '';
+      }, true);
+    }
+  });
+  </script>
+  {{ $js := resources.Get "js/main.js" | minify | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" defer></script>
+  {{ partial "diagram-lightbox.html" . }}
+  {{ partial "search-modal.html" . }}
+</body>
+</html>

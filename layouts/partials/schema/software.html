@@ -1,0 +1,16 @@
+{{ if and (eq .Section "projects") (not .IsNode) }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "{{ .Title }}",
+  "description": "{{ .Description }}",
+  "author": {
+    "@type": "Person",
+    "name": "Ashwin Gopalsamy"
+  }{{ with .Params.github }},
+  "codeRepository": "{{ . }}"{{ end }}{{ with .Params.tech }},
+  "programmingLanguage": [{{ range $i, $t := . }}{{ if $i }}, {{ end }}"{{ $t }}"{{ end }}]{{ end }}
+}
+</script>
+{{ end }}

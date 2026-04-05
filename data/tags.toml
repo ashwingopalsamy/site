@@ -1,0 +1,11 @@
+[iso8583]
+description = "Binary message format used by payment networks. Bitmap-indicated fields, MTI classifications, and parsing edge cases from production systems."
+
+[payments]
+description = "Payment authorization infrastructure -- routing, validation, HSM integration, and operational patterns at card-network scale."
+
+[go]
+description = "Go idioms, concurrency patterns, error handling, and production lessons from high-throughput backend services."
+
+[distributed-systems]
+description = "Design patterns, failure modes, and real operational trade-offs in distributed systems -- from payment authorization infrastructure."

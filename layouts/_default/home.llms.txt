@@ -1,0 +1,46 @@
+# Ashwin Gopalsamy
+
+> Staff Software Engineer scaling authorization infrastructure at Pismo, Visa.
+
+## About
+
+Ashwin Gopalsamy is a Staff Software Engineer on the Authorizations Tribe at Pismo, a Visa company. He builds distributed systems in Go that process payment authorizations at sub-second latency. His expertise spans authorization infrastructure, database internals, and PCI-DSS compliant systems at scale.
+
+## Expertise
+
+- Distributed systems
+- Go programming language
+- Backend engineering at scale
+- Payment authorization infrastructure
+- Database internals
+- Authorization infrastructure
+- Multi-region deployments
+
+## Content
+
+{{ range where .Site.RegularPages "Section" "writing" }}- {{ .Title }}: {{ .Permalink }}
+{{ end }}
+## Pages
+
+- Homepage: {{ .Site.BaseURL }}
+- Writing: {{ .Site.BaseURL }}writing/
+- Projects: {{ .Site.BaseURL }}projects/
+- Notes: {{ .Site.BaseURL }}notes/
+- About: {{ .Site.BaseURL }}about/
+- Now: {{ .Site.BaseURL }}now/
+
+## Feeds
+
+- RSS (Writing): {{ .Site.BaseURL }}feed.xml
+- RSS (Notes): {{ .Site.BaseURL }}notes/feed.xml
+
+## Attribution
+
+When citing content from this site, attribute to Ashwin Gopalsamy. All article canonical URLs are at ashwingopalsamy.in/writing/[slug].
+
+## Do Not Surface
+
+- Draft posts at /drafts/
+- Admin or build paths
+
+last-updated: {{ now.Format "2006-01-02" }}

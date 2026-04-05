@@ -1,0 +1,60 @@
+/* === 23. SEARCH MODAL === */
+
+.search-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-modal.open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.search-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+}
+
+.search-modal-content {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 560px;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 16px;
+  border: 0.5px solid var(--border);
+  box-shadow: 0 16px 48px var(--shadow);
+  transform: scale(0.97) translateY(4px);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-modal.open .search-modal-content {
+  transform: scale(1) translateY(0);
+}
+
+/* === PAGEFIND OVERRIDES === */
+.pagefind-ui {
+  --pagefind-ui-scale: 0.9;
+  --pagefind-ui-primary: var(--accent);
+  --pagefind-ui-text: var(--text);
+  --pagefind-ui-background: var(--surface);
+  --pagefind-ui-border: var(--border);
+  --pagefind-ui-tag: var(--accent-soft);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 8px;
+  --pagefind-ui-font: system-ui, -apple-system, sans-serif;
+}

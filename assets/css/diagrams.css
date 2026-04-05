@@ -1,0 +1,275 @@
+/* === 22b. LIGHTBOX === */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox[hidden] {
+  display: none;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.lightbox-content {
+  position: relative;
+  z-index: 1;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.lightbox-body {
+  width: min(88vw, 960px);
+  overflow: auto;
+  max-height: 84vh;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 32px;
+}
+
+/* Image mode: no white card, image sits directly on the dark backdrop */
+.lightbox[data-mode="image"] .lightbox-body {
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox[data-mode="image"] .lightbox-body img {
+  max-width: 92vw;
+  max-height: 88vh;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+
+/* Image mode: hide diagram-specific buttons (SVG/PNG download) */
+.lightbox[data-mode="image"] .lightbox-btn[data-action="download-svg"],
+.lightbox[data-mode="image"] .lightbox-btn[data-action="download-png"] {
+  display: none;
+}
+
+.lightbox-body svg,
+.lightbox-body img {
+  max-width: 100%;
+  height: auto;
+}
+
+.lightbox-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.lightbox-btn {
+  padding: 8px 18px;
+  border-radius: 100px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 14px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.lightbox-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
+.lightbox-close {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  border-radius: 50%;
+}
+
+/* === 22c. DIAGRAM CONTAINER === */
+
+.diagram-container {
+  position: relative;
+  margin: 24px 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--surface);
+  overflow: hidden;
+  cursor: zoom-in;
+}
+
+.diagram-container .mermaid,
+.diagram-container .plantuml-diagram {
+  display: flex;
+  justify-content: center;
+}
+
+/* Hide raw mermaid source, show shimmer skeleton while loading */
+.mermaid:not([data-processed]) {
+  visibility: hidden;
+  position: relative;
+  min-height: 120px;
+}
+
+.mermaid:not([data-processed])::after {
+  content: '';
+  visibility: visible;
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: linear-gradient(90deg,
+    var(--code-bg) 25%,
+    var(--surface) 50%,
+    var(--code-bg) 75%
+  );
+  background-size: 200% 100%;
+  animation: diagramShimmer 1.5s ease infinite;
+}
+
+@keyframes diagramShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Lightbox: expand SVG/img to fill viewport */
+.lightbox-body svg {
+  width: 85vw;
+  max-width: 1000px;
+  height: auto;
+}
+
+.diagram-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.diagram-container:hover .diagram-actions {
+  opacity: 1;
+}
+
+.diagram-action {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 0.5px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.diagram-action:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+[data-theme="dark"] .plantuml-diagram {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* === 22d. CALLOUT BLOCKS === */
+
+.callout {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border-left: 3px solid;
+  border-radius: 0 8px 8px 0;
+  margin: 24px 0;
+}
+
+.callout-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  line-height: 1.6;
+}
+
+.callout-body {
+  flex: 1;
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.callout-body p:last-child {
+  margin-bottom: 0;
+}
+
+.callout--info { border-color: #3b82f6; background: #eff6ff; }
+.callout--warning { border-color: #f59e0b; background: #fffbeb; }
+.callout--tip { border-color: #10b981; background: #ecfdf5; }
+.callout--note { border-color: #6b7280; background: #f9fafb; }
+.callout--insight { border-color: #8b5cf6; background: #f5f3ff; }
+
+[data-theme="dark"] .callout--info { background: #1e293b; }
+[data-theme="dark"] .callout--warning { background: #292524; }
+[data-theme="dark"] .callout--tip { background: #1a2e23; }
+[data-theme="dark"] .callout--note { background: #1f2937; }
+[data-theme="dark"] .callout--insight { background: #1e1b2e; }
+
+/* === 22e. COMPARISON BLOCKS === */
+
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+@media (max-width: 640px) {
+  .compare { grid-template-columns: 1fr; }
+}
+
+.compare-side {
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.compare-title {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+.compare-body {
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.compare-body p:last-child {
+  margin-bottom: 0;
+}

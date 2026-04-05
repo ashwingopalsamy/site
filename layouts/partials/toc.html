@@ -1,0 +1,11 @@
+{{ if .TableOfContents }}
+{{ $headingCount := len (findRE `<li>` (.TableOfContents | string)) }}
+{{ if gt $headingCount 1 }}
+<aside class="toc" aria-label="Table of contents">
+  <div class="toc-inner">
+    <div class="toc-title">On this page</div>
+    {{ .TableOfContents }}
+  </div>
+</aside>
+{{ end }}
+{{ end }}

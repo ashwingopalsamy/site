@@ -1,0 +1,10 @@
+<div class="desktop-nav">
+  {{ $current := .RelPermalink }}
+  {{ $names := slice "Home" "Writing" "Projects" "Now" "About" }}
+  {{ $paths := slice "/" "/writing/" "/projects/" "/now/" "/about/" }}
+  {{ range $i, $name := $names }}
+    {{ $path := index $paths $i }}
+    {{ $isActive := or (eq $current $path) (and (ne $path "/") (hasPrefix $current $path)) (and (eq $path "/writing/") (hasPrefix $current "/tags/")) }}
+    <a href="{{ $path }}" class="desktop-nav-link{{ if $isActive }} active{{ end }}"{{ if $isActive }} aria-current="page"{{ end }}>{{ $name }}</a>
+  {{ end }}
+</div>

@@ -1,0 +1,5 @@
+{{ $title := .Get "title" | default "After" }}
+<div class="compare-side">
+  <div class="compare-title">{{ $title }}</div>
+  <div class="compare-body">{{ .Inner | markdownify }}</div>
+</div>

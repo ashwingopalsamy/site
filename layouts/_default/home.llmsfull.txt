@@ -1,0 +1,36 @@
+# Ashwin Gopalsamy - Full Site Content
+
+> Staff Software Engineer scaling authorization infrastructure at Pismo, Visa.
+> Distributed systems, Go, sub-second latency, multi-region payment authorizations.
+
+## Site
+
+- Homepage: {{ .Site.BaseURL }}
+- About: {{ .Site.BaseURL }}about/
+- RSS: {{ .Site.BaseURL }}feed.xml
+- llms.txt: {{ .Site.BaseURL }}llms.txt
+
+---
+{{ range where .Site.RegularPages "Type" "writing" }}
+## {{ .Title }}
+
+URL: {{ .Permalink }}
+Published: {{ .Date.Format "2006-01-02" }}{{ with .Params.tags }}
+Tags: {{ delimit . ", " }}{{ end }}
+
+{{ .RawContent | replaceRE `\{\{[</%][\s\S]*?[>/%]\}\}` "" | replaceRE `\n{3,}` "\n\n" }}
+
+---
+{{ end }}{{ range where .Site.RegularPages "Section" "projects" }}
+## {{ .Title }}
+
+URL: {{ .Permalink }}
+Published: {{ .Date.Format "2006-01-02" }}{{ with .Params.tech }}
+Tech: {{ delimit . ", " }}{{ end }}{{ with .Params.github }}
+GitHub: {{ . }}{{ end }}
+
+{{ .RawContent | replaceRE `\{\{[</%][\s\S]*?[>/%]\}\}` "" | replaceRE `\n{3,}` "\n\n" }}
+
+---
+{{ end }}
+last-updated: {{ now.Format "2006-01-02" }}

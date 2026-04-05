@@ -1,0 +1,51 @@
+<div class="giscus-wrapper" id="giscus-container">
+  <div class="divider"></div>
+  <div class="giscus"></div>
+</div>
+
+<script>
+(function() {
+  var container = document.getElementById('giscus-container');
+  if (!container) return;
+
+  var loaded = false;
+  function loadGiscus() {
+    if (loaded) return;
+    loaded = true;
+
+    var theme = document.documentElement.getAttribute('data-theme') === 'dark'
+      ? 'noborder_dark' : 'noborder_light';
+
+    var s = document.createElement('script');
+    s.src = 'https://giscus.app/client.js';
+    s.setAttribute('data-repo', '{{ .Site.Params.giscusRepo | default "ashwingopalsamy/site" }}');
+    s.setAttribute('data-repo-id', '{{ .Site.Params.giscusRepoId }}');
+    s.setAttribute('data-category', '{{ .Site.Params.giscusCategory | default "Comments" }}');
+    s.setAttribute('data-category-id', '{{ .Site.Params.giscusCategoryId }}');
+    s.setAttribute('data-mapping', 'pathname');
+    s.setAttribute('data-strict', '0');
+    s.setAttribute('data-reactions-enabled', '1');
+    s.setAttribute('data-emit-metadata', '0');
+    s.setAttribute('data-input-position', 'top');
+    s.setAttribute('data-theme', theme);
+    s.setAttribute('data-lang', 'en');
+    s.setAttribute('data-loading', 'lazy');
+    s.setAttribute('crossorigin', 'anonymous');
+    s.async = true;
+
+    container.querySelector('.giscus').appendChild(s);
+  }
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) {
+        loadGiscus();
+        observer.disconnect();
+      }
+    }, { rootMargin: '200px' });
+    observer.observe(container);
+  } else {
+    loadGiscus();
+  }
+})();
+</script>

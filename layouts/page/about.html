@@ -1,0 +1,36 @@
+{{ define "main" }}
+<article class="article">
+  <header class="article-header">
+    <div class="page-header-row">
+      <span></span>
+      <h1 class="page-header-title">{{ .Title }}</h1>
+      <span></span>
+    </div>
+    {{ with .Description }}
+    <p class="page-header-sub">{{ . }}</p>
+    {{ end }}
+  </header>
+  <div class="divider"></div>
+  <div class="article-body">
+    {{ .Content }}
+  </div>
+
+  <section class="exp-section">
+    <div class="exp-label">Elsewhere</div>
+    <div class="exp-links">
+      <a href="https://github.com/ashwingopalsamy" class="exp-ext-link" target="_blank" rel="noopener noreferrer">
+        {{ partial "icons/brands/github.html" (dict "size" "14") }}
+        GitHub
+      </a>
+      <a href="https://linkedin.com/in/ashwingopalsamy" class="exp-ext-link" target="_blank" rel="noopener noreferrer">
+        {{ partial "icons/brands/linkedin.html" (dict "size" "14") }}
+        LinkedIn
+      </a>
+      <a href="https://x.com/ashwin2125" class="exp-ext-link" target="_blank" rel="noopener noreferrer">
+        {{ partial "icons/brands/x.html" (dict "size" "14") }}
+        X
+      </a>
+    </div>
+  </section>
+</article>
+{{ end }}

@@ -1,0 +1,42 @@
+{{- $title := .Title | default .Site.Title -}}
+{{- $section := .Section | default "" -}}
+
+{{- /* Load base image (1200x630 dark bg with accent stripe) */ -}}
+{{- $bg := resources.Get "img/og-base.png" -}}
+
+{{- /* Section label */ -}}
+{{- $sectionLabel := "" -}}
+{{- if eq $section "writing" -}}
+  {{- $sectionLabel = "WRITING" -}}
+{{- else if eq $section "projects" -}}
+  {{- $sectionLabel = "PROJECTS" -}}
+{{- else if eq $section "notes" -}}
+  {{- $sectionLabel = "NOTES" -}}
+{{- end -}}
+
+{{- if $sectionLabel -}}
+  {{- $bg = $bg | images.Filter (images.Text $sectionLabel (dict "color" "#10b981" "size" 22 "x" 80 "y" 60 "linespacing" 0)) -}}
+{{- end -}}
+
+{{- /* Title text */ -}}
+{{- $titleY := 80 -}}
+{{- if $sectionLabel -}}
+  {{- $titleY = 120 -}}
+{{- end -}}
+
+{{- if gt (len $title) 70 -}}
+  {{- $title = printf "%s..." (substr $title 0 67) -}}
+{{- end -}}
+
+{{- $bg = $bg | images.Filter (images.Text $title (dict "color" "#edebe8" "size" 52 "x" 80 "y" $titleY "linespacing" 16)) -}}
+
+{{- /* Site URL at bottom */ -}}
+{{- $bg = $bg | images.Filter (images.Text "ashwingopalsamy.in" (dict "color" "#777777" "size" 20 "x" 80 "y" 560 "linespacing" 0)) -}}
+
+{{- /* Logo mark at bottom right */ -}}
+{{- $bg = $bg | images.Filter (images.Text "ag." (dict "color" "#555555" "size" 48 "x" 1060 "y" 530 "linespacing" 0)) -}}
+
+{{- /* Output as JPEG for smaller file size */ -}}
+{{- $og := $bg.Process "jpeg q85" -}}
+
+{{- return $og -}}

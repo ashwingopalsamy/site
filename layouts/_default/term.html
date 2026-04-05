@@ -1,0 +1,37 @@
+{{ define "main" }}
+{{ $pages := where .Pages "Type" "writing" }}
+{{ $count := len $pages }}
+<div class="writing-index">
+
+  <div class="page-header-row">
+    <a href="/writing/" class="page-header-back">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      Writing
+    </a>
+    <h1 class="page-header-title">{{ .Title }}</h1>
+    <span class="page-header-count">{{ $count }} {{ if eq $count 1 }}writing{{ else }}writings{{ end }}</span>
+  </div>
+  <p class="page-header-sub">Articles and notes tagged with {{ .Title | lower }}</p>
+  {{ $tagKey := .Title | urlize }}
+  {{ with index site.Data.tags $tagKey }}
+  <p class="tag-description text-muted">{{ .description }}</p>
+  {{ end }}
+
+  <div class="writing-filters">
+    <button class="tag-pill active" data-filter-type="all">All</button>
+    <button class="tag-pill" data-filter-type="article" id="filter-pill-articles">Articles</button>
+    <button class="tag-pill" data-filter-type="note" id="filter-pill-notes">Notes</button>
+    <span class="tag-pills-divider"></span>
+    {{ range .Site.Taxonomies.tags.Alphabetical }}
+    <a href="{{ .Page.RelPermalink }}" class="tag-pill{{ if eq $.RelPermalink .Page.RelPermalink }} active{{ end }}">{{ .Page.Title }}</a>
+    {{ end }}
+  </div>
+
+  <div class="article-list" id="article-list">
+    {{ range $pages.ByDate.Reverse }}
+      {{ partial "article-row.html" . }}
+    {{ end }}
+  </div>
+
+</div>
+{{ end }}

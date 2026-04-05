@@ -1,0 +1,34 @@
+{{ define "main" }}
+<article class="article" itemscope itemtype="https://schema.org/SoftwareSourceCode">
+  <header class="article-header">
+    <h1 class="article-title" itemprop="name">{{ .Title }}</h1>
+    <div class="article-meta">
+      {{ with .Params.status }}<span class="reading-time-badge">{{ . }}</span>{{ end }}
+      {{ with .Params.tech }}
+        {{ range . }}
+        <span class="meta-dot"></span>
+        <span class="tech-badge" itemprop="programmingLanguage">
+          {{ $key := lower . }}
+          {{ $partialPath := printf "icons/brands/%s.html" $key }}
+          {{ if templates.Exists (printf "partials/%s" $partialPath) }}
+            <span class="tech-badge-icon">{{ partial $partialPath (dict "size" "12") }}</span>
+          {{ end }}
+          {{ . }}
+        </span>
+        {{ end }}
+      {{ end }}
+    </div>
+    {{ with .Params.github }}
+    <div class="project-github-wrap">
+      <a href="{{ . }}" class="social-link" rel="noopener noreferrer" target="_blank" itemprop="codeRepository">
+        <span class="project-github-icon">{{ partial "icons/brands/github.html" (dict "size" "14") }}</span>View on GitHub
+      </a>
+    </div>
+    {{ end }}
+  </header>
+  <div class="divider"></div>
+  <div class="article-body" itemprop="description">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

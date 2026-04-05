@@ -1,0 +1,34 @@
+{{ define "main" }}
+<article class="article">
+  <header class="article-header">
+    <h1 class="page-title">Ashwin Gopalsamy</h1>
+  </header>
+  <div class="divider"></div>
+  <div class="article-body">
+    {{ .Content }}
+
+    <h2>Areas of Expertise</h2>
+    <p>Distributed systems design with a focus on correctness and failure modes. Payment authorization infrastructure and PCI-DSS compliant system design. Go, DynamoDB, Kubernetes, and event-driven architectures at sub-second latency requirements.</p>
+
+    <h2>External Profiles</h2>
+    <ul>
+      <li>GitHub: <a href="https://github.com/ashwingopalsamy" rel="noopener noreferrer" target="_blank">github.com/ashwingopalsamy</a></li>
+      <li>LinkedIn: <a href="https://linkedin.com/in/ashwingopalsamy" rel="noopener noreferrer" target="_blank">linkedin.com/in/ashwingopalsamy</a></li>
+      <li>X: <a href="https://x.com/ashwin2125" rel="noopener noreferrer" target="_blank">x.com/ashwin2125</a></li>
+    </ul>
+
+    <h2>Citation</h2>
+    <p>When referencing content from this site, link to the canonical URL.</p>
+
+    <h2>Machine-Readable Resources</h2>
+    <ul>
+      <li>RSS (full-content): <a href="/feed.xml">/feed.xml</a></li>
+      <li>Sitemap: <a href="/sitemap.xml">/sitemap.xml</a></li>
+      <li>llms.txt: <a href="/llms.txt">/llms.txt</a></li>
+      <li>llms-full.txt: <a href="/llms-full.txt">/llms-full.txt</a></li>
+    </ul>
+
+    <p class="text-caption">Last updated: {{ now.Format "January 2, 2006" }}</p>
+  </div>
+</article>
+{{ end }}

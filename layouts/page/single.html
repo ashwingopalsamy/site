@@ -1,0 +1,40 @@
+{{ define "main" }}
+<article class="article">
+  <header class="article-header">
+    {{ if .Params.lastmod }}
+    {{ $diff := sub now.Unix .Params.lastmod.Unix }}
+    {{ $daysSince := div $diff 86400 }}
+    <div class="page-header-row">
+      <span></span>
+      <h1 class="page-header-title">{{ .Title }}</h1>
+      <span class="page-header-count page-header-freshness-inline">
+        {{ if lt $daysSince 30 }}
+          <span class="now-freshness">
+            <span class="now-dot-fresh"></span>
+            Updated {{ .Params.lastmod.Format "January 2006" }}
+          </span>
+        {{ else }}
+          <span class="now-freshness">
+            <span class="now-dot-stale"></span>
+            Updated {{ .Params.lastmod.Format "January 2006" }}
+          </span>
+        {{ end }}
+      </span>
+    </div>
+    {{ else }}
+    <div class="page-header-row">
+      <span></span>
+      <h1 class="page-header-title">{{ .Title }}</h1>
+      <span></span>
+    </div>
+    {{ end }}
+    {{ with .Description }}
+    <p class="page-header-sub">{{ . }}</p>
+    {{ end }}
+  </header>
+  <div class="divider"></div>
+  <div class="article-body">
+    {{ .Content }}
+  </div>
+</article>
+{{ end }}

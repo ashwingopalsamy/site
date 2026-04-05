@@ -1,0 +1,6 @@
+{{- $href := .Destination -}}
+{{- $safe := or (hasPrefix $href "http://") (hasPrefix $href "https://") (hasPrefix $href "mailto:") (hasPrefix $href "/") (hasPrefix $href "#") (hasPrefix $href "./") (hasPrefix $href "../") -}}
+<a href="{{ if $safe }}{{ $href }}{{ else }}#blocked{{ end }}"
+  {{- with $.Title }} title="{{ . }}"{{ end -}}
+  {{- if strings.HasPrefix $href "http" }} rel="noopener noreferrer" target="_blank"{{ end -}}
+>{{ .Text | safeHTML }}</a>
