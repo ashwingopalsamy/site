@@ -5,3 +5,10 @@ main = "./public/_worker.js"
 
 [assets]
 directory = "./public"
+
+[observability.logs]
+enabled = false
+invocation_logs = true
+
+[observability.traces]
+enabled = false
