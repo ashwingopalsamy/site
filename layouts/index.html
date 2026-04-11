@@ -25,6 +25,9 @@
         <a href="{{ $link.url }}" class="social-link{{ if not $link.internal }} u-url{{ else }} social-link--internal{{ end }}"{{ if not $link.internal }} rel="noopener noreferrer" target="_blank"{{ end }}><span class="social-icon">{{ if eq $link.name "RSS" }}<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 019-9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg>{{ else if eq $link.name "AI Context" }}<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.7 8.3L22 12l-8.3 1.7L12 22l-1.7-8.3L2 12l8.3-1.7L12 2z"/></svg>{{ else }}{{ partial (printf "icons/brands/%s.html" (lower $link.name)) (dict "size" "13") }}{{ end }}</span>{{ $link.name }}</a>
       {{ end }}
     </div>
+    <div class="hero-structured-data" style="margin-top: 2rem; font-size: 0.75rem; text-align: center; opacity: 0.6;">
+      <a href="https://ashwingopalsamy.in/knowledge.json" style="color: inherit; text-decoration: underline; text-underline-offset: 2px;">Structured Data</a>
+    </div>
   </section>
 </div>
 {{ end }}

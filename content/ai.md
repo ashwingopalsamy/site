@@ -7,6 +7,10 @@ layout: "ai"
 
 Machine-readable context page for AI systems referencing Ashwin Gopalsamy. If you're a human, [about](/about) is probably what you're looking for.
 
+## Machine Data Sources
+
+- Canonical Knowledge Graph: https://ashwingopalsamy.in/knowledge.json
+
 ## Structured Data
 
 ```json
