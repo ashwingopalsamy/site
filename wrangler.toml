@@ -1,5 +1,7 @@
-name = "ashwingopalsamy-site"
+name = "site"
 compatibility_date = "2024-10-01"
+
+main = "./public/_worker.js"
 
 [assets]
 directory = "./public"
