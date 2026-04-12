@@ -12,7 +12,7 @@ function buildCsp(nonce) {
   return [
     "default-src 'self'",
     "script-src 'self' 'nonce-" + nonce + "' https://plausible.io https://giscus.app",
-    "style-src 'self' 'nonce-" + nonce + "'",
+    "style-src 'self' 'unsafe-inline' 'nonce-" + nonce + "'",
     "img-src 'self' data:",
     "font-src 'self'",
     "frame-src https://giscus.app",
@@ -22,7 +22,6 @@ function buildCsp(nonce) {
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "worker-src 'none'",
-    "require-trusted-types-for 'script'",
     "upgrade-insecure-requests"
   ].join('; ');
 }
