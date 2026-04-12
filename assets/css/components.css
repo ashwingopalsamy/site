@@ -204,6 +204,28 @@ a[target="_blank"]:not(.social-link):not(.article-row):not(.article-nav-link):ho
   height: 100%;
 }
 
+/* === VIDEO CONTAINER (YouTube embeds) === */
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  margin: 20px 0;
+  background: var(--code-bg);
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+}
+
 .project-github-wrap { margin-top: 8px; }
 .project-github-icon { display: inline-flex; align-items: center; margin-right: 5px; }
 .newsletter-form-wrap { margin-top: 20px; }
