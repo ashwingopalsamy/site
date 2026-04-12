@@ -136,6 +136,28 @@ main {
   z-index: 9999;
 }
 
+/* === SPA NAVIGATION TRANSITIONS === */
+
+.topbar-wrap { view-transition-name: topbar; }
+.capsule-bar { view-transition-name: capsule; }
+main { view-transition-name: main-content; }
+
+::view-transition-old(main-content) {
+  animation: none;
+  display: none;
+}
+
+::view-transition-new(main-content) {
+  animation: spaFadeIn 180ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::view-transition-old(topbar),
+::view-transition-new(topbar),
+::view-transition-old(capsule),
+::view-transition-new(capsule) {
+  animation: none;
+}
+
 /* === 28b. KATEX MOBILE OVERFLOW === */
 
 .katex-display {
