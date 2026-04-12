@@ -1,5 +1,14 @@
 /* ashwingopalsamy.in -- main.js */
 
+// Safe SVG parser — avoids innerHTML (blocked by require-trusted-types-for 'script' CSP)
+function parseSvgString(svgStr) {
+  var doc = new DOMParser().parseFromString(svgStr, 'image/svg+xml');
+  var svgEl = doc.documentElement;
+  var frag = document.createDocumentFragment();
+  frag.appendChild(document.importNode(svgEl, true));
+  return frag;
+}
+
 // Theme toggle with radial reveal (View Transitions API + Web Animations)
 document.querySelectorAll('[data-theme-toggle]').forEach(function(btn) {
   btn.addEventListener('click', function() {
@@ -190,10 +199,7 @@ document.querySelectorAll('pre').forEach(function(pre) {
       var span = document.createElement('span');
       span.textContent = link.icon;
       a.replaceChildren();
-      // Safe: static SVG markup from hardcoded constants, not user input
-      var temp = document.createElement('template');
-      temp.innerHTML = link.icon;
-      a.appendChild(temp.content.cloneNode(true));
+      a.appendChild(parseSvgString(link.icon));
       popup.appendChild(a);
     });
 
@@ -722,9 +728,7 @@ if (_searchBackdrop) _searchBackdrop.addEventListener('click', closeSearch);
     link.href = '#' + heading.id;
     link.className = 'heading-anchor';
     link.setAttribute('aria-label', 'Link to section');
-    var temp = document.createElement('template');
-    temp.innerHTML = linkSvg;
-    link.appendChild(temp.content.cloneNode(true));
+    link.appendChild(parseSvgString(linkSvg));
     link.addEventListener('click', function(e) {
       e.preventDefault();
       navigator.clipboard.writeText(window.location.origin + window.location.pathname + '#' + heading.id);
