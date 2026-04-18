@@ -2,7 +2,7 @@
 title: "Understanding ISO 8583 Bitmap Parsing"
 date: 2026-04-01
 description: "How payment networks encode field presence using primary and secondary bitmaps in binary messages."
-tags: ["ISO8583", "payments", "go"]
+tags: ["payments", "go"]
 ---
 
 Every ISO 8583 message begins with a Message Type Indicator (MTI), followed by one or two bitmaps that declare which data elements are present in the message.

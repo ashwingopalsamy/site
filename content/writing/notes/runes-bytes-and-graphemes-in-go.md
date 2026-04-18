@@ -1,7 +1,7 @@
 ---
 title: "Runes, Bytes, and Graphemes in Go"
 date: 2025-08-09
-tags: ["go", "unicode"]
+tags: ["go"]
 url: /writing/notes/runes-bytes-and-graphemes-in-go/
 ---
 

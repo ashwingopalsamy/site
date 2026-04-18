@@ -1,7 +1,7 @@
 ---
 title: "Go Maps Iteration Order"
 date: 2025-12-25
-tags: ["go-internals"]
+tags: ["go"]
 url: /writing/notes/go-maps-iteration-order/
 ---
 

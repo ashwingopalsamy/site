@@ -2,7 +2,7 @@
 title: "How Goroutine Stacks Grow and Shrink"
 date: 2025-06-08
 description: "Goroutine stacks start at 2KB, double on overflow, and shrink during GC. The mechanics of Go's contiguous stack model."
-tags: ["go-internals"]
+tags: ["go"]
 ---
 
 If you ask any mid-senior Go dev what makes goroutines 'lightweight' and you'll get the standard reply:

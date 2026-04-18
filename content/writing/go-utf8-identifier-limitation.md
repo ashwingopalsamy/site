@@ -2,7 +2,7 @@
 title: "Go's UTF-8 Identifier Limitation"
 date: 2024-11-12
 description: "Chinese characters work in Go identifiers but Tamil combining marks don't. A look at Unicode categories and the Go spec's design choice."
-tags: ["go", "unicode"]
+tags: ["go"]
 ---
 
 I've been exploring Go's UTF-8 support lately, and was curious about how well it handles non-Latin scripts in code. This post covers a detailed overview about the same.

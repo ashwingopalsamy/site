@@ -2,7 +2,7 @@
 title: "What Happens Before main() in Go"
 date: 2024-12-13
 description: "Package initialization order, init() functions, dependency ordering, and what the runtime does before your code runs."
-tags: ["go-internals"]
+tags: ["go"]
 ---
 
 When we first start with Go, the `main` function seems almost too simple. A single entry point, a straightforward `go run main.go` and voila -- our program is up and running.

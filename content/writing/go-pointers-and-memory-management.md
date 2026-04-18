@@ -2,7 +2,7 @@
 title: "Go Pointers and Memory Management"
 date: 2024-11-17
 description: "Stack vs heap, pass-by-value semantics, escape analysis, garbage collection, and data race prevention with mutexes."
-tags: ["go-internals"]
+tags: ["go"]
 ---
 
 When I first started learning Go, I was intrigued by its approach to memory management, especially when it came to pointers. Go handles memory in a way that's both efficient and safe, but it can be a bit of a black box if you don't peek under the hood a bit.

@@ -2,7 +2,7 @@
 title: "Go Scheduler, Yield Points, and Infinite Loops"
 date: 2025-05-24
 description: "When to use for{} vs goroutines, how the GMP scheduler cooperatively preempts, and why async preemption exists."
-tags: ["go-internals"]
+tags: ["go"]
 ---
 
 I've been reviewing some performance-critical code lately, and I keep coming back to this pattern:
