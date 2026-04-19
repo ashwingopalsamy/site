@@ -814,7 +814,6 @@ window.initPage = function() {
     }
   })();
 
-  })();
 };
 
 // Run on first load
