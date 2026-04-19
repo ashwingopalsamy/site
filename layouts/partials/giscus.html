@@ -17,6 +17,10 @@
       ? 'noborder_dark' : 'noborder_light';
 
     var s = document.createElement('script');
+    var currentScript = document.currentScript || document.querySelector('script[nonce]');
+    if (currentScript && currentScript.nonce) {
+      s.setAttribute('nonce', currentScript.nonce);
+    }
     s.src = 'https://giscus.app/client.js';
     s.setAttribute('data-repo', '{{ .Site.Params.giscusRepo | default "ashwingopalsamy/site" }}');
     s.setAttribute('data-repo-id', '{{ .Site.Params.giscusRepoId }}');
