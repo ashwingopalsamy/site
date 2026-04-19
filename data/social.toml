@@ -11,5 +11,11 @@ name = "X"
 url = "https://x.com/ashwin2125"
 
 [[links]]
+name = "Resume"
+url = "/resume.pdf"
+download = true
+
+[[links]]
 name = "AI Context"
 url = "/ai/"
+internal = true

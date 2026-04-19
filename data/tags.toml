@@ -1,23 +1,14 @@
-[iso8583]
-description = "Binary message format used by payment networks. Bitmap-indicated fields, MTI classifications, and parsing edge cases from production systems."
-
-[payments]
-description = "Payment authorization infrastructure -- routing, validation, HSM integration, and operational patterns at card-network scale."
-
 [go]
-description = "Go idioms, concurrency patterns, error handling, and production lessons from high-throughput backend services."
+description = "Go idioms, runtime internals, concurrency patterns, and production lessons from high-throughput backend services."
 
 [distributed-systems]
 description = "Design patterns, failure modes, and real operational trade-offs in distributed systems -- from payment authorization infrastructure."
 
+[payments]
+description = "Payment authorization infrastructure -- routing, validation, message formats, and operational patterns at card-network scale."
+
 [security]
 description = "Supply chain attacks, dependency hygiene, and security practices for production backend systems."
 
-[go-internals]
-description = "Deep dives into Go runtime internals -- scheduler, memory management, stack growth, and map implementation."
-
 [engineering-practices]
 description = "Code review, git workflows, PR hygiene, and team engineering culture that scales."
-
-[unicode]
-description = "Unicode encoding, grapheme clusters, and text handling edge cases in Go."
