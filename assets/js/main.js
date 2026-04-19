@@ -80,13 +80,6 @@ document.querySelectorAll('[data-theme-toggle]').forEach(function(btn) {
         });
         mermaid.run();
       }
-      var giscusFrame = document.querySelector('iframe.giscus-frame');
-      if (giscusFrame) {
-        giscusFrame.contentWindow.postMessage(
-          { giscus: { setConfig: { theme: next === 'dark' ? 'noborder_dark' : 'noborder_light' } } },
-          'https://giscus.app'
-        );
-      }
     }
 
     if (!document.startViewTransition) { applyTheme(); return; }
@@ -821,37 +814,6 @@ window.initPage = function() {
     }
   })();
 
-  // Giscus lazy load
-  (function() {
-    var wrapper = document.querySelector('.giscus-wrapper');
-    if (!wrapper || wrapper.querySelector('iframe')) return;
-    var container = wrapper.querySelector('.giscus') || wrapper;
-    if ('IntersectionObserver' in window) {
-      var obs = new IntersectionObserver(function(entries) {
-        if (entries[0].isIntersecting) {
-          obs.disconnect();
-          var script = document.createElement('script');
-          script.src = 'https://giscus.app/client.js';
-          script.setAttribute('data-repo', container.getAttribute('data-repo') || '');
-          script.setAttribute('data-repo-id', container.getAttribute('data-repo-id') || '');
-          script.setAttribute('data-category', container.getAttribute('data-category') || '');
-          script.setAttribute('data-category-id', container.getAttribute('data-category-id') || '');
-          script.setAttribute('data-mapping', 'pathname');
-          script.setAttribute('data-strict', '0');
-          script.setAttribute('data-reactions-enabled', '1');
-          script.setAttribute('data-emit-metadata', '0');
-          script.setAttribute('data-input-position', 'bottom');
-          var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'noborder_dark' : 'noborder_light';
-          script.setAttribute('data-theme', theme);
-          script.setAttribute('data-lang', 'en');
-          script.crossOrigin = 'anonymous';
-          script.async = true;
-          container.appendChild(script);
-        }
-      }, { rootMargin: '200px' });
-      obs.observe(wrapper);
-      _page.observers.push(obs);
-    }
   })();
 };
 

@@ -10,10 +10,6 @@ enableGitInfo = false
   twitter = "@ashwin2125"
   github = "ashwingopalsamy"
   plausibleDomain = "ashwingopalsamy.in"
-  giscusRepo = "ashwingopalsamy/site"
-  giscusRepoId = "R_kgDOR9JViQ"
-  giscusCategory = "Comments"
-  giscusCategoryId = "DIC_kwDOR9JVic4C7L3D"
   # bingVerification = "YOUR_BING_VERIFICATION_CODE"
 
 [markup]

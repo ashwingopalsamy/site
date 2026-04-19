@@ -11,11 +11,11 @@ function generateNonce() {
 function buildCsp(nonce) {
   return [
     "default-src 'self'",
-    "script-src 'self' 'nonce-" + nonce + "' https://plausible.io https://giscus.app",
-    "style-src 'self' 'unsafe-inline' 'nonce-" + nonce + "' https://giscus.app",
+    "script-src 'self' 'nonce-" + nonce + "' https://plausible.io",
+    "style-src 'self' 'unsafe-inline' 'nonce-" + nonce + "'",
     "img-src 'self' data:",
     "font-src 'self'",
-    "frame-src https://giscus.app",
+    "frame-src 'none'",
     "connect-src 'self' https://plausible.io",
     "form-action 'self' https://buttondown.com",
     "object-src 'none'",
