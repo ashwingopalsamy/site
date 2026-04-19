@@ -21,7 +21,7 @@ function buildCsp(nonce) {
     "object-src 'none'",
     "frame-ancestors 'none'",
     "base-uri 'self'",
-    "worker-src 'none'",
+    "worker-src 'self'",
     "upgrade-insecure-requests"
   ].join('; ');
 }

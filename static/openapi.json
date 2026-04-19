@@ -1,0 +1,56 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ashwingopalsamy.in — Site API",
+    "version": "1.0.0",
+    "description": "Machine-readable knowledge graph and LLM-optimized content index for ashwingopalsamy.in"
+  },
+  "servers": [
+    { "url": "https://ashwingopalsamy.in" }
+  ],
+  "paths": {
+    "/knowledge.json": {
+      "get": {
+        "operationId": "getKnowledgeGraph",
+        "summary": "Get machine-readable knowledge graph",
+        "description": "Returns a structured knowledge graph describing Ashwin Gopalsamy's expertise, identity, projects, and published content",
+        "responses": {
+          "200": {
+            "description": "Knowledge graph",
+            "content": {
+              "application/json": {
+                "schema": { "type": "object" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/llms.txt": {
+      "get": {
+        "operationId": "getLLMsIndex",
+        "summary": "Get LLM-optimized site index",
+        "description": "Returns a markdown-formatted index of all content, links, and context — optimized for LLM consumption",
+        "responses": {
+          "200": {
+            "description": "LLM-friendly content index",
+            "content": { "text/plain": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    },
+    "/llms-full.txt": {
+      "get": {
+        "operationId": "getLLMsFullContent",
+        "summary": "Get full site content for LLMs",
+        "description": "Returns complete site content including all articles, notes, and project descriptions for LLM consumption",
+        "responses": {
+          "200": {
+            "description": "Full site content",
+            "content": { "text/plain": { "schema": { "type": "string" } } }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "agents": [
+    {
+      "name": "Ashwin Gopalsamy",
+      "description": "Staff Software Engineer — distributed systems, Go, fintech infrastructure, payment authorization at Visa/Pismo. Technical author and open-source contributor.",
+      "url": "https://ashwingopalsamy.in",
+      "protocol": "a2a",
+      "capabilities": ["text"]
+    }
+  ]
+}

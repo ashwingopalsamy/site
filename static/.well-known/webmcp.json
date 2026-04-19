@@ -1,0 +1,19 @@
+{
+  "spec": "webmcp/0.1",
+  "tools": [
+    {
+      "name": "search-content",
+      "description": "Search articles, notes, and projects on ashwingopalsamy.in by keyword",
+      "url": "/search",
+      "method": "GET",
+      "parameters": [
+        {
+          "name": "q",
+          "type": "string",
+          "description": "Search query — finds articles, notes, and projects by keyword",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "Ashwin Gopalsamy",
+  "description": "Staff Software Engineer specializing in distributed systems and fintech infrastructure. Builds high-scale authorization systems at Visa's Pismo platform. Author of technical articles on Go, distributed systems, payment infrastructure, and database internals.",
+  "url": "https://ashwingopalsamy.in",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "skills": [
+    {
+      "id": "technical-writing",
+      "name": "Technical Writing",
+      "description": "In-depth articles on Go internals, distributed systems, payment infrastructure, ISO 8583, and database internals"
+    },
+    {
+      "id": "knowledge-graph",
+      "name": "Knowledge Graph",
+      "description": "Machine-readable expertise graph available at https://ashwingopalsamy.in/knowledge.json"
+    },
+    {
+      "id": "llm-context",
+      "name": "LLM Context",
+      "description": "LLM-optimized site index at https://ashwingopalsamy.in/llms.txt and full content at https://ashwingopalsamy.in/llms-full.txt"
+    }
+  ],
+  "defaultInputModes": ["text/plain"],
+  "defaultOutputModes": ["text/plain", "text/html"]
+}

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "knowledge": {
+      "url": "https://ashwingopalsamy.in/knowledge.json",
+      "name": "Ashwin Gopalsamy Knowledge Graph",
+      "description": "Machine-readable knowledge graph describing expertise, projects, identity, and published content for Ashwin Gopalsamy — Staff Software Engineer, distributed systems and fintech infrastructure"
+    }
+  }
+}
