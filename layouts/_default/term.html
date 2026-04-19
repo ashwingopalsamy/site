@@ -11,25 +11,38 @@
     <h1 class="page-header-title">{{ .Title }}</h1>
     <span class="page-header-count">{{ $count }} {{ if eq $count 1 }}writing{{ else }}writings{{ end }}</span>
   </div>
-  <p class="page-header-sub">Articles and notes tagged with {{ .Title | lower }}</p>
   {{ $tagKey := .Title | urlize }}
   {{ with index site.Data.tags $tagKey }}
-  <p class="tag-description text-muted">{{ .description }}</p>
+  <p class="page-header-sub">{{ .description }}</p>
   {{ end }}
 
   <div class="writing-filters">
-    <button class="tag-pill active" data-filter-type="all">All</button>
-    <button class="tag-pill" data-filter-type="article" id="filter-pill-articles">Articles</button>
-    <button class="tag-pill" data-filter-type="note" id="filter-pill-notes">Notes</button>
-    <span class="tag-pills-divider"></span>
     {{ range .Site.Taxonomies.tags.Alphabetical }}
     <a href="{{ .Page.RelPermalink }}" class="tag-pill{{ if eq $.RelPermalink .Page.RelPermalink }} active{{ end }}">{{ .Page.Title }}</a>
     {{ end }}
   </div>
 
   <div class="article-list" id="article-list">
+    {{ $prevYear := 0 }}
+    {{ $prevMonth := "" }}
+    {{ $isFirst := true }}
     {{ range $pages.ByDate.Reverse }}
-      {{ partial "article-row.html" . }}
+      {{ $year := .Date.Year }}
+      {{ $month := .Date.Format "Jan" }}
+      {{ if ne $year $prevYear }}
+        <div class="year-sep{{ if $isFirst }} year-sep--first{{ end }}">{{ $year }}</div>
+        <div class="year-sep-line"></div>
+        {{ $prevYear = $year }}
+        {{ $prevMonth = "" }}
+        {{ $isFirst = false }}
+      {{ end }}
+      {{ $monthLabel := "" }}
+      {{ if ne $month $prevMonth }}
+        {{ $monthLabel = $month }}
+        {{ $prevMonth = $month }}
+        {{ if not $isFirst }}<div class="month-sep"></div>{{ end }}
+      {{ end }}
+      {{ partial "article-row.html" (dict "Page" . "monthLabel" $monthLabel) }}
     {{ end }}
   </div>
 

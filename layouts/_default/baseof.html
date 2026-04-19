@@ -19,36 +19,12 @@
       <span class="btt-pct" id="bttPct"></span>
     </button>
   </div>
-  <script src="/pagefind/pagefind-ui.js" type="text/javascript" defer></script>
-  <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
-  <script>
-  window.addEventListener('DOMContentLoaded', function() {
-    var inlineEl = document.getElementById('writing-search');
-    var targetEl = inlineEl ? '#writing-search' : '#search';
-
-    new PagefindUI({
-      element: targetEl,
-      showSubResults: true,
-      showImages: false
-    });
-
-    if (inlineEl) {
-      var articleList = document.getElementById('article-list');
-      var filters = document.querySelector('.writing-filters');
-
-      inlineEl.addEventListener('input', function(e) {
-        var input = inlineEl.querySelector('input[type="text"]');
-        var hasQuery = input && input.value.trim().length > 0;
-        if (articleList) articleList.style.display = hasQuery ? 'none' : '';
-        if (filters) filters.style.display = hasQuery ? 'none' : '';
-      }, true);
-    }
-  });
-  </script>
+  <!-- Pagefind loaded lazily via main.js on first search trigger -->
   {{ $js := resources.Get "js/main.js" | minify | fingerprint }}
   <script src="{{ $js.RelPermalink }}" defer></script>
   {{ $spa := resources.Get "js/spa.js" | minify | fingerprint }}
   <script src="{{ $spa.RelPermalink }}" defer></script>
+  <script>if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js')</script>
   {{ partial "diagram-lightbox.html" . }}
   {{ partial "search-modal.html" . }}
 </body>

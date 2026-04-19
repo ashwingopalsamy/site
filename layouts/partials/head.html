@@ -1,4 +1,5 @@
 <meta charset="utf-8">
+<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 {{ if .IsHome }}
@@ -16,9 +17,10 @@
 <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:site_name" content="{{ .Site.Title }}">
-{{ if eq .Section "writing" }}
+{{ if and (eq .Section "writing") (not .IsNode) }}
 <meta property="og:type" content="article">
 <meta property="og:article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+<meta property="og:article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
 <meta property="og:article:author" content="{{ .Site.Params.author }}">
 {{ else }}
 <meta property="og:type" content="website">
@@ -102,24 +104,19 @@ document.addEventListener('DOMContentLoaded', function() {
 {{ end }}
 {{ if .HasShortcode "mermaid" }}
 <script defer src="/vendor/mermaid/mermaid.min.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  if (typeof mermaid !== 'undefined') {
-    var theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default';
-    mermaid.initialize({ startOnLoad: false, theme: theme });
-    document.querySelectorAll('.mermaid').forEach(function(el) {
-      el.setAttribute('data-original', el.textContent.trim());
-    });
-    mermaid.run();
-  }
-});
-</script>
 {{ end }}
 {{ partial "schema/person.html" . }}
 {{ partial "schema/article.html" . }}
 {{ partial "schema/breadcrumb.html" . }}
 {{ partial "schema/software.html" . }}
 {{ partial "schema/faq.html" . }}
+
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#10b981" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="any">

@@ -1,11 +1,18 @@
-{{ $isNote := (in .File.Path "writing/notes/") }}
-<a href="{{ .RelPermalink }}" class="article-row" data-type="{{ if $isNote }}note{{ else }}article{{ end }}" data-tags="{{ with .Params.tags }}{{ delimit . "," }}{{ end }}">
+{{ $page := . }}
+{{ $monthLabel := "" }}
+{{ if reflect.IsMap . }}
+  {{ $page = .Page }}
+  {{ $monthLabel = .monthLabel }}
+{{ end }}
+{{ $isNote := (in $page.File.Path "writing/notes/") }}
+<a href="{{ $page.RelPermalink }}" class="article-row" data-type="{{ if $isNote }}note{{ else }}article{{ end }}" data-tags="{{ with $page.Params.tags }}{{ delimit . "," }}{{ end }}">
   <div class="article-row-top">
-    <span class="article-row-title">{{ .Title }}</span>
+    <span class="article-row-month">{{ $monthLabel }}</span>
+    <span class="article-row-title">{{ $page.Title }}</span>
     <div class="article-row-right">
-      {{ with .Params.tags }}{{ range first 1 . }}<span class="article-row-tag article-row-tag--{{ . | urlize }}">{{ . }}</span>{{ end }}{{ end }}
-      <span class="article-row-reading">{{ .WordCount }} words</span>
-      <span class="article-row-date">{{ .Date.Format "Jan 06" }}</span>
+      {{ with $page.Params.tags }}{{ range first 1 . }}<span class="article-row-tag article-row-tag--{{ . | urlize }}">{{ . }}</span>{{ end }}{{ end }}
+      <span class="article-row-reading">{{ $page.WordCount }} words</span>
     </div>
   </div>
+  {{ with $page.Description }}<div class="article-row-excerpt">{{ . }}</div>{{ end }}
 </a>

@@ -17,6 +17,18 @@
 
   <div class="divider"></div>
 
+  {{ if .TableOfContents }}
+  {{ $headingCount := len (findRE `<li>` (.TableOfContents | string)) }}
+  {{ if gt $headingCount 1 }}
+  <details class="toc-mobile">
+    <summary class="toc-mobile-toggle">On this page</summary>
+    <div class="toc-mobile-content">
+      {{ .TableOfContents }}
+    </div>
+  </details>
+  {{ end }}
+  {{ end }}
+
   <div class="article-layout">
     {{ partial "toc.html" . }}
     <div class="article-body e-content" itemprop="articleBody">

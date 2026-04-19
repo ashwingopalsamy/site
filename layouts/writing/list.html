@@ -13,32 +13,33 @@
   <div id="writing-search" class="writing-search-container"></div>
 
   <div class="writing-filters">
-    <button class="tag-pill active" data-filter-type="all">All</button>
-    <button class="tag-pill" data-filter-type="article" id="filter-pill-articles">Articles</button>
-    <button class="tag-pill" data-filter-type="note" id="filter-pill-notes">Notes</button>
-    <span class="tag-pills-divider"></span>
     {{ range .Site.Taxonomies.tags.Alphabetical }}
-    <a href="{{ .Page.RelPermalink }}" class="tag-pill{{ if eq $.RelPermalink .Page.RelPermalink }} active{{ end }}">{{ .Page.Title }}</a>
+    <a href="{{ .Page.RelPermalink }}" class="tag-pill">{{ .Page.Title }}</a>
     {{ end }}
   </div>
 
-  <div id="article-list">
-    <div class="writing-group" data-group="article">
-      <h2 class="writing-group-label">Articles</h2>
-      {{- range where (where .Site.RegularPages.ByDate.Reverse "Type" "writing") ".File.Path" "not in" (slice) -}}
-        {{- if not (in .File.Path "writing/notes/") -}}
-        {{ partial "article-row.html" . }}
-        {{- end -}}
-      {{- end -}}
-    </div>
-    <div class="writing-group" data-group="note">
-      <h2 class="writing-group-label">Notes</h2>
-      {{- range where (where .Site.RegularPages.ByDate.Reverse "Type" "writing") ".File.Path" "not in" (slice) -}}
-        {{- if in .File.Path "writing/notes/" -}}
-        {{ partial "article-row.html" . }}
-        {{- end -}}
-      {{- end -}}
-    </div>
+  <div class="article-list" id="article-list">
+    {{ $prevYear := 0 }}
+    {{ $prevMonth := "" }}
+    {{ $isFirst := true }}
+    {{- range where .Site.RegularPages.ByDate.Reverse "Type" "writing" -}}
+      {{ $year := .Date.Year }}
+      {{ $month := .Date.Format "Jan" }}
+      {{ if ne $year $prevYear }}
+        <div class="year-sep{{ if $isFirst }} year-sep--first{{ end }}">{{ $year }}</div>
+        <div class="year-sep-line"></div>
+        {{ $prevYear = $year }}
+        {{ $prevMonth = "" }}
+        {{ $isFirst = false }}
+      {{ end }}
+      {{ $monthLabel := "" }}
+      {{ if ne $month $prevMonth }}
+        {{ $monthLabel = $month }}
+        {{ $prevMonth = $month }}
+        {{ if not $isFirst }}<div class="month-sep"></div>{{ end }}
+      {{ end }}
+      {{ partial "article-row.html" (dict "Page" . "monthLabel" $monthLabel) }}
+    {{- end -}}
   </div>
 
   {{ else }}

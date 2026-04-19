@@ -1,0 +1,26 @@
+{{ $src := .Destination }}
+{{ $alt := .Text }}
+{{ if hasPrefix $src "/img/" }}
+  {{ $path := printf "img/%s" (strings.TrimPrefix "/img/" $src) }}
+  {{ $img := resources.Get $path }}
+  {{ if $img }}
+    {{ $large := $img.Process "fit 1200x1200 webp q85" }}
+    {{ $small := $img.Process "fit 600x600 webp q85" }}
+    {{ $tiny := $img.Process "resize 20x webp q20" }}
+    <img
+      src="{{ $large.RelPermalink }}"
+      srcset="{{ $small.RelPermalink }} 600w, {{ $large.RelPermalink }} 1200w"
+      sizes="(max-width: 640px) 100vw, 720px"
+      alt="{{ $alt }}"
+      width="{{ $large.Width }}"
+      height="{{ $large.Height }}"
+      loading="lazy"
+      decoding="async"
+      class="img-blur-up"
+      style="background-image: url({{ $tiny.RelPermalink }}); background-size: cover; border-radius: 8px;">
+  {{ else }}
+    <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" style="border-radius: 8px;">
+  {{ end }}
+{{ else }}
+  <img src="{{ $src }}" alt="{{ $alt }}" loading="lazy" style="border-radius: 8px;">
+{{ end }}
