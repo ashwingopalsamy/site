@@ -116,14 +116,30 @@
   border-radius: 12px;
   padding: 24px;
   background: var(--surface);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
   cursor: zoom-in;
+}
+
+@media (max-width: 640px) {
+  .diagram-container {
+    padding: 16px;
+    border-radius: 8px;
+  }
 }
 
 .diagram-container .mermaid,
 .diagram-container .plantuml-diagram {
   display: flex;
   justify-content: center;
+  min-width: min-content;
+}
+
+.diagram-container svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 /* Hide raw mermaid source, show shimmer skeleton while loading */

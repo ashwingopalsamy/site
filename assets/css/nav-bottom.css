@@ -42,6 +42,7 @@
   -webkit-tap-highlight-color: transparent;
   background: transparent;
   overflow: hidden;
+  will-change: transform;
   transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
               transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -80,6 +81,7 @@
   max-width: 0;
   overflow: hidden;
   margin-left: 0;
+  transition: opacity 0.2s ease, max-width 0.25s ease, margin-left 0.25s ease;
 }
 
 .cap.on {

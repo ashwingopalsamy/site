@@ -43,3 +43,38 @@
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* === SKELETON LOADING === */
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.9; }
+}
+
+.spa-skeleton {
+  padding: 0;
+}
+
+.spa-skeleton-line {
+  height: 14px;
+  border-radius: 6px;
+  background: var(--subtle);
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+  margin-bottom: 12px;
+}
+
+.spa-skeleton-line:nth-child(1) { width: 65%; }
+.spa-skeleton-line:nth-child(2) { width: 35%; animation-delay: 0.1s; }
+.spa-skeleton-line:nth-child(3) { width: 100%; margin-top: 24px; animation-delay: 0.15s; }
+.spa-skeleton-line:nth-child(4) { width: 100%; animation-delay: 0.2s; }
+.spa-skeleton-line:nth-child(5) { width: 90%; animation-delay: 0.25s; }
+.spa-skeleton-line:nth-child(6) { width: 100%; animation-delay: 0.3s; }
+.spa-skeleton-line:nth-child(7) { width: 75%; animation-delay: 0.35s; }
+
+/* SPA exit fade */
+main.spa-exiting {
+  opacity: 0;
+  transform: translateY(-3px);
+  transition: opacity 80ms ease-out, transform 80ms ease-out;
+  pointer-events: none;
+}

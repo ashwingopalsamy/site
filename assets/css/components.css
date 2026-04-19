@@ -47,6 +47,22 @@ pre .copy-btn .check-icon polyline {
   }
 }
 
+/* Code block language label */
+
+.code-lang-label {
+  position: absolute;
+  top: 8px;
+  left: 12px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  opacity: 0.6;
+  pointer-events: none;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
 /* Syntax highlighting (Hugo chroma) */
 .highlight .kw,
 .highlight .k {
@@ -72,23 +88,106 @@ pre .copy-btn .check-icon polyline {
   color: var(--accent);
 }
 
+[data-theme="dark"] .highlight .s,
+[data-theme="dark"] .highlight .s2 {
+  color: #e9a97c;
+}
+
+[data-theme="dark"] .highlight .mi,
+[data-theme="dark"] .highlight .mf {
+  color: #818cf8;
+}
+
+/* Code block horizontal scroll indicator */
+
+.highlight {
+  position: relative;
+}
+
+.highlight.has-overflow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 40px;
+  background: linear-gradient(to right, transparent, var(--code-bg));
+  pointer-events: none;
+  border-radius: 0 8px 8px 0;
+}
+
+/* Code block collapse/expand */
+
+pre.code-collapsed {
+  max-height: 400px;
+  overflow: hidden;
+}
+
+pre.code-collapsed .code-expand-btn {
+  display: flex;
+}
+
+.code-expand-btn {
+  display: none;
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--muted);
+  padding: 4px 14px;
+  border-radius: 100px;
+  border: 0.5px solid var(--border);
+  background: var(--surface);
+  cursor: pointer;
+  font-family: inherit;
+  z-index: 2;
+  transition: all 0.2s ease;
+}
+
+.code-expand-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+pre.code-collapsed::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(transparent, var(--code-bg));
+  pointer-events: none;
+  z-index: 1;
+}
+
 /* === 17. BACK TO TOP === */
 
 .back-to-top {
   position: fixed;
-  bottom: 72px;
-  right: 24px;
+  bottom: 76px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
   opacity: 0;
-  transform: translateY(10px);
   pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 9;
+  white-space: nowrap;
 }
 
 .back-to-top.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
   pointer-events: auto;
+}
+
+@media (min-width: 768px) {
+  .back-to-top {
+    bottom: 32px;
+  }
 }
 
 .back-to-top button {
@@ -110,6 +209,7 @@ pre .copy-btn .check-icon polyline {
   border-color: var(--accent);
   color: var(--accent);
   transform: translateY(-2px);
+  box-shadow: 0 4px 16px var(--shadow-accent);
 }
 
 .back-to-top button:active {

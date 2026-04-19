@@ -136,26 +136,13 @@ main {
   z-index: 9999;
 }
 
-/* === SPA NAVIGATION TRANSITIONS === */
+/* === SPA NAVIGATION ===
+   No View Transitions for page nav (backdrop-filter on capsule bar
+   causes transparency artifacts during snapshot compositing).
+   Uses CSS animation on <main> instead. */
 
-.topbar-wrap { view-transition-name: topbar; }
-.capsule-bar { view-transition-name: capsule; }
-main { view-transition-name: main-content; }
-
-::view-transition-old(main-content) {
-  animation: none;
-  display: none;
-}
-
-::view-transition-new(main-content) {
+main.spa-enter {
   animation: spaFadeIn 180ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-::view-transition-old(topbar),
-::view-transition-new(topbar),
-::view-transition-old(capsule),
-::view-transition-new(capsule) {
-  animation: none;
 }
 
 /* === 28b. KATEX MOBILE OVERFLOW === */
@@ -185,12 +172,28 @@ main { view-transition-name: main-content; }
 
 /* === 30. PRINT === */
 
+
+/* === 30. PRINT === */
+
 @media print {
   .topbar-wrap,
   .capsule-bar,
   .reading-progress-bar,
   .back-to-top,
-  .search-modal {
+  .search-modal,
+  .toc,
+  .toc-mobile,
+  .share-bar,
+  .giscus-wrapper,
+  .selection-share,
+  .article-nav,
+  .recently-read,
+  .writing-filters,
+  .copy-btn,
+  .code-lang-label,
+  .code-expand-btn,
+  .diagram-actions,
+  #spa-progress {
     display: none !important;
   }
 
@@ -201,5 +204,21 @@ main { view-transition-name: main-content; }
 
   .container {
     max-width: 100%;
+  }
+
+  pre {
+    break-inside: avoid;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+
+  img {
+    break-inside: avoid;
+  }
+
+  .article-body a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
   }
 }

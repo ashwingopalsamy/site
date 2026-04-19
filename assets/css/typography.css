@@ -44,7 +44,7 @@
 
 .text-code {
   font-size: 14px;
-  font-family: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', monospace;
+  font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', 'Menlo', 'Consolas', monospace;
   line-height: 1.6;
 }
 
