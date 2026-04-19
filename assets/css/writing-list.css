@@ -7,13 +7,21 @@
   padding: 14px 0;
   border-bottom: 0.5px solid var(--border);
   transition: padding 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  content-visibility: auto;
+  contain-intrinsic-size: 0 64px;
 }
 
 .article-row:hover {
   padding-left: 14px;
   border-color: var(--accent);
   background: linear-gradient(90deg, rgba(16, 185, 129, 0.03), transparent 60%);
+}
+
+.article-row:active {
+  transform: scale(0.99);
+  transition-duration: 0.05s;
 }
 
 /* Remove bottom border only on the very last row in a list */
@@ -23,9 +31,10 @@
 }
 
 .article-row-top {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
   align-items: baseline;
+  gap: 0 10px;
 }
 
 .article-row-title {
@@ -71,21 +80,19 @@
   color: var(--muted);
   line-height: 1.5;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  
   max-height: 0;
   opacity: 0;
+  transition: max-height 0.2s ease, opacity 0.15s ease, margin 0.2s ease;
   margin-top: 0;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.article-row:hover .article-row-excerpt,
-.article-row:focus-within .article-row-excerpt {
-  max-height: 60px;
+.article-row:hover .article-row-excerpt {
+  max-height: 24px;
   opacity: 1;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .article-row-right {
@@ -186,6 +193,17 @@
   background: var(--accent-soft);
   color: var(--accent-text);
   font-weight: 500;
+}
+
+/* Projects use flex (no month column) — overrides the 3-col grid from writing list */
+.projects-index .article-row-top {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.projects-index .article-row-top .article-row-title {
+  flex: 1;
 }
 
 /* Project badges container (status + tech pills inline) */
@@ -337,7 +355,7 @@ button.tag-pill {
   letter-spacing: 0.8px;
   color: var(--accent-text);
   margin: 20px 0 4px;
-  text-align: left;
+  text-align: center;
   animation: pageTitleIn 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
@@ -368,23 +386,94 @@ button.tag-pill {
   .projects-index .project-status {
     display: none;
   }
+
+  .projects-index .article-row-excerpt {
+    max-height: 60px;
+    opacity: 1;
+    margin-top: 4px;
+  }
 }
 
-/* Page header left alignment for writing list and tags */
-.writing-index:not(.projects-index) .page-header-row {
-  grid-template-columns: auto 1fr auto;
-  gap: 16px;
+/* === TIMELINE SEPARATORS (year / month) === */
+
+.year-sep {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--accent-text);
+  margin-top: 28px;
+  margin-bottom: 14px;
+  user-select: none;
 }
-.writing-index:not(.projects-index) .page-header-title,
-.writing-index:not(.projects-index) .page-header-sub {
-  text-align: left;
+
+.year-sep--first {
+  margin-top: 6px;
 }
-@media (max-width: 768px) {
-  .writing-index:not(.projects-index) .page-header-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .writing-index:not(.projects-index) .page-header-sub {
-    text-align: left;
-  }
+
+.year-sep::before,
+.year-sep::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(16, 185, 129, 0.35);
+}
+
+.year-sep-line {
+  display: none;
+}
+
+.month-sep {
+  height: 0.5px;
+  background: rgba(16, 185, 129, 0.12);
+  margin: 0;
+}
+
+.article-row-month {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+  padding-top: 2px;
+  line-height: 1.35;
+  opacity: 0.55;
+}
+
+/* === READING HISTORY === */
+
+.recently-read {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 0.5px solid var(--border);
+}
+
+.recently-read-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--accent-text);
+  margin-bottom: 8px;
+}
+
+.recently-read-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.recently-read-item {
+  font-size: 14px;
+  color: var(--muted);
+  text-decoration: none;
+  padding: 6px 0;
+  transition: color 0.2s ease;
+}
+
+.recently-read-item:hover {
+  color: var(--accent);
 }
