@@ -172,7 +172,7 @@ window.addEventListener('scroll', function() {
   var docHeight = document.documentElement.scrollHeight - window.innerHeight;
   if (docHeight <= 0) return;
   var pct = Math.min(window.scrollY / docHeight, 1);
-  if (fill) fill.style.width = Math.round(pct * 100) + '%';
+  if (fill) fill.style.transform = 'scaleX(' + pct + ')';
 
   // Time remaining: switch badge after 30% scroll
   var badge = document.querySelector('.reading-time-badge');

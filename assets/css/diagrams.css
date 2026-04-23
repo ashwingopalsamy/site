@@ -86,7 +86,7 @@
   font-size: 14px;
   font-family: inherit;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
@@ -199,7 +199,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  background: transparent;
+  transition: color 0.2s ease, background-color 0.2s ease;
 }
 
 .diagram-action:hover {

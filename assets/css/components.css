@@ -142,7 +142,7 @@ pre.code-collapsed .code-expand-btn {
   cursor: pointer;
   font-family: inherit;
   z-index: 2;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
 }
 
 .code-expand-btn:hover {
@@ -202,7 +202,10 @@ pre.code-collapsed::before {
   background: var(--surface);
   cursor: pointer;
   font-family: inherit;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .back-to-top button:hover {
@@ -255,7 +258,7 @@ a[target="_blank"]:not(.social-link):not(.article-row):not(.article-nav-link):ho
   font-size: 12px;
   opacity: 0;
   transform: translateY(2px);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .external-link:hover .ext-icon {
