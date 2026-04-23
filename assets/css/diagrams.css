@@ -241,13 +241,13 @@
 
 .callout--info { border-color: #3b82f6; background: #eff6ff; }
 .callout--warning { border-color: #f59e0b; background: #fffbeb; }
-.callout--tip { border-color: #10b981; background: #ecfdf5; }
+.callout--tip { border-color: var(--accent); background: var(--accent-soft); }
 .callout--note { border-color: #6b7280; background: #f9fafb; }
 .callout--insight { border-color: #8b5cf6; background: #f5f3ff; }
 
 [data-theme="dark"] .callout--info { background: #1e293b; }
 [data-theme="dark"] .callout--warning { background: #292524; }
-[data-theme="dark"] .callout--tip { background: #1a2e23; }
+[data-theme="dark"] .callout--tip { background: var(--accent-soft); }
 [data-theme="dark"] .callout--note { background: #1f2937; }
 [data-theme="dark"] .callout--insight { background: #1e1b2e; }
 

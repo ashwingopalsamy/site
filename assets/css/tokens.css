@@ -27,20 +27,21 @@
 /* === TOKENS === */
 
 :root {
-  --bg: #fafaf9;
+  --bg: #ffffff;
   --text: #1a1a1a;
   --muted: #6b6b6b;
   --subtle: #e0dfdd;
   --surface: #ffffff;
   --border: #e8e7e5;
   --code-bg: #f5f4f2;
-  --accent: #10b981;
-  --accent-text: #059669;
-  --accent-soft: rgba(16, 185, 129, 0.08);
-  --accent-glow: rgba(16, 185, 129, 0.15);
+  --accent: #374151;
+  --accent-rgb: 55, 65, 81;
+  --accent-text: #1f2937;
+  --accent-soft: rgba(55, 65, 81, 0.08);
+  --accent-glow: rgba(55, 65, 81, 0.15);
   --shadow: rgba(0, 0, 0, 0.06);
-  --shadow-accent: rgba(16, 185, 129, 0.08);
-  --glass: rgba(250, 250, 249, 0.96);
+  --shadow-accent: rgba(55, 65, 81, 0.08);
+  --glass: rgba(255, 255, 255, 0.96);
 }
 
 [data-theme="dark"] {
@@ -51,9 +52,11 @@
   --surface: #1a1a19;
   --border: rgba(255, 255, 255, 0.08);
   --code-bg: #1e1e1c;
-  --accent-text: #10b981;
+  --accent: #9ca3af;
+  --accent-rgb: 156, 163, 175;
+  --accent-text: #d1d5db;
   --shadow: rgba(0, 0, 0, 0.3);
-  --shadow-accent: rgba(16, 185, 129, 0.15);
+  --shadow-accent: rgba(156, 163, 175, 0.15);
   --glass: rgba(17, 17, 16, 0.96);
 }
 
@@ -94,9 +97,9 @@ html {
 }
 
 @keyframes focusPulse {
-  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.35); }
-  70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-  100% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.35); }
+  70% { box-shadow: 0 0 0 6px rgba(var(--accent-rgb), 0); }
+  100% { box-shadow: 0 0 0 6px rgba(var(--accent-rgb), 0); }
 }
 
 body {

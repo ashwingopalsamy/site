@@ -131,7 +131,7 @@
 
 /* Heading highlight flash on TOC navigation */
 @keyframes headingHighlight {
-  0% { box-shadow: 0 0 0 3px var(--accent), 0 0 12px rgba(16, 185, 129, 0.2); }
+  0% { box-shadow: 0 0 0 3px var(--accent), 0 0 12px rgba(var(--accent-rgb), 0.2); }
   100% { box-shadow: 0 0 0 3px transparent, 0 0 12px transparent; }
 }
 
@@ -287,7 +287,7 @@
   left: 0;
   width: 0;
   height: 1.5px;
-  background: linear-gradient(90deg, var(--accent), rgba(16, 185, 129, 0.4));
+  background: linear-gradient(90deg, var(--accent), rgba(var(--accent-rgb), 0.4));
   transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
