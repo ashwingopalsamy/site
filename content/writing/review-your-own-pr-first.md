@@ -139,7 +139,7 @@ graph TD
     E -->|Yes| F["Ready for review"]
     E -->|No| E1["Run linter,\nfix issues"] --> E
 
-    style F fill:#10b981,color:#fff,stroke:none
+    style F fill:#374151,color:#fff,stroke:none
     style Start fill:#64748b,color:#fff,stroke:none
     style A fill:#6366f1,color:#fff,stroke:none
     style B fill:#6366f1,color:#fff,stroke:none

@@ -42,11 +42,11 @@ graph LR
     H --> B4["Bucket 4<br/>b"]
     H --> B6["Bucket 6<br/>m"]
     style H fill:#6366f1,color:#fff,stroke:none
-    style B0 fill:#10b981,color:#fff,stroke:none
-    style B1 fill:#10b981,color:#fff,stroke:none
-    style B3 fill:#10b981,color:#fff,stroke:none
-    style B4 fill:#10b981,color:#fff,stroke:none
-    style B6 fill:#10b981,color:#fff,stroke:none
+    style B0 fill:#374151,color:#fff,stroke:none
+    style B1 fill:#374151,color:#fff,stroke:none
+    style B3 fill:#374151,color:#fff,stroke:none
+    style B4 fill:#374151,color:#fff,stroke:none
+    style B6 fill:#374151,color:#fff,stroke:none
 {{< /mermaid >}}
 
 ## Why the output looked sorted
@@ -95,9 +95,9 @@ graph TD
     S --> |"hash values spread<br/>neatly across buckets"| O1["Appears sorted<br/>(coincidence)"]
     L --> |"collisions, resizing,<br/>overflow buckets"| O2["Visibly unordered<br/>(reality)"]
     style S fill:#f59e0b,color:#fff,stroke:none
-    style L fill:#10b981,color:#fff,stroke:none
+    style L fill:#374151,color:#fff,stroke:none
     style O1 fill:#ef4444,color:#fff,stroke:none
-    style O2 fill:#10b981,color:#fff,stroke:none
+    style O2 fill:#374151,color:#fff,stroke:none
 {{< /mermaid >}}
 
 ## Why the order kept changing as you inserted new keys

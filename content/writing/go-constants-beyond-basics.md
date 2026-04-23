@@ -34,9 +34,9 @@ graph TD
     style B fill:#64748b,color:#fff,stroke:none
     style C fill:#64748b,color:#fff,stroke:none
     style D fill:#64748b,color:#fff,stroke:none
-    style E fill:#10b981,color:#fff,stroke:none
-    style F fill:#10b981,color:#fff,stroke:none
-    style G fill:#10b981,color:#fff,stroke:none
+    style E fill:#374151,color:#fff,stroke:none
+    style F fill:#374151,color:#fff,stroke:none
+    style G fill:#374151,color:#fff,stroke:none
 {{< /mermaid >}}
 
 A bit analogous to Schrodinger's paradox, `x` can be an `int`, a `float64`, or even a `byte` until you assign it. This temporary flexibility lets `x` work smoothly with different types in your code. No need for casting, which keeps things neat.
@@ -162,7 +162,7 @@ graph LR
     style A fill:#64748b,color:#fff,stroke:none
     style C fill:#64748b,color:#fff,stroke:none
     style E fill:#64748b,color:#fff,stroke:none
-    style B fill:#10b981,color:#fff,stroke:none
+    style B fill:#374151,color:#fff,stroke:none
     style D fill:#f59e0b,color:#fff,stroke:none
     style F fill:#ef4444,color:#fff,stroke:none
     style G fill:#6366f1,color:#fff,stroke:none

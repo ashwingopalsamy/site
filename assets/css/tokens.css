@@ -73,6 +73,14 @@
   padding: 0;
 }
 
+/* Global instant-but-buttery transition override */
+*,
+*::before,
+*::after {
+  transition-duration: 0.05s !important;
+  transition-delay: 0s !important;
+}
+
 html {
   background: var(--bg);
   scrollbar-gutter: stable;

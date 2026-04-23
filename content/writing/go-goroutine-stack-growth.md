@@ -54,9 +54,9 @@ graph LR
 
     style A fill:#6366f1,color:#fff,stroke:none
     style C fill:#f59e0b,color:#fff,stroke:none
-    style E fill:#10b981,color:#fff,stroke:none
-    style F fill:#10b981,color:#fff,stroke:none
-    style G fill:#10b981,color:#fff,stroke:none
+    style E fill:#374151,color:#fff,stroke:none
+    style F fill:#374151,color:#fff,stroke:none
+    style G fill:#374151,color:#fff,stroke:none
     style D fill:#64748b,color:#fff,stroke:none
     style B fill:#64748b,color:#fff,stroke:none
 {{< /mermaid >}}
@@ -132,8 +132,8 @@ graph TD
     S7 -.->|"GC shrink\n(if idle + mostly unused)"| S5
     S5 -.->|"GC shrink"| S3
 
-    style S1 fill:#10b981,color:#fff,stroke:none
-    style S2 fill:#10b981,color:#fff,stroke:none
+    style S1 fill:#374151,color:#fff,stroke:none
+    style S2 fill:#374151,color:#fff,stroke:none
     style S3 fill:#6366f1,color:#fff,stroke:none
     style S4 fill:#6366f1,color:#fff,stroke:none
     style S5 fill:#f59e0b,color:#fff,stroke:none
@@ -218,7 +218,7 @@ graph LR
     style O3 fill:#f59e0b,color:#fff,stroke:none
     style N1 fill:#6366f1,color:#fff,stroke:none
     style N2 fill:#6366f1,color:#fff,stroke:none
-    style N3 fill:#10b981,color:#fff,stroke:none
+    style N3 fill:#374151,color:#fff,stroke:none
     style N4 fill:none,stroke:#6366f1,stroke-dasharray:5
 {{< /mermaid >}}
 

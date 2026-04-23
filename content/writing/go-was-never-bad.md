@@ -22,8 +22,8 @@ graph LR
     E["Error handling"] --> F["By Design"]
     G["Concurrency"] --> H["Same as every lang"]
 
-    style B fill:#10b981,color:#fff,stroke:none
-    style D fill:#10b981,color:#fff,stroke:none
+    style B fill:#374151,color:#fff,stroke:none
+    style D fill:#374151,color:#fff,stroke:none
     style F fill:#6366f1,color:#fff,stroke:none
     style H fill:#6366f1,color:#fff,stroke:none
     style A fill:#ef4444,color:#fff,stroke:none
@@ -84,8 +84,8 @@ graph LR
     C["Java / Spring"] --> D["Medium complexity"]
     E["Rust / Haskell"] --> F["Complex, more guarantees"]
 
-    style A fill:#10b981,color:#fff,stroke:none
-    style B fill:#10b981,color:#fff,stroke:none
+    style A fill:#374151,color:#fff,stroke:none
+    style B fill:#374151,color:#fff,stroke:none
     style C fill:#f59e0b,color:#fff,stroke:none
     style D fill:#f59e0b,color:#fff,stroke:none
     style E fill:#6366f1,color:#fff,stroke:none

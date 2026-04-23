@@ -85,7 +85,7 @@ graph LR
     J["PyPI<br/>Registry"]:::safe -.->|abused| C
 
     classDef danger fill:#ef4444,color:#fff,stroke:none
-    classDef safe fill:#10b981,color:#fff,stroke:none
+    classDef safe fill:#374151,color:#fff,stroke:none
 {{< /mermaid >}}
 
 ---
@@ -148,7 +148,7 @@ graph TD
     classDef info fill:#6366f1,color:#fff,stroke:none
     classDef neutral fill:#64748b,color:#fff,stroke:none
     classDef danger fill:#ef4444,color:#fff,stroke:none
-    classDef safe fill:#10b981,color:#fff,stroke:none
+    classDef safe fill:#374151,color:#fff,stroke:none
 {{< /mermaid >}}
 
 Running `pytest` starts Python - payload fires. Your IDE's language server starts Python - same. Even `pip install` triggers it. In CI/CD, the payload runs during build steps, not just at application runtime. This maps to [MITRE ATT&CK T1546.018](https://attack.mitre.org/techniques/T1546/018/) (Python Startup Hooks).

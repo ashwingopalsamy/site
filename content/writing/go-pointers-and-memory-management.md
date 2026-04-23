@@ -38,12 +38,12 @@ graph TD
     EA -- "does not escape" --> STACK
     EA -- "escapes to heap" --> HEAP
 
-    style STACK fill:#10b981,color:#fff,stroke:none
+    style STACK fill:#374151,color:#fff,stroke:none
     style HEAP fill:#6366f1,color:#fff,stroke:none
     style EA fill:#f59e0b,color:#fff,stroke:none
-    style S1 fill:#10b981,color:#fff,stroke:none
-    style S2 fill:#10b981,color:#fff,stroke:none
-    style S3 fill:#10b981,color:#fff,stroke:none
+    style S1 fill:#374151,color:#fff,stroke:none
+    style S2 fill:#374151,color:#fff,stroke:none
+    style S3 fill:#374151,color:#fff,stroke:none
     style H1 fill:#6366f1,color:#fff,stroke:none
     style H2 fill:#6366f1,color:#fff,stroke:none
     style H3 fill:#6366f1,color:#fff,stroke:none
@@ -176,7 +176,7 @@ flowchart TD
     style D fill:#64748b,color:#fff,stroke:none
     style E fill:#64748b,color:#fff,stroke:none
     style HEAP fill:#ef4444,color:#fff,stroke:none
-    style STACK fill:#10b981,color:#fff,stroke:none
+    style STACK fill:#374151,color:#fff,stroke:none
 {{< /mermaid >}}
 
 **Example of a Variable Escaping:**

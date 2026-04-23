@@ -356,7 +356,6 @@ button.tag-pill {
   color: var(--accent-text);
   margin: 20px 0 4px;
   text-align: center;
-  animation: pageTitleIn 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
 }
 
 .writing-group:first-child .writing-group-label {

@@ -120,8 +120,8 @@ graph TD
     main --> B
     A --> C
 
-    style C fill:#10b981,color:#fff,stroke:none
-    style A fill:#10b981,color:#fff,stroke:none
+    style C fill:#374151,color:#fff,stroke:none
+    style A fill:#374151,color:#fff,stroke:none
     style B fill:#6366f1,color:#fff,stroke:none
     style main fill:#64748b,color:#fff,stroke:none
 {{< /mermaid >}}
@@ -197,7 +197,7 @@ graph LR
     Q --> B --> R2
     Q --> C --> R3
 
-    style R1 fill:#10b981,color:#fff,stroke:none
+    style R1 fill:#374151,color:#fff,stroke:none
     style R2 fill:#6366f1,color:#fff,stroke:none
     style R3 fill:#f59e0b,color:#fff,stroke:none
     style Q fill:#64748b,color:#fff,stroke:none

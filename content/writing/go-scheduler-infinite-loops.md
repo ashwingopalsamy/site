@@ -157,8 +157,8 @@ graph TD
     style LQ1 fill:#6366f1,color:#fff,stroke:none
     style M0 fill:#f59e0b,color:#fff,stroke:none
     style M1 fill:#f59e0b,color:#fff,stroke:none
-    style CPU0 fill:#10b981,color:#fff,stroke:none
-    style CPU1 fill:#10b981,color:#fff,stroke:none
+    style CPU0 fill:#374151,color:#fff,stroke:none
+    style CPU1 fill:#374151,color:#fff,stroke:none
 {{< /mermaid >}}
 
 The scheduler's work-stealing algorithm means goroutines can migrate between threads, which adds coordination overhead. For a single hot loop that doesn't need concurrency, this is pure cost with no benefit.
@@ -288,12 +288,12 @@ graph LR
     E -->|CPU| G["select {} loop\n(controlled yielding)"]
 
     style A fill:#6366f1,color:#fff,stroke:none
-    style B fill:#10b981,color:#fff,stroke:none
+    style B fill:#374151,color:#fff,stroke:none
     style C fill:#f59e0b,color:#fff,stroke:none
-    style D fill:#10b981,color:#fff,stroke:none
+    style D fill:#374151,color:#fff,stroke:none
     style E fill:#f59e0b,color:#fff,stroke:none
-    style F fill:#10b981,color:#fff,stroke:none
-    style G fill:#10b981,color:#fff,stroke:none
+    style F fill:#374151,color:#fff,stroke:none
+    style G fill:#374151,color:#fff,stroke:none
 {{< /mermaid >}}
 
 ## The nuance most don't talk about

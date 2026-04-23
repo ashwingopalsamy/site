@@ -34,9 +34,9 @@ enableGitInfo = false
   tag = "tags"
 
 [outputs]
-  home = ["HTML", "RSS", "LLMS", "LLMSFULL"]
+  home = ["HTML", "RSS", "LLMS", "LLMSFULL", "MARKDOWN"]
   page = ["HTML", "MARKDOWN"]
-  section = ["HTML", "RSS"]
+  section = ["HTML", "RSS", "MARKDOWN"]
 
 [outputFormats]
   [outputFormats.MARKDOWN]

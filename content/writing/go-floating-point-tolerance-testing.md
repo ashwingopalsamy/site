@@ -111,7 +111,7 @@ flowchart TD
     F -- Yes --> G["Use integer cents"]
     F -- No --> C
 
-    style C fill:#10b981,color:#fff,stroke:none
+    style C fill:#374151,color:#fff,stroke:none
     style E fill:#6366f1,color:#fff,stroke:none
     style G fill:#f59e0b,color:#fff,stroke:none
     style A fill:#64748b,color:#fff,stroke:none

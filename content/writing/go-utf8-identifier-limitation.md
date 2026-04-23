@@ -36,7 +36,7 @@ flowchart TD
     D -- Yes --> E["Valid continuation only"]
     D -- No --> F["Invalid in identifiers"]
 
-    style C fill:#10b981,color:#fff,stroke:none
+    style C fill:#374151,color:#fff,stroke:none
     style E fill:#f59e0b,color:#fff,stroke:none
     style F fill:#ef4444,color:#fff,stroke:none
     style A fill:#64748b,color:#fff,stroke:none
@@ -123,7 +123,7 @@ graph LR
     C --> D
 
     style A fill:#64748b,color:#fff,stroke:none
-    style B fill:#10b981,color:#fff,stroke:none
+    style B fill:#374151,color:#fff,stroke:none
     style C fill:#ef4444,color:#fff,stroke:none
     style D fill:#f59e0b,color:#fff,stroke:none
 {{< /mermaid >}}

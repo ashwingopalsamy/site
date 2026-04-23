@@ -20,7 +20,7 @@ graph TD
     G --> R2
     R1 --> B1
     R2 --> B2
-    style G fill:#10b981,color:#fff,stroke:none
+    style G fill:#374151,color:#fff,stroke:none
     style R1 fill:#6366f1,color:#fff,stroke:none
     style R2 fill:#6366f1,color:#fff,stroke:none
     style B1 fill:#64748b,color:#fff,stroke:none
@@ -67,10 +67,10 @@ graph LR
     T --> |"len()"| BY["21 bytes"]
     T --> |"[]rune"| RU["7 runes"]
     T --> |"uniseg"| GR["5 graphemes"]
-    style T fill:#10b981,color:#fff,stroke:none
+    style T fill:#374151,color:#fff,stroke:none
     style BY fill:#ef4444,color:#fff,stroke:none
     style RU fill:#f59e0b,color:#fff,stroke:none
-    style GR fill:#10b981,color:#fff,stroke:none
+    style GR fill:#374151,color:#fff,stroke:none
 {{< /mermaid >}}
 
 ## Why this matters

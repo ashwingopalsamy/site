@@ -21,8 +21,8 @@ graph LR
     C -->|gRPC| D[Account Service]
     C -->|gRPC| E[Risk Engine]
     C -->|gRPC| F[Ledger]
-    style B fill:#10b981,color:#fff,stroke:none
-    style C fill:#10b981,color:#fff,stroke:none
+    style B fill:#374151,color:#fff,stroke:none
+    style C fill:#374151,color:#fff,stroke:none
 {{< /mermaid >}}
 
 The rate limiter sits between the Parser API and the Distributor API. It must make a decision in under 1ms -- any longer and it becomes the bottleneck in a sub-second pipeline.

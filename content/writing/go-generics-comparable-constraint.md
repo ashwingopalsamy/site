@@ -83,10 +83,10 @@ graph TD
 
     style A fill:#64748b,color:#fff,stroke:none
     style B fill:#6366f1,color:#fff,stroke:none
-    style C fill:#10b981,color:#fff,stroke:none
+    style C fill:#374151,color:#fff,stroke:none
     style A2 fill:none,stroke:#64748b,stroke-dasharray:5
     style B2 fill:none,stroke:#6366f1,stroke-dasharray:5
-    style C2 fill:none,stroke:#10b981,stroke-dasharray:5
+    style C2 fill:none,stroke:#374151,stroke-dasharray:5
 {{< /mermaid >}}
 
 ---
@@ -233,7 +233,7 @@ graph LR
     end
 
     style C1 fill:#ef4444,color:#fff,stroke:none
-    style C2 fill:#10b981,color:#fff,stroke:none
+    style C2 fill:#374151,color:#fff,stroke:none
     style A1 fill:#64748b,color:#fff,stroke:none
     style A2 fill:#6366f1,color:#fff,stroke:none
     style B1 fill:#64748b,color:#fff,stroke:none

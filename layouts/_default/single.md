@@ -6,4 +6,4 @@
 
 ---
 
-{{ .Plain }}
+{{ .RawContent }}

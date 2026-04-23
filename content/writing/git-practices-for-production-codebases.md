@@ -74,7 +74,7 @@ graph LR
     A --> D["<b>description</b><br/>add bitmap validation"]
 
     style A fill:#64748b,color:#fff,stroke:none
-    style B fill:#10b981,color:#fff,stroke:none
+    style B fill:#374151,color:#fff,stroke:none
     style C fill:#6366f1,color:#fff,stroke:none
     style D fill:#f59e0b,color:#fff,stroke:none
 {{< /mermaid >}}
@@ -241,10 +241,10 @@ graph LR
     style B fill:#64748b,color:#fff,stroke:none
     style C fill:#64748b,color:#fff,stroke:none
     style D fill:#64748b,color:#fff,stroke:none
-    style E fill:#10b981,color:#fff,stroke:none
+    style E fill:#374151,color:#fff,stroke:none
     style F fill:#64748b,color:#fff,stroke:none
-    style G fill:#10b981,color:#fff,stroke:none
-    style H fill:#10b981,color:#fff,stroke:none
+    style G fill:#374151,color:#fff,stroke:none
+    style H fill:#374151,color:#fff,stroke:none
     style I fill:#64748b,color:#fff,stroke:none
 {{< /mermaid >}}
 
