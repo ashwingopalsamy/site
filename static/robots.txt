@@ -1,3 +1,9 @@
+# Content Signals (https://contentsignals.org/)
+# search=yes: index and surface content in search results
+# ai-input=yes: may use content as context for live AI inference
+# ai-train=no: do not include in AI training datasets
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
+
 User-agent: GPTBot
 Allow: /
 

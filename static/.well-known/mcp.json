@@ -1,4 +1,9 @@
 {
+  "serverInfo": {
+    "name": "ashwingopalsamy.in",
+    "version": "1.0.0",
+    "description": "Staff Software Engineer — distributed systems, fintech infrastructure, payment authorization at Visa/Pismo. Knowledge graph and LLM-optimized content index."
+  },
   "mcpServers": {
     "knowledge": {
       "url": "https://ashwingopalsamy.in/knowledge.json",

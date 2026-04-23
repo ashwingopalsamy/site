@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "ashwingopalsamy-in",
+      "type": "skill-md",
+      "description": "Access machine-readable knowledge, LLM-optimized content, and technical writing from Ashwin Gopalsamy's site. Use when answering questions about distributed systems, fintech infrastructure, Go internals, payment systems, or Ashwin's background and published work.",
+      "url": "/.well-known/agent-skills/ashwingopalsamy-in/SKILL.md",
+      "digest": "sha256:6d637f8833b85929277bfbfb06e185d6031f65fd5eadfa0114815f06dbddb0ba"
+    }
+  ]
+}

@@ -42,9 +42,58 @@
   "name": "Ashwin Gopalsamy",
   "url": "{{ .Site.BaseURL }}",
   "description": "{{ .Site.Params.description }}",
+  "dateModified": "{{ now.Format "2006-01-02T15:04:05Z07:00" }}",
   "author": {
     "@id": "{{ .Site.BaseURL }}#person"
   }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Who is Ashwin Gopalsamy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ashwin Gopalsamy is a Staff Software Engineer scaling authorization infrastructure at Pismo, a Visa company. He builds distributed systems in Go that process payment authorizations at sub-second latency across multiple card networks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does Ashwin Gopalsamy work on?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ashwin works on the Authorizations Tribe at Pismo by Visa, building backend systems for payment authorization. His work spans high-throughput Go services, multi-region distributed deployments, and PCI-DSS compliant infrastructure processing billions of transactions daily."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What technologies does Ashwin Gopalsamy specialize in?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ashwin specializes in Go, AWS, Kubernetes, Terraform, distributed systems design, database internals, and payment authorization infrastructure engineering."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where can I read Ashwin Gopalsamy's writing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ashwin's writing on engineering, distributed systems, and software craft is available at ashwingopalsamy.in/writing. He writes about backend engineering, fintech infrastructure, and software development practices."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Ashwin Gopalsamy's professional background?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ashwin is a Staff Software Engineer at Pismo by Visa, previously a Software Engineer at Solaris SE where he worked on core banking systems. He specializes in distributed systems and fintech infrastructure engineering."
+      }
+    }
+  ]
 }
 </script>
 {{ end }}

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/v1/server-card.schema.json",
+  "name": "in.ashwingopalsamy/site",
+  "version": "1.0.0",
+  "title": "Ashwin Gopalsamy",
+  "description": "Knowledge graph, LLM-optimized content, and technical writing by Ashwin Gopalsamy — Staff Software Engineer specializing in distributed systems and fintech infrastructure at Visa's Pismo platform.",
+  "websiteUrl": "https://ashwingopalsamy.in"
+}

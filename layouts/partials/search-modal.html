@@ -2,8 +2,13 @@
   <div class="search-modal-backdrop" id="search-modal-backdrop"></div>
   <div class="search-modal-content">
     <form action="/search" method="GET"
-          tool-name="search-site"
+          tool-name="search_site"
           tool-description="Search articles, notes, and projects on ashwingopalsamy.in by keyword">
+      <label for="search-input" aria-hidden="true" style="display:none">Search</label>
+      <input type="search" name="q" id="search-input"
+             aria-hidden="true" style="display:none"
+             placeholder="Search articles, notes, and projects"
+             tool-param-description="Keywords to search across articles, writing, and projects on ashwingopalsamy.in">
       <div id="search"></div>
     </form>
   </div>

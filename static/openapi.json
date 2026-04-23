@@ -11,15 +11,20 @@
   "paths": {
     "/knowledge.json": {
       "get": {
-        "operationId": "getKnowledgeGraph",
+        "operationId": "get_knowledge_graph",
         "summary": "Get machine-readable knowledge graph",
         "description": "Returns a structured knowledge graph describing Ashwin Gopalsamy's expertise, identity, projects, and published content",
+        "tags": ["content"],
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "Knowledge graph",
+            "description": "Structured JSON knowledge graph with expertise, identity, projects, and content metadata",
             "content": {
               "application/json": {
-                "schema": { "type": "object" }
+                "schema": {
+                  "type": "object",
+                  "description": "Knowledge graph object with sections for identity, expertise, projects, and writing"
+                }
               }
             }
           }
@@ -28,26 +33,44 @@
     },
     "/llms.txt": {
       "get": {
-        "operationId": "getLLMsIndex",
+        "operationId": "get_llms_index",
         "summary": "Get LLM-optimized site index",
         "description": "Returns a markdown-formatted index of all content, links, and context — optimized for LLM consumption",
+        "tags": ["content"],
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "LLM-friendly content index",
-            "content": { "text/plain": { "schema": { "type": "string" } } }
+            "description": "Markdown-formatted index of all site content optimized for LLM ingestion",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "description": "Markdown text with headings, links, and structured content summaries"
+                }
+              }
+            }
           }
         }
       }
     },
     "/llms-full.txt": {
       "get": {
-        "operationId": "getLLMsFullContent",
+        "operationId": "get_llms_full_content",
         "summary": "Get full site content for LLMs",
         "description": "Returns complete site content including all articles, notes, and project descriptions for LLM consumption",
+        "tags": ["content"],
+        "parameters": [],
         "responses": {
           "200": {
-            "description": "Full site content",
-            "content": { "text/plain": { "schema": { "type": "string" } } }
+            "description": "Complete site content including all articles, notes, and project descriptions in plain text",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "description": "Full plain text of all published content on the site"
+                }
+              }
+            }
           }
         }
       }

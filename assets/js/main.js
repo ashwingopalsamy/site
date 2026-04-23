@@ -156,12 +156,34 @@ if (btt) {
   });
 }
 
-// Reading progress (global listener, re-queries element)
+// Shake feedback on disabled/busy buttons
+document.addEventListener('click', function(e) {
+  var btn = e.target.closest('button[disabled], button[aria-busy="true"]');
+  if (!btn) return;
+  btn.classList.remove('shake');
+  void btn.offsetWidth;
+  btn.classList.add('shake');
+  setTimeout(function() { btn.classList.remove('shake'); }, 350);
+});
+
+// Reading progress + time remaining countdown
 window.addEventListener('scroll', function() {
   var fill = document.querySelector('.reading-progress-fill');
-  if (!fill) return;
   var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-  if (docHeight > 0) fill.style.width = Math.min(Math.round((window.scrollY / docHeight) * 100), 100) + '%';
+  if (docHeight <= 0) return;
+  var pct = Math.min(window.scrollY / docHeight, 1);
+  if (fill) fill.style.width = Math.round(pct * 100) + '%';
+
+  // Time remaining: switch badge after 30% scroll
+  var badge = document.querySelector('.reading-time-badge');
+  if (badge && pct > 0.3 && !badge._origMin) {
+    var match = badge.textContent.match(/(\d+)/);
+    if (match) { badge._origMin = parseInt(match[1], 10); badge._origText = badge.textContent; }
+  }
+  if (badge && badge._origMin && pct > 0.3) {
+    var remaining = Math.ceil(badge._origMin * (1 - pct));
+    badge.textContent = remaining <= 0 ? 'Done reading' : '~' + remaining + ' min left';
+  }
 }, { passive: true });
 
 // Pagefind lazy loader
@@ -334,6 +356,13 @@ if (_searchBackdrop) _searchBackdrop.addEventListener('click', closeSearch);
       if (pct >= threshold && !_page.scrollFired[threshold]) {
         _page.scrollFired[threshold] = true;
         p('Article Read ' + threshold + '%');
+        if (threshold === 100) {
+          var fill = document.querySelector('.reading-progress-fill');
+          if (fill) {
+            fill.classList.add('done');
+            setTimeout(function() { fill.classList.remove('done'); }, 1400);
+          }
+        }
       }
     });
   }, { passive: true });
@@ -574,11 +603,8 @@ window.initPage = function() {
 
     var tocObs = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          tocLinks.forEach(function(l) { l.parentElement.classList.remove('active'); });
-          var match = headings.find(function(h) { return h.el === entry.target; });
-          if (match) match.link.classList.add('active');
-        }
+        var match = headings.find(function(h) { return h.el === entry.target; });
+        if (match) match.link.classList.toggle('active', entry.isIntersecting);
       });
     }, { rootMargin: '-80px 0px -60% 0px' });
     headings.forEach(function(h) { tocObs.observe(h.el); });
@@ -777,6 +803,77 @@ window.initPage = function() {
         }, true);
       });
     }
+  })();
+
+  // j/k keyboard navigation on article lists
+  (function() {
+    var rows = Array.from(document.querySelectorAll('.article-list .article-row, .writing-group .article-row'));
+    if (!rows.length) return;
+    var selected = -1;
+    function selectRow(idx) {
+      if (selected >= 0) rows[selected].classList.remove('kb-selected');
+      selected = Math.max(0, Math.min(idx, rows.length - 1));
+      rows[selected].classList.add('kb-selected');
+      rows[selected].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+    document.addEventListener('keydown', function(e) {
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') return;
+      if (e.key === 'j') { e.preventDefault(); selectRow(selected < 0 ? 0 : selected + 1); }
+      if (e.key === 'k') { e.preventDefault(); selectRow(selected < 0 ? rows.length - 1 : selected - 1); }
+      if (e.key === 'Enter' && selected >= 0) { rows[selected].click(); }
+    });
+  })();
+
+  // Last-read tracker: mark visited articles + annotate writing list
+  (function() {
+    var articleHeader = document.querySelector('.article-header');
+    if (articleHeader) {
+      localStorage.setItem('read:' + window.location.pathname, Date.now().toString());
+    }
+    document.querySelectorAll('.article-row[href]').forEach(function(row) {
+      var ts = localStorage.getItem('read:' + row.getAttribute('href'));
+      if (!ts) return;
+      var dot = document.createElement('span');
+      dot.className = 'read-indicator';
+      dot.title = 'Read ' + new Date(+ts).toLocaleDateString('en', { month: 'short', day: 'numeric' });
+      var top = row.querySelector('.article-row-top');
+      if (top) top.appendChild(dot);
+    });
+  })();
+
+  // Reading position memory: save scroll, show resume chip on return
+  (function() {
+    if (!document.querySelector('.article-body')) return;
+    var key = 'readpos:' + window.location.pathname;
+    var stored = JSON.parse(localStorage.getItem(key) || 'null');
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+    if (stored && stored.y > docHeight * 0.15 && Date.now() - stored.t < 30 * 86400000) {
+      var chip = document.createElement('button');
+      chip.className = 'resume-chip';
+      chip.textContent = 'Resume reading \u2193';
+      document.body.appendChild(chip);
+      var chipTimer = setTimeout(function() { chip.classList.add('visible'); }, 600);
+      var dismissTimer = setTimeout(function() { chip.classList.remove('visible'); setTimeout(function() { chip.remove(); }, 300); }, 6000);
+      chip.addEventListener('click', function() {
+        clearTimeout(dismissTimer);
+        window.scrollTo({ top: stored.y, behavior: 'smooth' });
+        chip.classList.remove('visible');
+        setTimeout(function() { chip.remove(); }, 300);
+      });
+      _page.timers.push(chipTimer, dismissTimer);
+    }
+
+    var saveTimer;
+    window.addEventListener('scroll', function() {
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(function() {
+        var dh = document.documentElement.scrollHeight - window.innerHeight;
+        if (dh > 0 && window.scrollY / dh > 0.15) {
+          localStorage.setItem(key, JSON.stringify({ y: window.scrollY, t: Date.now() }));
+        }
+      }, 500);
+    }, { passive: true });
   })();
 
   // Conditional: Mermaid

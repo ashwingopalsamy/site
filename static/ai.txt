@@ -1,0 +1,23 @@
+# ai.txt — AI usage declaration for ashwingopalsamy.in
+# Format: https://github.com/ai-txt/ai-txt
+# Last updated: 2026-04-19
+
+User-agent: *
+
+# Training: AI companies may use this content to train models
+Allow-training: /
+
+# Inference: AI agents and search may cite this content in real-time answers
+Allow-inference: /
+
+# Attribution required when content is cited or referenced
+Attribution: required
+Attribution-contact: ashwin.gopalsamy@pismo.io
+
+# License
+License: CC BY 4.0
+
+# Site context
+Site-type: personal-portfolio
+Primary-language: en
+Author: Ashwin Gopalsamy

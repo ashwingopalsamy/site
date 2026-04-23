@@ -13,6 +13,7 @@
     {{ range .Pages.ByWeight }}
     <a href="{{ .RelPermalink }}" class="article-row">
       <div class="article-row-top">
+        {{ with .Params.status }}<span class="lifecycle-dot lifecycle-{{ lower . }}" title="{{ . }}" aria-label="{{ . }}"></span>{{ end }}
         <span class="article-row-title">{{ .Title }}</span>
         <div class="article-row-badges">
           {{ with .Params.tech }}

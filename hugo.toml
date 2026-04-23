@@ -11,6 +11,11 @@ enableGitInfo = false
   github = "ashwingopalsamy"
   plausibleDomain = "ashwingopalsamy.in"
   # bingVerification = "YOUR_BING_VERIFICATION_CODE"
+  # Hero layout: true = new identity-first layout, false = original name-first layout
+  enableNewHero = true
+  # Copy for new hero — edit these without touching templates
+  heroStatement  = "Software engineer.<br>AI systems thinker."
+  heroBio        = "Building distributed systems at Visa scale — authorization infrastructure processing billions of card decisions per day. Writing about Go, distributed systems, and AI."
 
 [markup]
   [markup.highlight]
@@ -30,9 +35,16 @@ enableGitInfo = false
 
 [outputs]
   home = ["HTML", "RSS", "LLMS", "LLMSFULL"]
+  page = ["HTML", "MARKDOWN"]
   section = ["HTML", "RSS"]
 
 [outputFormats]
+  [outputFormats.MARKDOWN]
+    mediaType = "text/markdown"
+    isPlainText = true
+    baseName = "index"
+    name = "MARKDOWN"
+    rel = "alternate"
   [outputFormats.RSS]
     mediaType = "application/rss+xml"
     baseName = "feed"

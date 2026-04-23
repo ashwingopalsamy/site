@@ -10,7 +10,9 @@
   <main id="content" class="container">
     {{ block "main" . }}{{ end }}
   </main>
-  {{ partial "nav-bottom.html" . }}
+  <footer>
+    {{ partial "nav-bottom.html" . }}
+  </footer>
   <div class="back-to-top" id="back-to-top">
     <button aria-label="Back to top">
       {{ partial "icons/arrow-up.html" (dict "size" "14" "weight" "1.8") }}
