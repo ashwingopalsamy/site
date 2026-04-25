@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" class="preload">
+<html lang="en" data-theme="light" class="preload{{ if .IsHome }} home-page{{ end }}">
 <head>
   {{ partial "head.html" . }}
+  {{ block "extra-head" . }}{{ end }}
 </head>
-<body>
+<body{{ if .IsHome }} class="home-page"{{ end }}>
   <a href="#content" class="skip-link">Skip to content</a>
   {{ partial "island.html" . }}
-  {{ partial "nav-top.html" . }}
+  {{ block "page-nav" . }}{{ partial "nav-top.html" . }}{{ end }}
   <main id="content" class="container">
     {{ block "main" . }}{{ end }}
   </main>
-  <footer>
-    {{ partial "nav-bottom.html" . }}
-  </footer>
+  {{ block "page-footer" . }}<footer>{{ partial "nav-bottom.html" . }}</footer>{{ end }}
   <div class="back-to-top" id="back-to-top">
     <button aria-label="Back to top">
       {{ partial "icons/arrow-up.html" (dict "size" "14" "weight" "1.8") }}

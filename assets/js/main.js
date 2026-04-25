@@ -45,7 +45,8 @@ var _page = {
   observers: [],
   timers: [],
   scrollFired: {},
-  selectionPopup: null
+  selectionPopup: null,
+  domainFlipInterval: null
 };
 
 function _cleanup() {
@@ -57,6 +58,10 @@ function _cleanup() {
   if (_page.selectionPopup) {
     _page.selectionPopup.remove();
     _page.selectionPopup = null;
+  }
+  if (_page.domainFlipInterval) {
+    clearInterval(_page.domainFlipInterval);
+    _page.domainFlipInterval = null;
   }
 }
 
@@ -395,44 +400,39 @@ if (_searchBackdrop) _searchBackdrop.addEventListener('click', closeSearch);
 window.initPage = function() {
   _cleanup();
 
-  // Code block language labels
-  document.querySelectorAll('.highlight pre code[data-lang]').forEach(function(code) {
-    var pre = code.closest('pre');
-    if (!pre || pre.querySelector('.code-lang-label')) return;
-    var lang = code.getAttribute('data-lang');
-    if (!lang) return;
-    var label = document.createElement('span');
-    label.className = 'code-lang-label';
-    label.textContent = lang;
-    pre.style.position = 'relative';
-    pre.appendChild(label);
-  });
-
-  // Code copy buttons
+  // Code blocks: action cluster (lang label + copy button) in a unified glass pill
   document.querySelectorAll('pre').forEach(function(pre) {
-    if (pre.querySelector('.copy-btn')) return;
+    if (pre.querySelector('.code-actions')) return;
+    pre.style.position = 'relative';
+
+    var cluster = document.createElement('div');
+    cluster.className = 'code-actions';
+
+    var code = pre.querySelector('code[data-lang]');
+    var lang = code ? code.getAttribute('data-lang') : null;
+    if (lang) {
+      var langEl = document.createElement('span');
+      langEl.className = 'code-lang';
+      langEl.textContent = lang;
+      cluster.classList.add('has-lang');
+      cluster.appendChild(langEl);
+    }
+
     var btn = document.createElement('button');
-    btn.className = 'copy-btn'; btn.appendChild(createCopyIcon()); btn.setAttribute('aria-label', 'Copy code');
-    pre.style.position = 'relative'; pre.appendChild(btn);
+    btn.className = 'copy-btn';
+    btn.appendChild(createCopyIcon());
+    btn.setAttribute('aria-label', 'Copy code');
+    cluster.appendChild(btn);
+    pre.appendChild(cluster);
+
     btn.addEventListener('click', function() {
-      var code = pre.querySelector('code');
-      var text = code ? code.textContent : pre.textContent;
+      var codeEl = pre.querySelector('code');
+      var text = codeEl ? codeEl.textContent : pre.textContent;
       navigator.clipboard.writeText(text).then(function() {
         btn.replaceChildren(createCheckIcon()); btn.classList.add('copied');
         setTimeout(function() { btn.replaceChildren(createCopyIcon()); btn.classList.remove('copied'); }, 1500);
       });
     });
-  });
-
-  // Code block horizontal overflow indicator
-  document.querySelectorAll('.highlight').forEach(function(hl) {
-    var pre = hl.querySelector('pre');
-    if (!pre) return;
-    function checkOverflow() {
-      hl.classList.toggle('has-overflow', pre.scrollWidth > pre.clientWidth + 2 && pre.scrollLeft < pre.scrollWidth - pre.clientWidth - 10);
-    }
-    checkOverflow();
-    pre.addEventListener('scroll', checkOverflow, { passive: true });
   });
 
   // Code block collapse (cap at 400px, show expand button)
@@ -841,41 +841,6 @@ window.initPage = function() {
     });
   })();
 
-  // Reading position memory: save scroll, show resume chip on return
-  (function() {
-    if (!document.querySelector('.article-body')) return;
-    var key = 'readpos:' + window.location.pathname;
-    var stored = JSON.parse(localStorage.getItem(key) || 'null');
-    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-
-    if (stored && stored.y > docHeight * 0.15 && Date.now() - stored.t < 30 * 86400000) {
-      var chip = document.createElement('button');
-      chip.className = 'resume-chip';
-      chip.textContent = 'Resume reading \u2193';
-      document.body.appendChild(chip);
-      var chipTimer = setTimeout(function() { chip.classList.add('visible'); }, 600);
-      var dismissTimer = setTimeout(function() { chip.classList.remove('visible'); setTimeout(function() { chip.remove(); }, 300); }, 6000);
-      chip.addEventListener('click', function() {
-        clearTimeout(dismissTimer);
-        window.scrollTo({ top: stored.y, behavior: 'smooth' });
-        chip.classList.remove('visible');
-        setTimeout(function() { chip.remove(); }, 300);
-      });
-      _page.timers.push(chipTimer, dismissTimer);
-    }
-
-    var saveTimer;
-    window.addEventListener('scroll', function() {
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(function() {
-        var dh = document.documentElement.scrollHeight - window.innerHeight;
-        if (dh > 0 && window.scrollY / dh > 0.15) {
-          localStorage.setItem(key, JSON.stringify({ y: window.scrollY, t: Date.now() }));
-        }
-      }, 500);
-    }, { passive: true });
-  })();
-
   // Conditional: Mermaid
   (function() {
     var mermaidEls = document.querySelectorAll('.mermaid');
@@ -909,6 +874,49 @@ window.initPage = function() {
     if (typeof renderMathInElement === 'function') {
       renderMathInElement(document.body, { delimiters: [{ left: '$$', right: '$$', display: true }, { left: '$', right: '$', display: false }] });
     }
+  })();
+
+  // Homepage V2: Solari domain flip (guard: only runs when .domains is present)
+  (function() {
+    if (!document.getElementById('dp0')) return;
+    var domSets = [
+      ['Distributed Systems', 'Fintech', 'AI Native Development'],
+      ['Product Engineer', 'Blogger', 'Open Source Contributor']
+    ];
+    var domIdx = 0;
+    function flipPhrase(span, text) {
+      span.classList.remove('flip-in');
+      span.classList.add('flip-out');
+      setTimeout(function() {
+        span.textContent = text;
+        span.classList.remove('flip-out');
+        span.classList.add('flip-in');
+        setTimeout(function() { span.classList.remove('flip-in'); }, 320);
+      }, 220);
+    }
+    function runFlip() {
+      domIdx = (domIdx + 1) % domSets.length;
+      var next = domSets[domIdx];
+      ['dp0', 'dp1', 'dp2'].forEach(function(id, i) {
+        setTimeout(function() {
+          var s = document.getElementById(id);
+          if (s) flipPhrase(s, next[i]);
+        }, i * 120);
+      });
+    }
+    _page.domainFlipInterval = setInterval(runFlip, 4000);
+  })();
+
+  // Homepage V2: language toggles (guard: only runs when .lang-btn is present)
+  (function() {
+    var langBtns = document.querySelectorAll('.lang-btn');
+    if (!langBtns.length) return;
+    langBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        langBtns.forEach(function(b) { b.classList.remove('on'); });
+        btn.classList.add('on');
+      });
+    });
   })();
 
 };

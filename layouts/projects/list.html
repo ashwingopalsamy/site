@@ -1,29 +1,24 @@
 {{ define "main" }}
 {{ $count := len .Pages }}
-<div class="writing-index projects-index">
+<div class="writing-index">
 
-  <div class="page-header-row">
-    <span></span>
-    <h1 class="page-header-title">{{ .Title }}</h1>
-    <span class="page-header-count">{{ $count }} {{ if eq $count 1 }}project{{ else }}projects{{ end }}</span>
+  <div class="feat-block">
+    <div class="feat-label">Projects</div>
+    <div class="feat-quote">{{ .Description }}</div>
+    <div class="feat-attr">{{ $count }} {{ if eq $count 1 }}project{{ else }}projects{{ end }}</div>
   </div>
-  <p class="page-header-sub">{{ .Description }}</p>
 
-  <div class="article-list">
-    {{ range .Pages.ByWeight }}
-    <a href="{{ .RelPermalink }}" class="article-row">
-      <div class="article-row-top">
-        {{ with .Params.status }}<span class="lifecycle-dot lifecycle-{{ lower . }}" title="{{ . }}" aria-label="{{ . }}"></span>{{ end }}
-        <span class="article-row-title">{{ .Title }}</span>
-        <div class="article-row-badges">
-          {{ with .Params.tech }}
-          {{ range . }}<span class="reading-time-badge tech-badge">{{ $key := lower . }}{{ $partialPath := printf "icons/brands/%s.html" $key }}{{ if templates.Exists (printf "partials/%s" $partialPath) }}<span class="tech-badge-icon">{{ partial $partialPath (dict "size" "10") }}</span>{{ end }}{{ . }}</span>{{ end }}
-          {{ end }}
-        </div>
-      </div>
-      {{ with .Description }}<div class="article-row-excerpt">{{ . }}</div>{{ end }}
+  <hr class="divider">
+
+  <div class="proj-list" style="margin-top: 20px;">
+    {{ range $i, $proj := .Pages.ByWeight }}
+    <a class="proj" href="{{ $proj.RelPermalink }}">
+      <span class="proj-num">{{ printf "%02d" (add $i 1) }}</span>
+      <span class="proj-nw"><span class="proj-name">{{ $proj.Title }}</span></span>
+      <span class="proj-note">{{ with $proj.Params.note }}{{ . }}{{ else }}{{ $proj.Description | truncate 60 "…" }}{{ end }}</span>
     </a>
     {{ end }}
   </div>
+
 </div>
 {{ end }}

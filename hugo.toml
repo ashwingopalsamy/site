@@ -24,7 +24,7 @@ enableGitInfo = false
     codeFences = true
   [markup.goldmark]
     [markup.goldmark.renderer]
-      unsafe = false
+      unsafe = true
   [markup.tableOfContents]
     startLevel = 2
     endLevel = 3

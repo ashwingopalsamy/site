@@ -2,13 +2,12 @@
 title: "About"
 type: "page"
 layout: "about"
-description: "Age 26. Building systems that never sleeps since 21."
+description: "Age 26. Building systems that never sleep since 21."
+lastmod: 2026-04-25
+params:
+  work: "Building *authorization infrastructure* at Pismo (Visa). Focused on multi-region deployment patterns and cross-network routing optimization."
+  learning: "Consistent hashing and distributed systems failure modes under partition. Reading *Designing Data-Intensive Applications, 2nd Ed.*"
+  sideprojects: "Building this site. Seeing how far Hugo's template system goes with zero JS frameworks."
 ---
 
-Staff Software Engineer focused on cloud-native platforms, distributed systems, and software product development. 
-
-Currently scaling authorization infrastructure at Pismo, Visa with systems that process billions of daily transactions with sub-second latency across multiple regions.
-
-Previously built core-banking microservices at Solaris SE in Berlin, powering interest-bearing financial products at scale. 
-
-Open-source contributor and technical blogger writing about Go, distributed systems, and cloud-native architecture.
+Staff Engineer building <em>authorization infrastructure</em> at Pismo by <span style="display:inline-flex;align-items:center;vertical-align:middle;margin:0 2px;position:relative;top:-2px"><svg style="height:13px;width:auto" viewBox="0 0 364 118" fill="none" aria-label="VISA"><path d="M237.066 -0.0537109C211.219 -0.0537109 188.139 13.3713 188.139 38.1497C188.139 66.5601 229.087 68.524 229.087 82.81C229.087 88.8095 222.208 94.1903 210.467 94.1903C193.782 94.1903 181.315 86.6841 181.315 86.6841L175.968 111.705C175.968 111.705 190.316 118.054 209.392 118.054C237.658 118.054 259.878 103.983 259.878 78.7744C259.878 48.7498 218.742 46.8396 218.742 33.576C218.742 28.8679 224.385 23.7023 236.099 23.7023C249.318 23.7023 260.119 29.1638 260.119 29.1638L265.332 5.0042C265.332 5.0042 253.59 -0.0537109 237.04 -0.0537109H237.066ZM0.625539 1.77575L0.00756836 5.43466C0.00756836 5.43466 10.8892 7.42554 20.6693 11.4073C33.2705 15.954 34.184 18.6175 36.3066 26.8501L59.4402 116.171H90.4462L138.245 1.77575H107.293L76.5822 79.5546L64.0616 13.6403C62.9062 6.10726 57.1027 1.80265 49.9557 1.80265H0.625539V1.77575ZM150.685 1.77575L126.396 116.171H155.897L180.079 1.77575H150.658H150.685ZM315.28 1.77575C308.16 1.77575 304.398 5.59608 301.631 12.2682L258.4 116.171H289.352L295.344 98.8446H333.04L336.694 116.171H363.992L340.16 1.77575H315.28ZM319.31 32.6882L328.472 75.5997H303.888L319.283 32.6882H319.31Z" fill="#1334CA"/></svg></span>, systems that process billions of daily transactions with <em>sub-second latency</em> across multiple regions. Previously at <em><span style="display:inline-flex;align-items:center;gap:4px;vertical-align:middle"><svg style="height:17px;width:17px;border-radius:3px;flex-shrink:0" viewBox="0 0 1080 1080" fill="none" aria-label="Solaris SE"><rect width="1080" height="1080" rx="150" fill="white"/><path fill-rule="evenodd" clip-rule="evenodd" d="M539.532 132.041C539.532 132.041 382.312 125.855 382.312 265.984C382.312 382.795 481.193 424.407 537.396 447.761C603.154 475.09 652.763 495.333 652.763 495.333C744.45 534.958 830.253 611.058 834.937 720.671C836.548 758.721 831.49 776.94 828.53 791.523C825.532 803.219 824.895 808.017 831.153 811.429C837.41 814.915 846.29 803.219 846.29 803.219C846.29 803.219 943.897 695.18 949.817 536.42C955.25 391.605 840.407 140.438 539.532 132.041ZM544.403 947.959C544.403 947.959 703.196 954.144 703.196 815.065C703.196 699.153 603.342 657.842 546.576 634.675C480.181 607.534 430.123 587.44 430.123 587.44C337.537 548.116 250.909 472.653 246.188 363.864C244.539 326.114 249.672 308.008 252.67 293.537C255.667 281.916 256.304 277.23 250.01 273.781C243.715 270.333 234.722 281.954 234.722 281.954C234.722 281.954 136.179 389.131 130.184 546.616C124.714 690.344 240.717 939.599 544.44 947.921" fill="#FF6432"/></svg>Solaris SE</span></em>, Berlin, on core-banking microservices. Open-source contributor and technical blogger.

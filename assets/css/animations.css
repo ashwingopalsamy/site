@@ -39,11 +39,6 @@
   to { opacity: 0; }
 }
 
-@keyframes spaFadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
 /* === SKELETON LOADING === */
 
 @keyframes skeletonPulse {
@@ -70,6 +65,11 @@
 .spa-skeleton-line:nth-child(5) { width: 90%; animation-delay: 0.25s; }
 .spa-skeleton-line:nth-child(6) { width: 100%; animation-delay: 0.3s; }
 .spa-skeleton-line:nth-child(7) { width: 75%; animation-delay: 0.35s; }
+
+@keyframes spaFadeIn {
+  from { opacity: 0; transform: translateY(10px) scale(1.03); filter: blur(8px); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    filter: blur(0);   }
+}
 
 /* SPA exit fade */
 main.spa-exiting {

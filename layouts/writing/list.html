@@ -1,63 +1,34 @@
 {{ define "main" }}
-{{ $writingCount := len (where .Site.RegularPages "Type" "writing") }}
+{{ $count := len (where .Site.RegularPages "Section" "writing") }}
 <div class="writing-index">
-  {{ if eq .Title "Writing" }}
 
-  <div class="page-header-row">
-    <span></span>
-    <h1 class="page-header-title">Writing</h1>
-    <span class="page-header-count">{{ $writingCount }} writings</span>
+  <div class="feat-block">
+    <div class="feat-label">Writing</div>
+    <div class="feat-quote">{{ .Description }}</div>
+    <div class="feat-attr">{{ $count }} writings</div>
   </div>
-  <p class="page-header-sub">{{ .Description }}</p>
 
-  <div id="writing-search" class="writing-search-container"></div>
+  <hr class="divider">
 
-  <div class="writing-filters">
-    {{ range .Site.Taxonomies.tags.Alphabetical }}
-    <a href="{{ .Page.RelPermalink }}" class="tag-pill">{{ .Page.Title }}</a>
+  <div class="writing" id="article-list" style="margin-top: 20px;">
+    {{ range where .Site.RegularPages.ByDate.Reverse "Section" "writing" }}
+      {{ $primaryTag := index .Params.tags 0 | default "go" }}
+      {{ $tagClass := "tag-go" }}
+      {{ $artClass := "tg" }}
+      {{ if eq $primaryTag "payments" }}{{ $tagClass = "tag-payments" }}{{ $artClass = "tp" }}{{ end }}
+      {{ if eq $primaryTag "security" }}{{ $tagClass = "tag-security" }}{{ $artClass = "ts" }}{{ end }}
+      {{ if eq $primaryTag "distributed-systems" }}{{ $tagClass = "tag-distributed-systems" }}{{ $artClass = "td" }}{{ end }}
+      {{ if eq $primaryTag "engineering-practices" }}{{ $tagClass = "tag-engineering-practices" }}{{ $artClass = "te" }}{{ end }}
+      <a class="art {{ $artClass }}" href="{{ .RelPermalink }}">
+        <div class="art-meta">
+          <span class="art-date">{{ .Date.Format "Jan 2006" }}</span>
+          <span class="art-title">{{ .Title }}</span>
+          <span class="tag {{ $tagClass }}">{{ $primaryTag | title }}</span>
+        </div>
+        <div class="art-excerpt">{{ .Description }}</div>
+      </a>
     {{ end }}
   </div>
 
-  <div class="article-list" id="article-list">
-    {{ $prevYear := 0 }}
-    {{ $prevMonth := "" }}
-    {{ $isFirst := true }}
-    {{- range where .Site.RegularPages.ByDate.Reverse "Type" "writing" -}}
-      {{ $year := .Date.Year }}
-      {{ $month := .Date.Format "Jan" }}
-      {{ if ne $year $prevYear }}
-        <div class="year-sep{{ if $isFirst }} year-sep--first{{ end }}">{{ $year }}</div>
-        <div class="year-sep-line"></div>
-        {{ $prevYear = $year }}
-        {{ $prevMonth = "" }}
-        {{ $isFirst = false }}
-      {{ end }}
-      {{ $monthLabel := "" }}
-      {{ if ne $month $prevMonth }}
-        {{ $monthLabel = $month }}
-        {{ $prevMonth = $month }}
-        {{ if not $isFirst }}<div class="month-sep"></div>{{ end }}
-      {{ end }}
-      {{ partial "article-row.html" (dict "Page" . "monthLabel" $monthLabel) }}
-    {{- end -}}
-  </div>
-
-  {{ else }}
-  {{ $subCount := len .Pages }}
-  <div class="page-header-row">
-    <a href="/writing/" class="page-header-back">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-      Writing
-    </a>
-    <h1 class="page-header-title">{{ .Title }}</h1>
-    <span class="page-header-count">{{ $subCount }} writings</span>
-  </div>
-  <p class="page-header-sub">{{ .Description }}</p>
-  <div class="article-list">
-    {{ range .Pages.ByDate.Reverse }}
-      {{ partial "article-row.html" . }}
-    {{ end }}
-  </div>
-  {{ end }}
 </div>
 {{ end }}

@@ -1,30 +1,142 @@
+{{/* Homepage V2 — Design system V1.3 */}}
+
+{{/* Plus Jakarta Sans — homepage-only display font for hero statement */}}
+{{ define "extra-head" }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700&display=swap" rel="stylesheet">
+{{ end }}
+
+{{/* ── Main content ── */}}
 {{ define "main" }}
-<div class="home">
-  <div class="hero-cursor-glow" id="heroCursorGlow"></div>
-  <section class="hero h-card">
-    <div class="hero-glow"></div>
-    <div class="hero-tagline">
-      <span class="breathing-dot"></span>
-      Currently: Staff Software Engineer, Visa
+<div class="container">
+
+  {{/* ── HERO ── */}}
+  <section class="hero" aria-label="Introduction">
+    <div class="hero-inner">
+
+      {{/* Status pill */}}
+      <div class="status-pill">
+        <span class="dot" aria-hidden="true"></span>
+        <span class="sp-text">Staff Software Engineer, Pismo</span>
+        <span class="sp-pipe" aria-hidden="true">|</span>
+        <svg style="height:10px;width:auto;flex-shrink:0;display:block;margin-top:1px" viewBox="0 0 364 118" fill="none" aria-label="VISA">
+          <path d="M237.066 -0.0537109C211.219 -0.0537109 188.139 13.3713 188.139 38.1497C188.139 66.5601 229.087 68.524 229.087 82.81C229.087 88.8095 222.208 94.1903 210.467 94.1903C193.782 94.1903 181.315 86.6841 181.315 86.6841L175.968 111.705C175.968 111.705 190.316 118.054 209.392 118.054C237.658 118.054 259.878 103.983 259.878 78.7744C259.878 48.7498 218.742 46.8396 218.742 33.576C218.742 28.8679 224.385 23.7023 236.099 23.7023C249.318 23.7023 260.119 29.1638 260.119 29.1638L265.332 5.0042C265.332 5.0042 253.59 -0.0537109 237.04 -0.0537109H237.066ZM0.625539 1.77575L0.00756836 5.43466C0.00756836 5.43466 10.8892 7.42554 20.6693 11.4073C33.2705 15.954 34.184 18.6175 36.3066 26.8501L59.4402 116.171H90.4462L138.245 1.77575H107.293L76.5822 79.5546L64.0616 13.6403C62.9062 6.10726 57.1027 1.80265 49.9557 1.80265H0.625539V1.77575ZM150.685 1.77575L126.396 116.171H155.897L180.079 1.77575H150.658H150.685ZM315.28 1.77575C308.16 1.77575 304.398 5.59608 301.631 12.2682L258.4 116.171H289.352L295.344 98.8446H333.04L336.694 116.171H363.992L340.16 1.77575H315.28ZM319.31 32.6882L328.472 75.5997H303.888L319.283 32.6882H319.31Z" fill="#1334CA"/>
+        </svg>
+      </div>
+
+      {{/* Statement — per-word blur-in, hard 2-line rule */}}
+      <div class="statement" aria-label="Identity">
+        <span class="stmt-line"><span class="hw" style="animation-delay:.16s">I</span> <span class="hw" style="animation-delay:.205s">engineer</span> <span class="hw" style="animation-delay:.25s">the</span> <span class="hw" style="animation-delay:.295s">infrastructure</span></span>
+        <span class="stmt-line"><span class="hw" style="animation-delay:.46s">behind</span> <span class="hw" style="animation-delay:.505s">global</span> <span class="hw" style="animation-delay:.55s">payments.</span></span>
+      </div>
+
+      {{/* Domain tags — Solari flip every 4s, JS-driven */}}
+      <div class="domains" aria-label="Areas of focus">
+        <span class="dom-phrase d0" id="dp0">Distributed Systems</span>
+        <span class="dom-sep" aria-hidden="true"></span>
+        <span class="dom-phrase d1" id="dp1">Fintech</span>
+        <span class="dom-sep" aria-hidden="true"></span>
+        <span class="dom-phrase d2" id="dp2">AI Native Development</span>
+      </div>
+
+      {{/* Social row: passive icons | active CTA pills */}}
+      <div class="soc-row" aria-label="Links">
+        <a class="soc-btn gh" href="https://github.com/ashwingopalsamy" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <a class="soc-btn li" href="https://linkedin.com/in/ashwingopalsamy" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a class="soc-btn xx" href="https://x.com/ashwin2125" target="_blank" rel="noopener noreferrer" aria-label="X">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+
+        <span class="soc-sep" aria-hidden="true"></span>
+
+        <a class="cta" href="/resume.pdf" download aria-label="Download Resume">
+          <span class="cta-icon" aria-hidden="true">
+            <svg width="13" height="16" viewBox="0 0 13 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1.5 0.5H8.5L12.5 4.5V15C12.5 15.28 12.28 15.5 12 15.5H1C0.72 15.5 0.5 15.28 0.5 15V1C0.5 0.72 0.72 0.5 1 0.5Z" stroke-width="1" fill="currentColor" fill-opacity="0.07"/>
+              <path d="M8.5 0.5V4.5H12.5" stroke-width="1"/>
+              <line x1="2.5" y1="8" x2="10.5" y2="8" stroke-width=".85" opacity="0.6"/>
+              <line x1="2.5" y1="10.5" x2="10.5" y2="10.5" stroke-width=".85" opacity="0.6"/>
+              <line x1="2.5" y1="13" x2="7.5" y2="13" stroke-width=".85" opacity="0.6"/>
+            </svg>
+          </span>
+          Resume
+        </a>
+        <a class="cta" href="https://cal.com/ashwingopalsamy" target="_blank" rel="noopener noreferrer" aria-label="Book a meeting">
+          <span class="cta-icon" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="0.75" y="2" width="13.5" height="12.25" rx="2" stroke-width="1" fill="currentColor" fill-opacity="0.07"/>
+              <line x1="0.75" y1="6" x2="14.25" y2="6" stroke-width="1"/>
+              <line x1="4.5" y1="0.5" x2="4.5" y2="3.5" stroke-width="1.1"/>
+              <line x1="10.5" y1="0.5" x2="10.5" y2="3.5" stroke-width="1.1"/>
+              <circle cx="7.5" cy="10.25" r="1.1" fill="currentColor" stroke="none" opacity="0.6"/>
+            </svg>
+          </span>
+          Meet
+        </a>
+        <a class="cta" href="/ai/" aria-label="AI context page">
+          <span class="cta-icon" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z"/>
+            </svg>
+          </span>
+          AI
+        </a>
+      </div>
+
     </div>
-    {{ $photo := (resources.Get "img/dp.jpeg").Process "fit 240x240 webp q95" }}
-    <h1 class="hero-name p-name">
-      <span class="hero-name-wrap">
-        <img class="hero-peek" src="{{ $photo.RelPermalink }}" alt="Ashwin Gopalsamy" loading="eager" width="40" height="50">
-        <span class="hero-name-text">Ashwin Gopalsamy</span>
-      </span>
-    </h1>
-    <p class="hero-subtitle">Product Engineer. Blogger. Open-source contributor.</p>
-    <div class="hero-divider"></div>
-    <p class="hero-headline">
-      Expertise in <span class="hero-highlight" data-tip-label="Expertise" data-tip="Multi-region auth infra processing billions of txns/day">distributed systems</span>, <span class="hero-highlight" data-tip-label="Stack" data-tip="Go + K8s + AWS + Terraform + ArgoCD">cloud-native architecture</span>, and <span class="hero-highlight" data-tip-label="Approach" data-tip="End-to-end: design, build, ship, observe">software product development</span>.
-    </p>
-    <div class="social-links">
-      {{ range $i, $link := site.Data.social.links }}
-        {{ if $i }}<span class="social-sep{{ if $link.internal }} social-sep--internal{{ end }}"></span>{{ end }}
-        <a href="{{ $link.url }}" class="social-link{{ if not $link.internal }} u-url{{ else }} social-link--internal{{ end }}"{{ if not $link.internal }} rel="noopener noreferrer" target="_blank"{{ end }}{{ if $link.download }} download{{ end }}><span class="social-icon">{{ if eq $link.name "RSS" }}<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11a9 9 0 019-9"/><path d="M4 4a16 16 0 0116 16"/><circle cx="5" cy="19" r="1"/></svg>{{ else if eq $link.name "AI Context" }}<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.7 8.3L22 12l-8.3 1.7L12 22l-1.7-8.3L2 12l8.3-1.7L12 2z"/></svg>{{ else if eq $link.name "Resume" }}{{ partial "icons/download.html" (dict "size" "13") }}{{ else }}{{ partial (printf "icons/brands/%s.html" (lower $link.name)) (dict "size" "13") }}{{ end }}</span>{{ $link.name }}</a>
+  </section>
+
+  {{/* ── WRITING ── */}}
+  {{ $articles := where .Site.RegularPages "Section" "writing" | first 5 }}
+  <section class="section" aria-label="Writing">
+    <div class="section-label">
+      <div class="section-title">Writing</div>
+      <div class="section-sub">On distributed systems, Go internals, and payments engineering.</div>
+      <a class="section-link" href="/writing/">All writing →</a>
+    </div>
+    <div class="writing">
+      {{ range $articles }}
+        {{ $primaryTag := index .Params.tags 0 | default "go" }}
+        {{ $tagClass := "tag-go" }}
+        {{ $artClass := "tg" }}
+        {{ if eq $primaryTag "payments" }}{{ $tagClass = "tag-payments" }}{{ $artClass = "tp" }}{{ end }}
+        {{ if eq $primaryTag "security" }}{{ $tagClass = "tag-security" }}{{ $artClass = "ts" }}{{ end }}
+        <a class="art {{ $artClass }}" href="{{ .RelPermalink }}">
+          <div class="art-meta">
+            <span class="art-date">{{ .Date.Format "Jan 2006" }}</span>
+            <span class="art-title">{{ .Title }}</span>
+            <span class="tag {{ $tagClass }}">{{ $primaryTag | title }}</span>
+          </div>
+          <div class="art-excerpt">{{ .Description }}</div>
+        </a>
       {{ end }}
     </div>
   </section>
+
+  {{/* ── PROJECTS ── */}}
+  {{ $projSection := .Site.GetPage "/projects" }}
+  {{ $projects := ($projSection.Pages.ByWeight) | first 4 }}
+  <section class="section" aria-label="Projects">
+    <div class="section-label">
+      <div class="section-title">Projects</div>
+      <div class="section-sub">Open source and side work.</div>
+      <a class="section-link" href="/projects/">All projects →</a>
+    </div>
+    <div class="proj-list">
+      {{ range $i, $proj := $projects }}
+      <a class="proj" href="{{ $proj.RelPermalink }}">
+        <span class="proj-num">{{ printf "%02d" (add $i 1) }}</span>
+        <span class="proj-nw"><span class="proj-name">{{ $proj.Title }}</span></span>
+        <span class="proj-note">{{ with $proj.Params.note }}{{ . }}{{ else }}{{ $proj.Description | truncate 60 "…" }}{{ end }}</span>
+      </a>
+      {{ end }}
+    </div>
+  </section>
+
 </div>
 {{ end }}

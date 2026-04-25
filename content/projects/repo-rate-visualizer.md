@@ -1,8 +1,9 @@
 ---
 title: "Repo Rate Visualizer"
 slug: "repo-rate-visualizer"
-weight: 50
+weight: 40
 date: 2026-02-10
+note: "D3.js interactive history of India's RBI repo rate"
 description: "Interactive visualization of India's RBI repo rate history. D3.js timeline charts, cycle comparisons, and data export with URL state sync."
 tech: ["JavaScript", "React"]
 status: "Active"

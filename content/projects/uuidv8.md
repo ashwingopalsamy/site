@@ -1,8 +1,9 @@
 ---
 title: "UUIDv8"
 slug: "uuidv8"
-weight: 15
+weight: 20
 date: 2024-06-10
+note: "Open-source Go library for RFC 9562-compliant identifiers"
 description: "Open-source Go library for generating RFC 9562-compliant UUIDv8 identifiers with custom timestamp and node encoding."
 tech: ["Go"]
 status: "Active"

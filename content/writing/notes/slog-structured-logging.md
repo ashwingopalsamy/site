@@ -1,6 +1,7 @@
 ---
 title: "Why slog Over zerolog"
 date: 2026-03-10
+description: "slog is stdlib, zerolog is faster but the gap has closed. For new projects, slog wins on API clarity and zero dependencies."
 tags: ["go"]
 url: /writing/notes/why-slog-over-zerolog/
 ---

@@ -27,37 +27,38 @@
 /* === TOKENS === */
 
 :root {
-  --bg: #ffffff;
-  --text: #1a1a1a;
-  --muted: #6b6b6b;
+  --bg: #faf9f5;
+  --text: #1a1a18;
+  --muted: #6f6f66;
+  --faint: #b0b0a8;
   --subtle: #e0dfdd;
   --surface: #ffffff;
-  --border: #e8e7e5;
-  --code-bg: #f5f4f2;
-  --accent: #374151;
-  --accent-rgb: 55, 65, 81;
-  --accent-text: #1f2937;
-  --accent-soft: rgba(55, 65, 81, 0.08);
-  --accent-glow: rgba(55, 65, 81, 0.15);
+  --border: #e2e8f0;
+  --code-bg: #f5f4f0;
+  --accent: #2563eb;
+  --accent-rgb: 37, 99, 235;
+  --accent-text: #2563eb;
+  --accent-soft: rgba(37, 99, 235, 0.08);
+  --accent-glow: rgba(37, 99, 235, 0.15);
   --shadow: rgba(0, 0, 0, 0.06);
-  --shadow-accent: rgba(55, 65, 81, 0.08);
-  --glass: rgba(255, 255, 255, 0.96);
+  --shadow-accent: rgba(37, 99, 235, 0.08);
+  --glass: rgba(250, 249, 245, 0.96);
 }
 
 [data-theme="dark"] {
-  --bg: #111110;
+  --bg: #161514;
   --text: #edebe8;
   --muted: #777777;
   --subtle: #2a2a28;
-  --surface: #1a1a19;
+  --surface: #1e1d1c;
   --border: rgba(255, 255, 255, 0.08);
   --code-bg: #1e1e1c;
-  --accent: #9ca3af;
-  --accent-rgb: 156, 163, 175;
-  --accent-text: #d1d5db;
+  --accent: #5b8dee;
+  --accent-rgb: 91, 141, 238;
+  --accent-text: #5b8dee;
   --shadow: rgba(0, 0, 0, 0.3);
-  --shadow-accent: rgba(156, 163, 175, 0.15);
-  --glass: rgba(17, 17, 16, 0.96);
+  --shadow-accent: rgba(91, 141, 238, 0.15);
+  --glass: rgba(22, 21, 20, 0.96);
 }
 
 /* === RESET === */
@@ -73,10 +74,11 @@
   padding: 0;
 }
 
-/* Global instant-but-buttery transition override */
-*,
-*::before,
-*::after {
+/* Fast transitions on nav/footer chrome only — content rows keep their designed timings */
+body:not(.home-page) .nav-wrap,
+body:not(.home-page) .nav-wrap *,
+body:not(.home-page) footer,
+body:not(.home-page) footer * {
   transition-duration: 0.05s !important;
   transition-delay: 0s !important;
 }
@@ -119,6 +121,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Base elements */
@@ -192,9 +198,9 @@ pre code {
   padding: 0;
   border-radius: 0;
   font-size: 15px;
-  white-space: pre;
-  word-wrap: normal;
-  overflow-wrap: normal;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .highlight {

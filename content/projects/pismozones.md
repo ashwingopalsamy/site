@@ -1,8 +1,9 @@
 ---
 title: "Pismo Zones"
 slug: "pismozones"
-weight: 20
+weight: 10
 date: 2026-03-20
+note: "Timezone tool used daily across Pismo's distributed offices"
 description: "AI-engineered timezone tool used daily across Pismo's distributed offices. Production-grade glassmorphism UI with spring-physics animations and ambient time-of-day lighting."
 tech: ["JavaScript", "Vite"]
 status: "Active"

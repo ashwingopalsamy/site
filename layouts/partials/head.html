@@ -54,16 +54,21 @@
   (resources.Get "css/progress.css")
   (resources.Get "css/hero.css")
   (resources.Get "css/writing-list.css")
+  (resources.Get "css/section-rows.css")
+  (resources.Get "css/page-sections.css")
   (resources.Get "css/article.css")
   (resources.Get "css/diagrams.css")
   (resources.Get "css/components.css")
   (resources.Get "css/search.css")
   (resources.Get "css/page-header.css")
-  (resources.Get "css/experience.css")
   (resources.Get "css/animations.css")
   (resources.Get "css/responsive.css")
   | resources.Concat "css/bundle.css" | minify | fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+{{ if .IsHome }}
+{{ $homeCSS := resources.Get "css/home.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $homeCSS.RelPermalink }}">
+{{ end }}
 
 {{ if not hugo.IsServer }}
 <script defer data-domain="{{ .Site.Params.plausibleDomain }}" src="https://plausible.io/js/script.js" integrity="sha384-TDBMBYT3vz715r8UIyVTB4AUTXubXmLI02DeDWgyDahvCXmPV4Vgx2m6yQvI19d/" crossorigin="anonymous"></script>

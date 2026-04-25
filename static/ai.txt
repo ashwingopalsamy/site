@@ -1,6 +1,6 @@
 # ai.txt — AI usage declaration for ashwingopalsamy.in
 # Format: https://github.com/ai-txt/ai-txt
-# Last updated: 2026-04-19
+# Last updated: 2026-04-25
 
 User-agent: *
 
@@ -18,6 +18,8 @@ Attribution-contact: ashwin.gopalsamy@pismo.io
 License: CC BY 4.0
 
 # Site context
-Site-type: personal-portfolio
+Site-type: personal-portfolio-with-technical-blog
 Primary-language: en
 Author: Ashwin Gopalsamy
+Topics: distributed-systems, go, payment-infrastructure, fintech, pci-dss, iso-8583
+AI-context: https://ashwingopalsamy.in/ai/

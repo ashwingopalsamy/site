@@ -1,6 +1,7 @@
 ---
 title: "Runes, Bytes, and Graphemes in Go"
 date: 2025-08-09
+description: "len() counts bytes, []rune counts code points, neither matches what users see. Grapheme clusters are the unit humans actually read."
 tags: ["go"]
 url: /writing/notes/runes-bytes-and-graphemes-in-go/
 ---

@@ -4,35 +4,93 @@ pre {
   position: relative;
 }
 
-pre .copy-btn {
+/* Unified action cluster: language label + copy button */
+
+.code-actions {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 30px;
-  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 3px;
+  border-radius: 100px;
+  background: rgba(255,255,255,.82);
+  border: 0.5px solid rgba(255,255,255,.9);
+  box-shadow:
+    0 0 0 0.5px rgba(0,0,0,.07),
+    0 1px 5px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,1);
+  backdrop-filter: blur(10px) saturate(160%);
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  z-index: 2;
+}
+
+.code-actions.has-lang {
+  padding-left: 10px;
+}
+
+[data-theme="dark"] .code-actions {
+  background: rgba(255,255,255,.07);
+  border: 0.5px solid rgba(255,255,255,.13);
+  box-shadow:
+    0 0 0 0.5px rgba(0,0,0,.3),
+    0 1px 6px rgba(0,0,0,.4),
+    inset 0 1px 0 rgba(255,255,255,.09);
+}
+
+.code-lang {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: rgba(26,26,24,.48);
+  white-space: nowrap;
+  font-family: 'Inter', system-ui, sans-serif;
+  padding-right: 8px;
+  border-right: 0.5px solid rgba(0,0,0,.09);
+  pointer-events: none;
+}
+
+[data-theme="dark"] .code-lang {
+  color: rgba(255,255,255,.38);
+  border-right-color: rgba(255,255,255,.08);
+}
+
+pre .copy-btn {
+  width: 26px;
+  height: 26px;
   padding: 0;
-  border-radius: 8px;
-  border: 0.5px solid var(--border);
-  color: var(--muted);
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  color: rgba(26,26,24,.42);
   cursor: pointer;
-  background: var(--surface);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-              color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-left: 3px;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+              background 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] pre .copy-btn {
+  color: rgba(255,255,255,.35);
 }
 
 pre .copy-btn:hover {
-  border-color: var(--accent);
   color: var(--accent);
+  background: rgba(37,99,235,.08);
+}
+
+[data-theme="dark"] pre .copy-btn:hover {
+  color: #7ab8ff;
+  background: rgba(37,99,235,.12);
 }
 
 pre .copy-btn.copied {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: white;
+  color: #059669;
+  background: rgba(16,185,129,.08);
 }
 
 pre .copy-btn .check-icon polyline {
@@ -45,22 +103,6 @@ pre .copy-btn .check-icon polyline {
   to {
     stroke-dashoffset: 0;
   }
-}
-
-/* Code block language label */
-
-.code-lang-label {
-  position: absolute;
-  top: 8px;
-  left: 12px;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--muted);
-  opacity: 0.6;
-  pointer-events: none;
-  font-family: 'Inter', system-ui, sans-serif;
 }
 
 /* Syntax highlighting (Hugo chroma) */
@@ -96,24 +138,6 @@ pre .copy-btn .check-icon polyline {
 [data-theme="dark"] .highlight .mi,
 [data-theme="dark"] .highlight .mf {
   color: #818cf8;
-}
-
-/* Code block horizontal scroll indicator */
-
-.highlight {
-  position: relative;
-}
-
-.highlight.has-overflow::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 40px;
-  background: linear-gradient(to right, transparent, var(--code-bg));
-  pointer-events: none;
-  border-radius: 0 8px 8px 0;
 }
 
 /* Code block collapse/expand */
@@ -186,7 +210,7 @@ pre.code-collapsed::before {
 
 @media (min-width: 768px) {
   .back-to-top {
-    bottom: 32px;
+    bottom: 76px;
   }
 }
 
@@ -221,6 +245,25 @@ pre.code-collapsed::before {
   transition-duration: 0.08s;
 }
 
+[data-theme="dark"] .back-to-top button {
+  background: rgba(13,13,12,.48);
+  border-color: rgba(255,255,255,.13);
+  backdrop-filter: saturate(300%) contrast(1.1) blur(24px);
+  -webkit-backdrop-filter: saturate(300%) contrast(1.1) blur(24px);
+  box-shadow:
+    0 2px 20px rgba(0,0,0,.35),
+    inset 0 0 0 .5px rgba(255,255,255,.20),
+    inset 0 1px 0 rgba(255,255,255,.22);
+}
+
+[data-theme="dark"] .back-to-top button:hover {
+  border-color: rgba(255,255,255,.18);
+  box-shadow:
+    0 2px 24px rgba(0,0,0,.42),
+    inset 0 0 0 .5px rgba(255,255,255,.26),
+    inset 0 1px 0 rgba(255,255,255,.28);
+}
+
 .btt-sep {
   width: 1px;
   height: 14px;
@@ -238,7 +281,7 @@ pre.code-collapsed::before {
 
 /* === 22. EXTERNAL LINK INDICATOR === */
 
-a[target="_blank"]:not(.social-link):not(.article-row):not(.article-nav-link)::after {
+a[target="_blank"]:not(.social-link):not(.article-row):not(.article-nav-link):not(.soc-btn):not(.cta):not(.ftr-soc):not(.nav-logo):not(.nav-link)::after {
   content: "\2197";
   font-size: 12px;
   opacity: 0;
@@ -249,7 +292,7 @@ a[target="_blank"]:not(.social-link):not(.article-row):not(.article-nav-link)::a
               transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-a[target="_blank"]:not(.social-link):not(.article-row):not(.article-nav-link):hover::after {
+a[target="_blank"]:not(.social-link):not(.article-row):not(.article-nav-link):not(.soc-btn):not(.cta):not(.ftr-soc):not(.nav-logo):not(.nav-link):hover::after {
   opacity: 1;
   transform: translateY(0);
 }
@@ -332,3 +375,84 @@ a[target="_blank"]:not(.social-link):not(.article-row):not(.article-nav-link):ho
 .project-github-wrap { margin-top: 8px; }
 .project-github-icon { display: inline-flex; align-items: center; margin-right: 5px; }
 .newsletter-form-wrap { margin-top: 20px; }
+
+/* === CTA PILLS ===
+   Elevated white pills. Originally in home.css; moved here for global availability.
+   Used in: homepage social row, about page Elsewhere section. */
+
+.cta {
+  position: relative;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 14px 0 10px;
+  border-radius: 100px;
+  border: none;
+  background: var(--surface);
+  box-shadow:
+    0 0 0 .5px rgba(0,0,0,.09),
+    0 1px 3px rgba(0,0,0,.07),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -.1px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition:
+    color .18s,
+    box-shadow .2s,
+    transform .25s cubic-bezier(.34,1.56,.64,1),
+    opacity .15s;
+}
+.cta:hover {
+  color: var(--text);
+  box-shadow:
+    0 0 0 .5px rgba(0,0,0,.12),
+    0 4px 12px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  transform: translateY(-2px);
+}
+.cta:active {
+  transform: scale(.96) translateY(0);
+  box-shadow:
+    0 0 0 .5px rgba(0,0,0,.09),
+    0 1px 2px rgba(0,0,0,.06),
+    inset 0 1px 0 rgba(255,255,255,.9);
+  transition-duration: .08s;
+}
+[data-theme="dark"] .cta {
+  background: rgba(13,13,12,.48);
+  backdrop-filter: saturate(300%) contrast(1.1) blur(24px);
+  -webkit-backdrop-filter: saturate(300%) contrast(1.1) blur(24px);
+  box-shadow:
+    0 2px 16px rgba(0,0,0,.30),
+    inset 0 0 0 .5px rgba(255,255,255,.20),
+    inset 0 1px 0 rgba(255,255,255,.18);
+}
+[data-theme="dark"] .cta:hover {
+  box-shadow:
+    0 2px 20px rgba(0,0,0,.38),
+    inset 0 0 0 .5px rgba(255,255,255,.22),
+    inset 0 1px 0 rgba(255,255,255,.22);
+}
+[data-theme="dark"] .cta:active {
+  box-shadow:
+    0 1px 8px rgba(0,0,0,.25),
+    inset 0 0 0 .5px rgba(255,255,255,.16),
+    inset 0 1px 0 rgba(255,255,255,.14);
+}
+
+.cta-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1);
+}
+.cta:hover .cta-icon { transform: scale(1.1); }

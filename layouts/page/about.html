@@ -1,51 +1,160 @@
 {{ define "main" }}
+{{ $daysSince := 9999 }}
+{{ if .Lastmod }}
+  {{ $diff := sub now.Unix .Lastmod.Unix }}
+  {{ $daysSince = div $diff 86400 }}
+{{ end }}
 <article class="article">
-  <header class="article-header">
-    <div class="page-header-row">
-      <span></span>
-      <h1 class="page-header-title">{{ .Title }}</h1>
-      <span></span>
-    </div>
-    {{ with .Description }}
-    <p class="page-header-sub">{{ . }}</p>
-    {{ end }}
-  </header>
-  <div class="divider"></div>
-  <div class="article-body">
-    {{ .Content }}
+
+  <div class="feat-block">
+    <div class="feat-label">About</div>
+    <div class="feat-quote">{{ .Content }}</div>
   </div>
 
-  <section class="exp-section">
-    <div class="exp-label">Languages</div>
-    <div class="lang-pills">
-      <span class="lang-pill">English</span>
-      <span class="lang-pill">Tamil</span>
-      <span class="lang-pill">Malayalam</span>
-      <span class="lang-pill">Deutsch</span>
-      <span class="lang-pill">Portuguese</span>
+  <!-- ── CURRENTLY ── -->
+  <div class="about-section">
+    <div class="about-section-left">
+      <div class="section-title">Currently</div>
+      <div class="feat-attr">
+        {{ if lt $daysSince 30 }}
+          <span class="feat-dot fresh" aria-hidden="true"></span>
+        {{ else }}
+          <span class="feat-dot" aria-hidden="true"></span>
+        {{ end }}
+        Updated {{ .Lastmod.Format "January 2006" }}
+      </div>
     </div>
-  </section>
+    <div class="about-section-right">
+      {{ with .Params.work }}
+      <div class="about-entry">
+        <div class="about-entry-label">Work</div>
+        <div>{{ . | markdownify }}</div>
+      </div>
+      {{ end }}
+      {{ with .Params.learning }}
+      <div class="about-entry">
+        <div class="about-entry-label">Learning</div>
+        <div>{{ . | markdownify }}</div>
+      </div>
+      {{ end }}
+      {{ with .Params.sideprojects }}
+      <div class="about-entry">
+        <div class="about-entry-label">Side projects</div>
+        <div>{{ . | markdownify }}</div>
+      </div>
+      {{ end }}
+    </div>
+  </div>
 
-  <section class="exp-section">
-    <div class="exp-label">Elsewhere</div>
-    <div class="exp-links">
-      <a href="https://github.com/ashwingopalsamy" class="exp-ext-link" target="_blank" rel="noopener noreferrer">
-        {{ partial "icons/brands/github.html" (dict "size" "14") }}
-        GitHub
-      </a>
-      <a href="https://linkedin.com/in/ashwingopalsamy" class="exp-ext-link" target="_blank" rel="noopener noreferrer">
-        {{ partial "icons/brands/linkedin.html" (dict "size" "14") }}
-        LinkedIn
-      </a>
-      <a href="https://x.com/ashwin2125" class="exp-ext-link" target="_blank" rel="noopener noreferrer">
-        {{ partial "icons/brands/x.html" (dict "size" "14") }}
-        X
-      </a>
-      <a href="/resume.pdf" class="exp-ext-link" download>
-        {{ partial "icons/download.html" (dict "size" "14") }}
-        Resume
-      </a>
+  <!-- ── EDUCATION ── -->
+  <div class="about-section">
+    <div class="about-section-left">
+      <div class="section-title">Education</div>
     </div>
-  </section>
+    <div class="about-section-right">
+      <div class="about-entry">
+        <div class="about-entry-name">B.Tech Information Technology</div>
+        <div class="about-entry-detail">Hindusthan College of Engineering and Technology &middot; CGPA 8.32 &middot; First Class with Distinction</div>
+        <div style="margin-top:6px"><span class="edu-badge">Published &mdash; Springer LNEE Vol. 905, 2022</span></div>
+      </div>
+      <div class="about-entry">
+        <div class="about-entry-name">MIT OpenCourseWare 6.824</div>
+        <div class="about-entry-detail">Distributed Systems &middot; Consensus, fault tolerance, distributed transactions</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SETUP ── -->
+  <div class="about-section">
+    <div class="about-section-left">
+      <div class="section-title">Setup</div>
+    </div>
+    <div class="about-section-right">
+      <div class="about-entry">
+        <div class="about-entry-label">Hardware</div>
+        <div class="section-pills about-entry-pills">
+          <span class="section-pill">MacBook Pro M4 Pro</span>
+          <span class="section-pill">Apple AirPods Pro</span>
+          <span class="section-pill">Logitech MX Master 3S</span>
+          <span class="section-pill">Logitech MX Keys Mini</span>
+          <span class="section-pill">Apple iPad</span>
+          <span class="section-pill">HP Envy 15&Prime;</span>
+        </div>
+      </div>
+      <div class="about-entry">
+        <div class="about-entry-label">Editor</div>
+        <div class="section-pills about-entry-pills">
+          <span class="section-pill">VS Code</span>
+          <span class="section-pill">Claude Code</span>
+          <span class="section-pill">JetBrains Mono</span>
+          <span class="section-pill">zsh</span>
+        </div>
+      </div>
+      <div class="about-entry">
+        <div class="about-entry-label">Stack</div>
+        <div class="section-pills about-entry-pills">
+          <span class="section-pill">Go</span>
+          <span class="section-pill">AWS</span>
+          <span class="section-pill">Kubernetes</span>
+          <span class="section-pill">Terraform</span>
+          <span class="section-pill">Grafana</span>
+          <span class="section-pill">ArgoCD</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ELSEWHERE ── -->
+  <div class="about-section">
+    <div class="about-section-left">
+      <div class="section-title">Elsewhere</div>
+    </div>
+    <div class="about-section-right">
+      <div class="about-entry">
+        <div class="about-entry-label">Languages</div>
+        <div class="section-pills about-entry-pills">
+          <span class="section-pill">English</span>
+          <span class="section-pill">Tamil</span>
+          <span class="section-pill">Malayalam</span>
+          <span class="section-pill">Deutsch</span>
+          <span class="section-pill">Portuguese</span>
+        </div>
+      </div>
+      <div class="about-entry">
+        <div class="about-entry-label">Contact</div>
+        <a href="mailto:hi@ashwingopalsamy.in" style="color:var(--text);font-size:15px;font-weight:300">hi@ashwingopalsamy.in</a>
+      </div>
+      <div class="about-entry">
+        <div class="about-entry-label">Links</div>
+        <div class="section-link-pills about-entry-pills">
+          <a class="cta" href="https://github.com/ashwingopalsamy" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <span class="cta-icon" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            </span>
+            GitHub
+          </a>
+          <a class="cta" href="https://linkedin.com/in/ashwingopalsamy" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <span class="cta-icon" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </span>
+            LinkedIn
+          </a>
+          <a class="cta" href="https://x.com/ashwin2125" target="_blank" rel="noopener noreferrer" aria-label="X">
+            <span class="cta-icon" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </span>
+            X
+          </a>
+          <a class="cta" href="/resume.pdf" download aria-label="Download Resume">
+            <span class="cta-icon" aria-hidden="true">
+              <svg width="11" height="14" viewBox="0 0 13 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 0.5H8.5L12.5 4.5V15C12.5 15.28 12.28 15.5 12 15.5H1C0.72 15.5 0.5 15.28 0.5 15V1C0.5 0.72 0.72 0.5 1 0.5Z" stroke-width="1" fill="currentColor" fill-opacity="0.07"/><path d="M8.5 0.5V4.5H12.5" stroke-width="1"/><line x1="2.5" y1="8" x2="10.5" y2="8" stroke-width=".85" opacity="0.6"/><line x1="2.5" y1="10.5" x2="10.5" y2="10.5" stroke-width=".85" opacity="0.6"/><line x1="2.5" y1="13" x2="7.5" y2="13" stroke-width=".85" opacity="0.6"/></svg>
+            </span>
+            Resume
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </article>
 {{ end }}

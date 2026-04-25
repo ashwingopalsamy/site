@@ -1,0 +1,206 @@
+/* === FEATURE QUOTE BLOCK ===
+   Shared: About page + Now page.
+   Pattern: uppercase label → Inter 300 pull quote → attribution line. */
+
+.feat-block {
+  padding: 40px 0 32px;
+}
+
+.feat-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--faint);
+  margin-bottom: 16px;
+}
+
+.feat-quote {
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.55;
+  letter-spacing: -.25px;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+/* Accent words in the pull quote — <em> with font-style reset */
+.feat-quote em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+/* markdownify wraps content in <p> — collapse the margin */
+.feat-quote p { margin-bottom: 0; }
+
+.feat-attr {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--faint);
+}
+
+.feat-attr::before { content: ''; }
+
+/* Freshness dot (Now page only) */
+.feat-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f59e0b;
+  flex-shrink: 0;
+}
+.feat-dot.fresh {
+  background: var(--accent);
+  animation: featDotPulse 3s ease-in-out infinite;
+}
+
+@keyframes featDotPulse {
+  0%, 100% { opacity: .35; transform: scale(.8); }
+  50%       { opacity: .9;  transform: scale(1.1); }
+}
+
+/* === SPLIT SECTIONS === */
+
+.section-split { display: flex; flex-direction: column; }
+
+.section-row {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: .5px solid var(--border);
+}
+.section-row:last-child { border-bottom: none; }
+
+.section-key {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -.1px;
+  padding-top: 2px;
+}
+
+.section-val {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.section-val p { margin-bottom: 0; }
+
+/* Language pills in split sections */
+.section-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.section-pill {
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: .5px solid var(--border);
+  color: var(--muted);
+  transition: border-color .18s, color .18s, background .18s;
+  cursor: default;
+}
+
+/* Elsewhere CTA link pills — uses .cta from components.css */
+.section-link-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* === ABOUT PAGE — editorial two-column sections === */
+
+.about-section {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 52px;
+  padding: 56px 0;
+  border-top: .5px solid var(--border);
+}
+
+.about-section-right {
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.about-entry { margin-bottom: 20px; }
+.about-entry:last-child { margin-bottom: 0; }
+
+.about-entry-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--faint);
+  margin-bottom: 5px;
+}
+
+.about-entry-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.about-entry-detail {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--muted);
+}
+
+.about-entry-pills { margin-top: 8px; }
+
+@media (max-width: 640px) {
+  .about-section {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 40px 0;
+  }
+}
+
+/* Section group divider — uppercase label separating clusters of rows */
+.section-group {
+  padding: 10px 0 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .9px;
+  color: var(--faint);
+  border-bottom: .5px solid var(--border);
+  margin-top: 4px;
+}
+.section-group:first-child { margin-top: 0; }
+
+/* Education entry layout */
+.edu-entry { display: flex; flex-direction: column; gap: 1px; }
+.edu-school { font-size: 13px; font-weight: 500; color: var(--text); }
+.edu-detail { font-size: 12px; font-weight: 300; color: var(--muted); margin-top: 2px; }
+.edu-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .3px;
+  color: var(--accent-text);
+  background: var(--accent-soft);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 5px;
+  width: fit-content;
+}
+
+@media (max-width: 600px) {
+  .section-row {
+    grid-template-columns: 72px 1fr;
+    gap: 12px;
+  }
+  .feat-quote { font-size: 15px; }
+  .feat-block { padding: 28px 0 24px; }
+}

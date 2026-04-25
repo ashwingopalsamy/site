@@ -1,66 +1,23 @@
 /* === 28. RESPONSIVE BREAKPOINTS === */
 
-/* Mobile base: clear floating capsule and bottom nav */
+/* Pill nav is 16px top + 34px pill + 30px clearance = 80px on all viewports */
 main {
   padding-top: 80px;
-  padding-bottom: 100px;
-}
-
-/* Show desktop nav, hide bottom bar */
-@media (min-width: 768px) {
-  .capsule-bar {
-    display: none;
-  }
-
-  .desktop-nav {
-    display: flex;
-  }
-
-  /* Desktop: fixed glass bar, edge-to-edge */
-  .topbar-wrap {
-    top: 0;
-    left: 0;
-    right: 0;
-    background: rgba(255, 255, 255, 0.4);
-    -webkit-backdrop-filter: saturate(180%) blur(16px);
-    backdrop-filter: saturate(180%) blur(16px);
-    border: none;
-    border-bottom: 0.5px solid transparent;
-    border-radius: 0;
-    box-shadow: none;
-    transition: border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  [data-theme="dark"] .topbar-wrap {
-    background: rgba(17, 17, 16, 0.4);
-  }
-
-  .topbar-wrap.scrolled {
-    border-bottom-color: var(--border);
-    box-shadow: 0 1px 8px var(--shadow);
-  }
-
-  .topbar-wrap::before {
-    display: none;
-  }
-
-  .topbar {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 8px 20px;
-  }
-
-  main {
-    padding-top: 64px;
-    padding-bottom: 40px;
-  }
+  padding-bottom: 60px;
+  flex: 1;
 }
 
 /* Desktop container widths */
+@media (min-width: 768px) {
+  .container {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+}
+
 @media (min-width: 1024px) {
   .container {
-    max-width: 720px;
+    max-width: 840px;
   }
 
   .container-wide {
@@ -88,31 +45,6 @@ main {
   }
 }
 
-/* Hero responsive: bump fonts on wider screens */
-@media (min-width: 640px) {
-  .hero-tagline {
-    font-size: 16px;
-    padding: 6px 18px;
-    gap: 8px;
-  }
-
-  .hero-name {
-    font-size: 38px;
-  }
-
-  .hero-subtitle {
-    font-size: 17px;
-  }
-
-  .hero-headline {
-    font-size: 22px;
-  }
-
-  .social-links {
-    gap: 8px 14px;
-    font-size: 16px;
-  }
-}
 
 /* === THEME RADIAL REVEAL === */
 
@@ -136,12 +68,9 @@ main {
   z-index: 9999;
 }
 
-/* === SPA NAVIGATION ===
-   No View Transitions for page nav (backdrop-filter on capsule bar
-   causes transparency artifacts during snapshot compositing).
-   Uses CSS animation on <main> instead. */
-
+/* SPA page entry: blur + scale + lift on each navigation */
 main.spa-enter {
+  animation: spaFadeIn 0.3s cubic-bezier(.22,1,.36,1) both;
 }
 
 /* === 28b. KATEX MOBILE OVERFLOW === */
@@ -187,8 +116,7 @@ main.spa-enter {
   .article-nav,
   .recently-read,
   .writing-filters,
-  .copy-btn,
-  .code-lang-label,
+  .code-actions,
   .code-expand-btn,
   .diagram-actions,
   #spa-progress {

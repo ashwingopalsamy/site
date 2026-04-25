@@ -1,7 +1,7 @@
 ---
 title: "Claude Code Theme"
 slug: "claude-code-theme"
-weight: 30
+weight: 55
 date: 2026-02-10
 description: "VS Code theme system with 12 variants, programmatic compilation pipeline, and WCAG-validated contrast ratios. Published on the Marketplace."
 tech: ["TypeScript"]

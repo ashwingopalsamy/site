@@ -1,7 +1,7 @@
 ---
 title: "UUIDCheck"
 slug: "uuidcheck"
-weight: 10
+weight: 50
 date: 2024-09-05
 description: "Zero-dependency Go utility for validating and identifying UUID formats across RFC 4122 and RFC 9562 versions."
 tech: ["Go"]

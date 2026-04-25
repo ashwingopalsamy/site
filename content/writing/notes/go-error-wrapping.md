@@ -1,6 +1,7 @@
 ---
 title: "Go Error Wrapping Patterns"
 date: 2026-03-28
+description: "Wrap errors with what you were trying to do, not what went wrong. The original error already answers the latter."
 tags: ["go"]
 url: /writing/notes/go-error-wrapping-patterns/
 ---

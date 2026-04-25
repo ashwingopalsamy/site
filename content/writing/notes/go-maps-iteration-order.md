@@ -1,6 +1,7 @@
 ---
 title: "Go Maps Iteration Order"
 date: 2025-12-25
+description: "Go maps have no iteration order guarantee. Output that looks sorted is bucket layout coincidence, not language behavior."
 tags: ["go"]
 url: /writing/notes/go-maps-iteration-order/
 ---

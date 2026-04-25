@@ -17,7 +17,7 @@
       <guid isPermaLink="true">{{ .Permalink }}</guid>
       <description>{{ .Summary | html }}</description>
       <content:encoded>{{ .Content | html }}</content:encoded>
-      <author>ashwin@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
+      <author>hi@ashwingopalsamy.in (Ashwin Gopalsamy)</author>
     </item>
     {{ end }}
   </channel>

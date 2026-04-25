@@ -178,7 +178,7 @@
 
 /* === 11. READING TIME BADGE === */
 
-.section-label {
+.wl-section-label {
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -482,3 +482,93 @@ button.tag-pill {
 .recently-read-item:hover {
   color: var(--accent);
 }
+
+/* === WRITING LIST ROWS ===
+   Shared: homepage preview + /writing/ full page.
+   Originally in home.css; moved here for global bundle availability. */
+
+.writing { display: flex; flex-direction: column; }
+
+.art {
+  display: block;
+  padding: 15px 0;
+  border-bottom: .5px solid var(--border);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.art:first-child { border-top: .5px solid var(--border); }
+.art:hover { transform: translateX(9px); }
+
+.art-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+.art-date {
+  font-size: 11px;
+  color: var(--faint);
+  min-width: 64px;
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  transition: color .2s;
+  white-space: nowrap;
+}
+.art-title {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: -.1px;
+  transition: color .2s;
+}
+.art:hover .art-title { color: var(--accent); }
+
+.art-excerpt {
+  margin-left: 78px;
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.6;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height .32s cubic-bezier(.4,0,.2,1),
+    opacity .25s ease,
+    margin-top .25s ease;
+  margin-top: 0;
+}
+.art:hover .art-excerpt { max-height: 52px; opacity: 1; margin-top: 6px; }
+
+/* Date color per tag type on hover */
+.art.tp:hover .art-date { color: #2563eb; }
+.art.ts:hover .art-date { color: #dc2626; }
+.art.tg:hover .art-date { color: #0080a0; }
+.art.td:hover .art-date { color: #7c3aed; }
+.art.te:hover .art-date { color: #059669; }
+
+/* Tag pills */
+.tag {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+  flex-shrink: 0;
+  transition: box-shadow .2s;
+}
+.tag-go                   { background: rgba(0,163,196,.1);   color: #0080a0; }
+.tag-payments             { background: rgba(37,99,235,.08);  color: #2563eb; }
+.tag-security             { background: rgba(220,38,38,.08);  color: #dc2626; }
+.tag-distributed-systems  { background: rgba(124,58,237,.1);  color: #7c3aed; }
+.tag-engineering-practices { background: rgba(5,150,105,.1);  color: #059669; }
+
+/* Tag halo on hover */
+.art:hover .tag-go                   { box-shadow: 0 0 0 3px rgba(0,163,196,.12); }
+.art:hover .tag-payments             { box-shadow: 0 0 0 3px rgba(37,99,235,.10); }
+.art:hover .tag-security             { box-shadow: 0 0 0 3px rgba(220,38,38,.10); }
+.art:hover .tag-distributed-systems  { box-shadow: 0 0 0 3px rgba(124,58,237,.10); }
+.art:hover .tag-engineering-practices { box-shadow: 0 0 0 3px rgba(5,150,105,.10); }

@@ -1,8 +1,9 @@
 ---
 title: "Claude Code Launcher"
 slug: "claude-code-launcher"
-weight: 40
+weight: 30
 date: 2026-02-02
+note: "One-command enterprise launcher with JWT auth"
 description: "One-command Claude Code launcher for enterprise users with JWT authentication. Secure token storage, expiry tracking, interactive installer."
 tech: ["Terminal"]
 status: "Active"

@@ -41,17 +41,18 @@
   }
 
   function updateNav(pathname) {
-    document.querySelectorAll('.desktop-nav-link').forEach(function(link) {
+    document.querySelectorAll('.nav-link, .desktop-nav-link').forEach(function(link) {
       var href = link.getAttribute('href');
       var isActive = (href === pathname) ||
         (href !== '/' && pathname.indexOf(href) === 0) ||
         (href === '/writing/' && pathname.indexOf('/tags/') === 0);
+      link.classList.toggle('on', isActive);
       link.classList.toggle('active', isActive);
       if (isActive) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
 
-    document.querySelectorAll('.capsule-bar .cap').forEach(function(cap) {
+    document.querySelectorAll('.capsule-bar .cap, .cap').forEach(function(cap) {
       var href = cap.getAttribute('href');
       var isActive = (href === pathname) ||
         (href !== '/' && pathname.indexOf(href) === 0);
@@ -154,6 +155,22 @@ function showSkeleton(main) {
         var curCanon = document.querySelector('link[rel="canonical"]');
         if (newCanon && curCanon) curCanon.setAttribute('href', newCanon.getAttribute('href'));
 
+        var isHome = pathname === '/';
+        document.body.classList.toggle('home-page', isHome);
+        document.documentElement.classList.toggle('home-page', isHome);
+
+        if (isHome) {
+          var parsedLinks = Array.from(parsed.doc.querySelectorAll('head link'));
+          parsedLinks.forEach(function(link) {
+            var href = link.getAttribute('href');
+            if (!href) return;
+            if (!document.querySelector('link[href="' + CSS.escape(href) + '"]') &&
+                !document.querySelector('link[href="' + href + '"]')) {
+              document.head.appendChild(document.importNode(link, true));
+            }
+          });
+        }
+
         updateProgressBar(pathname);
         updateNav(pathname);
         updateTopbarActions(parsed);
@@ -181,15 +198,14 @@ function showSkeleton(main) {
         var searchModal = document.getElementById('search-modal');
         if (searchModal) searchModal.classList.remove('open');
 
-        main.style.animation = 'none';
-        main.offsetHeight;
-        main.style.animation = '';
+        main.classList.remove('spa-enter');
+        void main.offsetHeight;
         main.classList.add('spa-enter');
-        function onDone() {
+        function onEnterDone() {
           main.classList.remove('spa-enter');
-          main.removeEventListener('animationend', onDone);
+          main.removeEventListener('animationend', onEnterDone);
         }
-        main.addEventListener('animationend', onDone);
+        main.addEventListener('animationend', onEnterDone);
 
         if (typeof window.initPage === 'function') window.initPage();
 
@@ -209,7 +225,7 @@ function showSkeleton(main) {
 
     var a = e.target.closest('a');
     if (!isInternalLink(a)) return;
-    if (a.pathname === window.location.pathname) return;
+    if (a.pathname === window.location.pathname) { e.preventDefault(); return; }
 
     e.preventDefault();
     navigate(a.href, false);
